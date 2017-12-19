@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <script src="../../static/js/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-6 column">
+            <table class="table">
+                <thead>
+                <tr class="table-active">
+                    <th>
+                        编号
+                    </th>
+                    <th>
+                        产品
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if data %}
+                {% for dt in data %}
+                <tr class="table-info">
+                    <td>
+                        {{ dt['Q'] }}
+                    </td>
+                    <td>
+                        {{ dt['A'] }}
+                    </td>
+                </tr>
+                {% end %}
+                {% end %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6 column">
+            <div class="alert alert-success alert-dismissable">
+                <h4>已提交</h4>
+                <ol>
+                    <li>
+                        Lorem ipsum dolor sit amet
+                    </li>
+                    <li>
+                        Consectetur adipiscing elit
+                    </li>
+                    <li>
+                        Integer molestie lorem at massa
+                    </li>
+                    <li>
+                        Facilisis in pretium nisl aliquet
+                    </li>
+                    <li>
+                        Nulla volutpat aliquam velit
+                    </li>
+                    <li>
+                        Faucibus porta lacus fringilla vel
+                    </li>
+                    <li>
+                        Aenean sit amet erat nunc
+                    </li>
+                    <li>
+                        Eget porttitor lorem
+                    </li>
+                </ol>
+            </div>
+
+            <form role="form">
+                <div class="form-group">
+                    <label>
+                        Q &nbsp;
+                        <select>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected="selected">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        A &nbsp;
+                        <select>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8" selected="selected">8</option>
+                            <option value="9">9</option>
+                            <option value="0">0</option>
+                        </select>
+                    </label>
+                </div>
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="">打分</button>
+                <button type="submit" class="btn btn-outline-dark btn-dark" onclick="">提交</button>
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="">结束</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
