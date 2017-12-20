@@ -5,6 +5,22 @@
     <title>Title</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     <script src="../../static/js/jquery.min.js"></script>
+    <script>
+        function DoAjax() {
+            var tmp = $('#www').val();
+            alert(tmp);
+            $.ajax({
+                url: "/caozuo",
+                type: "POST",
+                data: {operate: tmp},
+                success: function (arg) {
+                    var obj = jQuery.parseJSON(arg);
+                    $('#eee').val(obj.operate);
+                },
+            })
+        }
+    </script>
+
 </head>
 <body>
 
@@ -15,10 +31,10 @@
                 <thead>
                 <tr class="table-active">
                     <th>
-                        编号
+                        题号
                     </th>
                     <th>
-                        产品
+                        回答
                     </th>
                 </tr>
                 </thead>
@@ -29,7 +45,7 @@
                     <td>
                         {{ dt['Q'] }}
                     </td>
-                    <td>
+                    <td style="background-color: greenyellow">
                         {{ dt['A'] }}
                     </td>
                 </tr>
@@ -68,7 +84,8 @@
                     </li>
                 </ol>
             </div>
-
+            <label for="www"><input id="www" type="text"></label>
+            <label for="eee"><input id="eee" type="text"></label>
             <form role="form">
                 <div class="form-group">
                     <label>
@@ -96,7 +113,7 @@
                 </div>
                 <button type="button" class="btn btn-outline-dark btn-dark" onclick="">打分</button>
                 <button type="submit" class="btn btn-outline-dark btn-dark" onclick="">提交</button>
-                <button type="button" class="btn btn-outline-dark btn-dark" onclick="">结束</button>
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="DoAjax()">结束</button>
             </form>
         </div>
     </div>

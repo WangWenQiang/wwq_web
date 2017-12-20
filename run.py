@@ -1,3 +1,4 @@
+import json
 from tornado import httpserver, process, ioloop, web
 import tornado.netutil
 
@@ -11,15 +12,27 @@ from tool.path import one_level
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         # 随机获取某个问卷以供打分
-        self.render('html/home_wen.html', data=[{'Q': 1, 'A': 123}, {'Q': 2, 'A': 234},
-                                                {'Q': 3, 'A': 345}, {'Q': 4, 'A': 456},
-                                                {'Q': 5, 'A': 567}, {'Q': 6, 'A': 678}])
+        self.render('html/home_wen.html', data=[{'Q': '性别', 'A': '女'},
+                                                {'Q': '年龄', 'A': 24},
+                                                {'Q': '星座', 'A': '双鱼座'},
+                                                {'Q': '彼此分享喜欢的事情频率', 'A': '较高'},
+                                                {'Q': '是否对未来有规划', 'A': '有清晰的规划'},
+                                                {'Q': '冲突的处理方式', 'A': '不攻击（不会互相指责或伤害）'}])
+
+
+class FreshHandler(tornado.web.RequestHandler):
+    def post(self, *args, **kwargs):
+        operate = self.get_argument('operate', '123')
+        json_d = json.dumps({'operate': operate})
+        self.write(json_d)
 
 
 # 服务启动
 app = tornado.web.Application(
     [
         (r'/home', MainHandler,
+         ),
+        (r'/caozuo', FreshHandler,
          ),
     ],
     template_path=one_level(__file__, "templates"),
