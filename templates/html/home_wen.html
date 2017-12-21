@@ -8,45 +8,75 @@
     <script>
         function DoAjax() {
             var tmp = $('#www').val();
-            alert(tmp);
+            var sample_id = $('#sampleID').val();
             $.ajax({
-                url: "/caozuo",
+                url: "/fresh",
                 type: "POST",
-                data: {operate: tmp},
+                data: {operate: tmp, sample_id: sample_id},
                 success: function (arg) {
                     var obj = jQuery.parseJSON(arg);
                     $('#eee').val(obj.operate);
-                },
+                }
             })
         }
+
+        function show_score() {
+            $("#score_btn").show();
+            $("#commit_btn").hide();
+            $("#finish_btn").hide();
+        }
+
+        function show_commit() {
+            $("#score_btn").hide();
+            $("#commit_btn").show();
+            $("#finish_btn").show();
+        }
+
+        function change_history_action() {
+            var list_cell = document.getElementById("history_action").getElementsByTagName("li");
+            var all_value = [];
+            for (var i=0; i<list_cell.length; i++){
+                all_value.push(list_cell[i].innerHTML);
+            }
+        }
+
+        function submit_all () {
+            document.myForm.action = "/test";
+            document.myForm.submit();
+        }
+
     </script>
 
-</head>
-<body>
 
+</head>
+<body onload="show_score()">
+<label for="sampleID">
+    <input id="sampleID" type="text" value="{{ sample_id }}" hidden>
+</label>
+<h3 align="center">问&nbsp;&nbsp;卷</h3>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-6 column">
             <table class="table">
                 <thead>
-                <tr class="table-active">
+                <tr class="table-primary" style="text-align: center;">
                     <th>
-                        题号
+                        标签名称
                     </th>
                     <th>
-                        回答
+                        标签参数
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if data %}
-                {% for dt in data %}
-                <tr class="table-info">
-                    <td>
-                        {{ dt['Q'] }}
-                    </td>
-                    <td style="background-color: greenyellow">
-                        {{ dt['A'] }}
+                {% for k,v in data.items() %}
+                <tr class="table-info" style="line-height: 50%; font-size: 15px">
+                    <td >
+                        {{ k }}
+                    </td >
+                    <td style="background-color: lightgrey">
+                        {{ v }}
                     </td>
                 </tr>
                 {% end %}
@@ -57,63 +87,35 @@
         <div class="col-md-6 column">
             <div class="alert alert-success alert-dismissable">
                 <h4>已提交</h4>
-                <ol>
+                <ol id="history_action">
                     <li>
                         Lorem ipsum dolor sit amet
                     </li>
-                    <li>
-                        Consectetur adipiscing elit
-                    </li>
-                    <li>
-                        Integer molestie lorem at massa
-                    </li>
-                    <li>
-                        Facilisis in pretium nisl aliquet
-                    </li>
-                    <li>
-                        Nulla volutpat aliquam velit
-                    </li>
-                    <li>
-                        Faucibus porta lacus fringilla vel
-                    </li>
-                    <li>
-                        Aenean sit amet erat nunc
-                    </li>
-                    <li>
-                        Eget porttitor lorem
-                    </li>
                 </ol>
             </div>
-            <label for="www"><input id="www" type="text"></label>
-            <label for="eee"><input id="eee" type="text"></label>
-            <form role="form">
+            <form role="form" method="post" name="myForm">
                 <div class="form-group">
                     <label>
-                        Q &nbsp;
-                        <select>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3" selected="selected">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        A &nbsp;
+                        打分 &nbsp;
                         <select>
                             <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8" selected="selected">8</option>
-                            <option value="9">9</option>
-                            <option value="0">0</option>
+                            <option value="6">6</option>
+                            <option value="6">6</option>
+                            <option value="6">6</option>
                         </select>
                     </label>
                 </div>
-                <button type="button" class="btn btn-outline-dark btn-dark" onclick="">打分</button>
-                <button type="submit" class="btn btn-outline-dark btn-dark" onclick="">提交</button>
-                <button type="button" class="btn btn-outline-dark btn-dark" onclick="DoAjax()">结束</button>
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="submit_all()" id="score_btn">
+                    打分
+                </button>
+
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="" id="commit_btn">
+                    提交
+                </button>
+
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="" id="finish_btn">
+                    结束
+                </button>
             </form>
         </div>
     </div>
