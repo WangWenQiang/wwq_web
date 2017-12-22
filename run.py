@@ -18,14 +18,17 @@ db = connection['tomorrow']
 
 
 class MainHandler(tornado.web.RequestHandler):
+    def initialize(self):
+        self.data = pd.read_csv('/Users/zhangcheng/Desktop/用户关系标签20171221.csv')
+    
     def random_pick_odd(self, some_list, odds):
         # 根据权重来获取 核心在于权重乘以就相当于次数
         table = [z for x, y in zip(some_list, odds) for z in [x] * y]
         return random.choice(table)
 
     def random_sample(self, repeat=3100):
-        data = pd.read_csv('/Users/zhangcheng/Desktop/用户关系标签20171221.csv')
-        row_num = data.shape[0]
+        # data = pd.read_csv('/Users/zhangcheng/Desktop/用户关系标签20171221.csv')
+        row_num = self.data.shape[0]
         self.sample_index = random.choice(range(row_num))
         is_done = db['wenjuan'].find_one({'sample_index': self.sample_index})
         if is_done:
@@ -115,24 +118,25 @@ class MainHandler(tornado.web.RequestHandler):
         odds = [1, 3, 6]
         is_same = self.random_pick_odd(some_list, odds)
 
-        juzhudi_dict = {1: '北京', 2: '上海', 3: '深圳', 4: '广州', 5: '南京', 6: '成都',
-                        7: '西安', 8: '天津', 9: '武汉', 10: '重庆', 11: '杭州', 12: '汕头',
-                        13: '大连', 14: '苏州', 15: '沈阳', 16: '哈尔滨', 17: '郑州', 18: '长春',
-                        19: '长沙', 20: '呼和浩特', 21: '无锡', 22: '金华', 23: '太原'}
-        some_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-        odds = [80, 70, 50, 40, 35, 25, 25, 25, 18, 17, 15, 15, 13, 12, 10, 10, 10, 8, 6, 5, 5, 4, 2]
-
-        if is_same == 2:
-            person_info['用户居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
-            person_info['对方居住地'] = person_info['用户居住地']
-        else:
-            person_info['用户居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
-            person_info['对方居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
+        # 旧方法
+        # juzhudi_dict = {1: '北京', 2: '上海', 3: '深圳', 4: '广州', 5: '南京', 6: '成都',
+        #                 7: '西安', 8: '天津', 9: '武汉', 10: '重庆', 11: '杭州', 12: '汕头',
+        #                 13: '大连', 14: '苏州', 15: '沈阳', 16: '哈尔滨', 17: '郑州', 18: '长春',
+        #                 19: '长沙', 20: '呼和浩特', 21: '无锡', 22: '金华', 23: '太原'}
+        # some_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+        # odds = [80, 70, 50, 40, 35, 25, 25, 25, 18, 17, 15, 15, 13, 12, 10, 10, 10, 8, 6, 5, 5, 4, 2]
+        # if is_same == 2:
+        #     person_info['用户居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
+        #     person_info['对方居住地'] = person_info['用户居住地']
+        # else:
+        #     person_info['用户居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
+        #     person_info['对方居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
 
 
 
         def float2decimal(f):
             return Decimal('%.2f' % f)
+
         # 外向&内向
         person_info['用户_外向(E)'] = float2decimal(random.uniform(0.20, 1))
         person_info['用户_内向(I)'] = 1 - person_info['用户_外向(E)']
@@ -157,7 +161,7 @@ class MainHandler(tornado.web.RequestHandler):
         person_info['对方_判断(J)'] = float2decimal(random.uniform(0.15, 1))
         person_info['对方_感知(P)'] = 1 - person_info['对方_判断(J)']
 
-        sample = data.loc[[self.sample_index]]
+        sample = self.data.loc[[self.sample_index]]
         sample = sample.to_dict()
         sample_dict = {}
         for k, v in sample.items():
