@@ -1,0 +1,6 @@
+.table-info-w,
+.table-info-w > th,
+.table-info-w > td {
+    padding: 0.01rem;
+    background-color: #bee5eb;
+}

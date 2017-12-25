@@ -3,7 +3,10 @@ import copy
 import tornado
 import random
 import pymongo
+import pickle
 import pandas as pd
+
+from sklearn.externals import joblib
 from decimal import Decimal
 from urllib.parse import quote_plus
 from tool.path import one_level
@@ -19,25 +22,25 @@ db = connection['tomorrow']
 
 class MainHandler(tornado.web.RequestHandler):
     def initialize(self):
-        self.data = pd.read_csv('/Users/zhangcheng/Desktop/用户关系标签20171221.csv')
-    
+        self.data = pd.read_csv('static/others/用户关系标签20171221.csv')
+        self.row_num = self.data.shape[0]
+        self.prepare_score_dict = joblib.load('static/others/output_score.pkl')
+
     def random_pick_odd(self, some_list, odds):
         # 根据权重来获取 核心在于权重乘以就相当于次数
         table = [z for x, y in zip(some_list, odds) for z in [x] * y]
         return random.choice(table)
 
-    def random_sample(self, repeat=3100):
-        # data = pd.read_csv('/Users/zhangcheng/Desktop/用户关系标签20171221.csv')
-        row_num = self.data.shape[0]
-        self.sample_index = random.choice(range(row_num))
+    def random_sample(self, repeat=3000):
+        if repeat == 0:
+            self.write('所有样本数据处理完毕!')
+            self.finish(200)
+
+        self.sample_index = random.randint(1, self.row_num)
         is_done = db['wenjuan'].find_one({'sample_index': self.sample_index})
         if is_done:
-            if repeat > 0:
-                repeat -= 1
-                self.random_sample()
-            else:
-                self.write('所有样本处理完毕')
-                self.finish()
+            repeat -= 1
+            self.random_sample(repeat=repeat)
 
         # 性别
         # mm, mf, fm, ff
@@ -111,54 +114,58 @@ class MainHandler(tornado.web.RequestHandler):
 
         # 居住地
         # 不同, 同省, 同地
-        # 北京:上海:深圳: 广州:南京: 成都:西安:天津:武汉: 重庆:杭州: 汕头:大连: 苏州:沈阳: 哈尔滨:郑州: 长春:长沙: 呼和浩特:无锡: 金华:太原
-        # 80: 70:50: 40:35: 25:25: 25:18: 17:15: 15:13: 12:10: 10:10: 8:6: 5:5: 4:2
-
         some_list = [1, 2, 3]
         odds = [1, 3, 6]
         is_same = self.random_pick_odd(some_list, odds)
+        city_data = pd.read_pickle('static/others/city_prov.pkl')
+        city_dict = city_data.to_dict()
+        # 由于重庆有重庆和两江新区的
+        direct_citys = ['北京', '天津', '上海']
+        city_list = list(city_dict.keys())
+        # 用于同省,城市不止一个
+        pure_citys = [c for c in city_list if c not in direct_citys]
+        # 同一个城市
+        if is_same == 3:
+            person_info['用户居住地'] = random.choice(city_list)
+            person_info['对方居住地'] = person_info['用户居住地']
+        # 同一个省份
+        elif is_same == 2:
+            person_info['用户居住地'] = random.choice(pure_citys)
+            person_info['对方居住地'] = random.choice([k for k, v in city_dict.items()
+                                                  if v == city_dict[person_info['用户居住地']] and
+                                                  k != person_info['用户居住地']])
+        # 完全不同
+        else:
+            person_info['用户居住地'] = random.choice(city_list)
+            city_list.remove(person_info['用户居住地'])
+            person_info['对方居住地'] = random.choice(city_list)
 
-        # 旧方法
-        # juzhudi_dict = {1: '北京', 2: '上海', 3: '深圳', 4: '广州', 5: '南京', 6: '成都',
-        #                 7: '西安', 8: '天津', 9: '武汉', 10: '重庆', 11: '杭州', 12: '汕头',
-        #                 13: '大连', 14: '苏州', 15: '沈阳', 16: '哈尔滨', 17: '郑州', 18: '长春',
-        #                 19: '长沙', 20: '呼和浩特', 21: '无锡', 22: '金华', 23: '太原'}
-        # some_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-        # odds = [80, 70, 50, 40, 35, 25, 25, 25, 18, 17, 15, 15, 13, 12, 10, 10, 10, 8, 6, 5, 5, 4, 2]
-        # if is_same == 2:
-        #     person_info['用户居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
-        #     person_info['对方居住地'] = person_info['用户居住地']
-        # else:
-        #     person_info['用户居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
-        #     person_info['对方居住地'] = juzhudi_dict[self.random_pick_odd(some_list, odds)]
-
-
-
+        # 转小数点后两位
         def float2decimal(f):
             return Decimal('%.2f' % f)
 
         # 外向&内向
-        person_info['用户_外向(E)'] = float2decimal(random.uniform(0.20, 1))
+        person_info['用户_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
         person_info['用户_内向(I)'] = 1 - person_info['用户_外向(E)']
-        person_info['对方_外向(E)'] = float2decimal(random.uniform(0.20, 1))
+        person_info['对方_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
         person_info['对方_内向(I)'] = 1 - person_info['对方_外向(E)']
 
         # 感觉&直觉
-        person_info['用户_感觉(S)'] = float2decimal(random.uniform(0.15, 1))
+        person_info['用户_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
         person_info['用户_直觉(N)'] = 1 - person_info['用户_感觉(S)']
-        person_info['对方_感觉(S)'] = float2decimal(random.uniform(0.15, 1))
+        person_info['对方_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
         person_info['对方_直觉(N)'] = 1 - person_info['对方_感觉(S)']
 
         # 思考&情感
-        person_info['用户_思考(T)'] = float2decimal(random.uniform(0.15, 1))
+        person_info['用户_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
         person_info['用户_情感(F)'] = 1 - person_info['用户_思考(T)']
-        person_info['对方_思考(T)'] = float2decimal(random.uniform(0.15, 1))
+        person_info['对方_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
         person_info['对方_情感(F)'] = 1 - person_info['对方_思考(T)']
 
         # 判断&感知
-        person_info['用户_判断(J)'] = float2decimal(random.uniform(0.15, 1))
+        person_info['用户_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
         person_info['用户_感知(P)'] = 1 - person_info['用户_判断(J)']
-        person_info['对方_判断(J)'] = float2decimal(random.uniform(0.15, 1))
+        person_info['对方_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
         person_info['对方_感知(P)'] = 1 - person_info['对方_判断(J)']
 
         sample = self.data.loc[[self.sample_index]]
@@ -173,9 +180,13 @@ class MainHandler(tornado.web.RequestHandler):
         sample_dict = self.random_sample()
         sample_data = copy.deepcopy(sample_dict)
         sample_dict['sample_index'] = self.sample_index
-        # db['wenjuan'].insert({sample_dict})
-        self.render('html/home_wen.html', sample_id=self.sample_index,
-                    data=sample_data)
+        # db['zz_wenjuan'].insert({sample_dict})
+        self.render('html/home_wen.html',
+                    sample_id=self.sample_index,
+                    data=sample_data,
+                    prepare_score=self.prepare_score_dict,
+                    done_actions='',
+                    )
 
 
 class ScoreHandler(tornado.web.RequestHandler):

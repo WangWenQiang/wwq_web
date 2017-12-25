@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../../static/css/pro.css">
     <script src="../../static/js/jquery.min.js"></script>
     <script>
         function DoAjax() {
@@ -35,16 +36,15 @@
         function change_history_action() {
             var list_cell = document.getElementById("history_action").getElementsByTagName("li");
             var all_value = [];
-            for (var i=0; i<list_cell.length; i++){
+            for (var i = 0; i < list_cell.length; i++) {
                 all_value.push(list_cell[i].innerHTML);
             }
         }
 
-        function submit_all () {
+        function submit_all() {
             document.myForm.action = "/test";
             document.myForm.submit();
         }
-
     </script>
 
 
@@ -53,11 +53,18 @@
 <label for="sampleID">
     <input id="sampleID" type="text" value="{{ sample_id }}" hidden>
 </label>
-<h3 align="center">问&nbsp;&nbsp;卷</h3>
+<h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
+<hr/>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-6 column">
             <table class="table">
+                <h4>
+                    样本信息
+                </h4>
+                <h5 class="text-warning">
+                    注意:未提交前刷新页面会造成页面数据丢失
+                </h5>
                 <thead>
                 <tr class="table-primary" style="text-align: center;">
                     <th>
@@ -71,10 +78,10 @@
                 <tbody>
                 {% if data %}
                 {% for k,v in data.items() %}
-                <tr class="table-info" style="line-height: 50%; font-size: 15px">
-                    <td >
+                <tr class="table-info" style="line-height: 80%; font-size: 15px">
+                    <td>
                         {{ k }}
-                    </td >
+                    </td>
                     <td style="background-color: lightgrey">
                         {{ v }}
                     </td>
@@ -85,6 +92,7 @@
             </table>
         </div>
         <div class="col-md-6 column">
+            {% if done_actions %}
             <div class="alert alert-success alert-dismissable">
                 <h4>已提交</h4>
                 <ol id="history_action">
@@ -93,17 +101,51 @@
                     </li>
                 </ol>
             </div>
+            {% end %}
             <form role="form" method="post" name="myForm">
                 <div class="form-group">
-                    <label>
-                        打分 &nbsp;
-                        <select>
-                            <option value="6">6</option>
-                            <option value="6">6</option>
-                            <option value="6">6</option>
-                            <option value="6">6</option>
-                        </select>
-                    </label>
+                    {% for p, p_v in prepare_score.items() %}
+                    <h4 style="line-height: 90%">
+                        {{ p }}
+                    </h4>
+                    {% for d in p_v %}
+                    {% for t, t_v in d.items() %}
+                    <h5 style="line-height: 50%">
+                        类型: {{ t }}
+                    </h5>
+
+                    <table class="table" style="text-align: center; font-size: 14px">
+                        <thead>
+                        <tr class="table-primary" style="line-height: 50%">
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                评价
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in t_v %}
+                        <tr class="table-info-w">
+                            <td>
+                                {{ i['name'] }}
+                            </td>
+                            <td style="background-color: lightgrey;">
+                                {% for e in i['evaluate'] %}
+                                <label>
+                                    <input type="radio" value="{{ e['point'] }}" name="{{ i['name'] }}">
+                                    {{ e['level'] }}
+                                </label>
+                                {% end %}
+                            </td>
+                        </tr>
+                        </tbody>
+                        {% end %}
+                    </table>
+                    {% end %}
+                    {% end %}
+                    {% end %}
                 </div>
                 <button type="button" class="btn btn-outline-dark btn-dark" onclick="submit_all()" id="score_btn">
                     打分
@@ -120,6 +162,22 @@
         </div>
     </div>
 </div>
+
+<script language="javascript">
+    document.onkeydown = function (e) {
+        var ev = window.event || e;
+        var code = ev.keyCode || ev.which;
+        if (code == 116) {
+            ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
+            cancelBubble = true;
+            return false;
+        }
+    };//禁止F5刷新
+    //    document.oncontextmenu = function () {
+    //        return false
+    //    };//禁止右键刷新
+</script>
+
 
 </body>
 </html>

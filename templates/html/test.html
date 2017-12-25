@@ -3,9 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.css">
+    <script src="../../static/js/jquery.min.js"></script>
+    <script>
+        function DoAjax() {
+            var tmp = $('#www').val();
+            var sample_id = $('#sampleID').val();
+            $.ajax({
+                url: "/fresh",
+                type: "POST",
+                data: {operate: tmp, sample_id: sample_id},
+                success: function (arg) {
+                    var obj = jQuery.parseJSON(arg);
+                    $('#eee').val(obj.operate);
+                }
+            })
+        }
+
+        function show_score() {
+            $("#score_btn").show();
+            $("#commit_btn").hide();
+            $("#finish_btn").hide();
+        }
+
+        function show_commit() {
+            $("#score_btn").hide();
+            $("#commit_btn").show();
+            $("#finish_btn").show();
+        }
+
+        function change_history_action() {
+            var list_cell = document.getElementById("history_action").getElementsByTagName("li");
+            var all_value = [];
+            for (var i = 0; i < list_cell.length; i++) {
+                all_value.push(list_cell[i].innerHTML);
+            }
+        }
+
+        function submit_all() {
+            document.myForm.action = "/test";
+            document.myForm.submit();
+        }
+    </script>
+
+
 </head>
-<body>
-asdfsdf
+<body onload="show_score()">
+<label for="sampleID">
+    <input id="sampleID" type="text" value="{{ sample_id }}" hidden>
+</label>
+<h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
+<hr/>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-5 column">
+            <table class="table">
+                <h4>
+                    样本信息
+                </h4>
+                <h5 class="text-warning">
+                    注意:未提交前刷新页面会造成页面数据丢失
+                </h5>
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        标签名称
+                    </th>
+                    <th>
+                        标签参数
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if data %}
+                {% for k,v in data.items() %}
+                <tr class="table-info" style="line-height: 80%; font-size: 15px">
+                    <td>
+                        {{ k }}
+                    </td>
+                    <td style="background-color: lightgrey">
+                        {{ v }}
+                    </td>
+                </tr>
+                {% end %}
+                {% end %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-7 column">
+            {% if done_actions %}
+            <div class="alert alert-success alert-dismissable">
+                <h4>已提交</h4>
+                <ol id="history_action">
+                    <li>
+                        Lorem ipsum dolor sit amet
+                    </li>
+                </ol>
+            </div>
+            {% end %}
+            <form role="form" method="post" name="myForm">
+                <div class="form-group">
+                    {% for p, p_v in prepare_score.items() %}
+                    <h4>
+                        {{ p }}
+                    </h4>
+                    {% for d in p_v %}
+                    {% for t, t_v in d.items() %}
+                    <h5>
+                        类型: {{ t }}
+                    </h5>
+
+
+                    <table class="table" style="text-align: center">
+                        <thead>
+                        <tr class="table-primary" style="line-height: 80%">
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                评价
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in t_v %}
+                        <tr class="table-info tr" style="line-height: 10%">
+                            <td style="line-height: 40px">
+                                {{ i['name'] }}
+                            </td>
+                            <td style="background-color: lightgrey;">
+                                <select class="form-control">
+                                    {% for e in i['evaluate'] %}
+                                    <option value="{{ e['point'] }}">{{ e['level'] }}</option>
+                                    {% end %}
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                        {% end %}
+                    </table>
+                    {% end %}
+                    {% end %}
+                    {% end %}
+                </div>
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="submit_all()" id="score_btn">
+                    打分
+                </button>
+
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="" id="commit_btn">
+                    提交
+                </button>
+
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="" id="finish_btn">
+                    结束
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+    document.onkeydown = function (e) {
+        var ev = window.event || e;
+        var code = ev.keyCode || ev.which;
+        if (code == 116) {
+            ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
+            cancelBubble = true;
+            return false;
+        }
+    };//禁止F5刷新
+    document.oncontextmenu = function () {
+        return false
+    };//禁止右键刷新
+</script>
+
 
 </body>
 </html>
