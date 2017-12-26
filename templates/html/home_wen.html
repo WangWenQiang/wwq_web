@@ -86,6 +86,35 @@
                 <thead>
                 <tr class="table-primary" style="text-align: center;">
                     <th>
+                        用户属性
+                    </th>
+                    <th>
+                        属性参数
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if basic_data %}
+                {% for b, b_v in basic_data.items() %}
+                {% for k, v in b_v.items() %}
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ k }}
+                    </td>
+                    <td style="background-color: lightgrey">
+                        {{ v }}
+                    </td>
+                </tr>
+                {% end %}
+                {% end %}
+                {% end %}
+                </tbody>
+
+                <td></td>
+
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
                         标签名称
                     </th>
                     <th>
@@ -94,8 +123,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if data %}
-                {% for k,v in data.items() %}
+                {% if common_data %}
+                {% for k,v in common_data.items() %}
                 <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                     <td>
                         {{ k }}

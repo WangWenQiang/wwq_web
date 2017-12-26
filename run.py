@@ -3,12 +3,11 @@ import copy
 import tornado
 import random
 import pymongo
-import pickle
 import pandas as pd
 
 from sklearn.externals import joblib
 from decimal import Decimal
-from urllib.parse import quote_plus, unquote
+from urllib.parse import quote_plus
 from tool.path import one_level
 from tornado import httpserver, ioloop, web, netutil
 
@@ -168,17 +167,21 @@ class MainHandler(tornado.web.RequestHandler):
         sample_dict = {}
         for k, v in sample.items():
             sample_dict[k] = list(v.values())[0]
-        final_dict = dict(my_info, **ta_info, **sample_dict)
-        return final_dict
+        info = {'p1': my_info, 'p2': ta_info}
+        return info, sample_dict
 
     def get(self):
-        sample_dict = self.random_sample()
+        person_dict, sample_dict = self.random_sample()
         sample_data = copy.deepcopy(sample_dict)
-        sample_dict['sample_index'] = self.sample_index
-        # db['zz_wenjuan'].insert({sample_dict})
+
+        # sample_dict['sample_index'] = self.sample_index
+        # final_dict = dict(person_dict, **sample_dict)
+        # db['zz_wenjuan'].insert(final_dict)
+
         self.render('html/home_wen.html',
                     sample_id=self.sample_index,
-                    data=sample_data,
+                    basic_data=person_dict,
+                    common_data=sample_data,
                     prepare_score=self.prepare_score_dict,
                     done_actions='',
                     )
