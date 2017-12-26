@@ -8,7 +8,7 @@ import pandas as pd
 
 from sklearn.externals import joblib
 from decimal import Decimal
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, unquote
 from tool.path import one_level
 from tornado import httpserver, ioloop, web, netutil
 
@@ -21,10 +21,10 @@ db = connection['tomorrow']
 
 
 class MainHandler(tornado.web.RequestHandler):
-    def initialize(self):
-        self.data = pd.read_csv('static/others/用户关系标签20171221.csv')
+    def initialize(self, data, prepare_score_dict):
+        self.data = data
         self.row_num = self.data.shape[0]
-        self.prepare_score_dict = joblib.load('static/others/output_score.pkl')
+        self.prepare_score_dict = prepare_score_dict
 
     def random_pick_odd(self, some_list, odds):
         # 根据权重来获取 核心在于权重乘以就相当于次数
@@ -44,22 +44,23 @@ class MainHandler(tornado.web.RequestHandler):
 
         # 性别
         # mm, mf, fm, ff
-        person_info = {}
+        my_info = {}
+        ta_info = {}
         some_list = [1, 2, 3, 4]
         odds = [5, 30, 60, 5]
         sexes = self.random_pick_odd(some_list, odds)
         if sexes == 1:
-            person_info['用户性别'] = '男'
-            person_info['对方性别'] = '男'
+            my_info['用户性别'] = '男'
+            ta_info['对方性别'] = '男'
         elif sexes == 2:
-            person_info['用户性别'] = '男'
-            person_info['对方性别'] = '女'
+            my_info['用户性别'] = '男'
+            ta_info['对方性别'] = '女'
         elif sexes == 3:
-            person_info['用户性别'] = '女'
-            person_info['对方性别'] = '男'
+            my_info['用户性别'] = '女'
+            ta_info['对方性别'] = '男'
         else:
-            person_info['用户性别'] = '女'
-            person_info['对方性别'] = '女'
+            my_info['用户性别'] = '女'
+            ta_info['对方性别'] = '女'
 
         # 年龄
         # 15-18:19-22:23-27:28-32:33-37:38-45=22:42:23:8:3:2
@@ -67,28 +68,28 @@ class MainHandler(tornado.web.RequestHandler):
         odds = [22, 42, 23, 8, 3, 2]
         ages = self.random_pick_odd(some_list, odds)
         if ages == 1:
-            person_info['用户年龄'] = random.randint(15, 18)
-            person_info['对方年龄'] = random.randint(15, 18)
+            my_info['用户年龄'] = random.randint(15, 18)
+            ta_info['对方年龄'] = random.randint(15, 18)
         elif ages == 2:
-            person_info['用户年龄'] = random.randint(19, 22)
-            person_info['对方年龄'] = random.randint(19, 22)
+            my_info['用户年龄'] = random.randint(19, 22)
+            ta_info['对方年龄'] = random.randint(19, 22)
         elif ages == 3:
-            person_info['用户年龄'] = random.randint(23, 27)
-            person_info['对方年龄'] = random.randint(23, 27)
+            my_info['用户年龄'] = random.randint(23, 27)
+            ta_info['对方年龄'] = random.randint(23, 27)
         elif ages == 4:
-            person_info['用户年龄'] = random.randint(28, 32)
-            person_info['对方年龄'] = random.randint(28, 32)
+            my_info['用户年龄'] = random.randint(28, 32)
+            ta_info['对方年龄'] = random.randint(28, 32)
         elif ages == 5:
-            person_info['用户年龄'] = random.randint(33, 37)
-            person_info['对方年龄'] = random.randint(33, 37)
+            my_info['用户年龄'] = random.randint(33, 37)
+            ta_info['对方年龄'] = random.randint(33, 37)
         else:
-            person_info['用户年龄'] = random.randint(38, 45)
-            person_info['对方年龄'] = random.randint(38, 45)
+            my_info['用户年龄'] = random.randint(38, 45)
+            ta_info['对方年龄'] = random.randint(38, 45)
 
         # 星座
         xingzuo_list = ['白羊座', '金牛座', '双子座', '巨蟹座', '狮子座', '处女座', '天秤座', '天蝎座', '射手座', '摩羯座', '水瓶座', '双鱼座']
-        person_info['用户星座'] = random.choice(xingzuo_list)
-        person_info['对方星座'] = random.choice(xingzuo_list)
+        my_info['用户星座'] = random.choice(xingzuo_list)
+        ta_info['对方星座'] = random.choice(xingzuo_list)
 
         # 文化程度
         # 小学:初中:高中:大学:硕士:博士=2:3:22:56:12:5
@@ -101,16 +102,16 @@ class MainHandler(tornado.web.RequestHandler):
         odds = [1, 1, 22, 59, 12, 5]
 
         if is_samewenhua == 2:
-            person_info['用户文化程度'] = wenhua_dict[self.random_pick_odd(some_list, odds)]
-            person_info['对方文化程度'] = person_info['用户文化程度']
+            my_info['用户文化程度'] = wenhua_dict[self.random_pick_odd(some_list, odds)]
+            ta_info['对方文化程度'] = my_info['用户文化程度']
         else:
             wh_level = self.random_pick_odd(some_list, odds)
             if wh_level < 5:
-                person_info['用户文化程度'] = wenhua_dict[wh_level]
-                person_info['对方文化程度'] = wenhua_dict[wh_level + 1]
+                my_info['用户文化程度'] = wenhua_dict[wh_level]
+                ta_info['对方文化程度'] = wenhua_dict[wh_level + 1]
             else:
-                person_info['用户文化程度'] = wenhua_dict[wh_level]
-                person_info['对方文化程度'] = wenhua_dict[wh_level - 1]
+                my_info['用户文化程度'] = wenhua_dict[wh_level]
+                ta_info['对方文化程度'] = wenhua_dict[wh_level - 1]
 
         # 居住地
         # 不同, 同省, 同地
@@ -126,54 +127,48 @@ class MainHandler(tornado.web.RequestHandler):
         pure_citys = [c for c in city_list if c not in direct_citys]
         # 同一个城市
         if is_same == 3:
-            person_info['用户居住地'] = random.choice(city_list)
-            person_info['对方居住地'] = person_info['用户居住地']
+            my_info['用户居住地'] = random.choice(city_list)
+            ta_info['对方居住地'] = my_info['用户居住地']
         # 同一个省份
         elif is_same == 2:
-            person_info['用户居住地'] = random.choice(pure_citys)
-            person_info['对方居住地'] = random.choice([k for k, v in city_dict.items()
-                                                  if v == city_dict[person_info['用户居住地']] and
-                                                  k != person_info['用户居住地']])
+            my_info['用户居住地'] = random.choice(pure_citys)
+            ta_info['对方居住地'] = random.choice([k for k, v in city_dict.items()
+                                              if v == city_dict[my_info['用户居住地']] and
+                                              k != my_info['用户居住地']])
         # 完全不同
         else:
-            person_info['用户居住地'] = random.choice(city_list)
-            city_list.remove(person_info['用户居住地'])
-            person_info['对方居住地'] = random.choice(city_list)
+            my_info['用户居住地'] = random.choice(city_list)
+            city_list.remove(my_info['用户居住地'])
+            ta_info['对方居住地'] = random.choice(city_list)
 
         # 转小数点后两位
         def float2decimal(f):
             return Decimal('%.2f' % f)
 
-        # 外向&内向
-        person_info['用户_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
-        person_info['用户_内向(I)'] = 1 - person_info['用户_外向(E)']
-        person_info['对方_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
-        person_info['对方_内向(I)'] = 1 - person_info['对方_外向(E)']
+        my_info['用户_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
+        my_info['用户_内向(I)'] = 1 - my_info['用户_外向(E)']
+        my_info['用户_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
+        my_info['用户_直觉(N)'] = 1 - my_info['用户_感觉(S)']
+        my_info['用户_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
+        my_info['用户_情感(F)'] = 1 - my_info['用户_思考(T)']
+        my_info['用户_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
+        my_info['用户_感知(P)'] = 1 - my_info['用户_判断(J)']
 
-        # 感觉&直觉
-        person_info['用户_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
-        person_info['用户_直觉(N)'] = 1 - person_info['用户_感觉(S)']
-        person_info['对方_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
-        person_info['对方_直觉(N)'] = 1 - person_info['对方_感觉(S)']
-
-        # 思考&情感
-        person_info['用户_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
-        person_info['用户_情感(F)'] = 1 - person_info['用户_思考(T)']
-        person_info['对方_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
-        person_info['对方_情感(F)'] = 1 - person_info['对方_思考(T)']
-
-        # 判断&感知
-        person_info['用户_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
-        person_info['用户_感知(P)'] = 1 - person_info['用户_判断(J)']
-        person_info['对方_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
-        person_info['对方_感知(P)'] = 1 - person_info['对方_判断(J)']
+        ta_info['对方_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
+        ta_info['对方_内向(I)'] = 1 - ta_info['对方_外向(E)']
+        ta_info['对方_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
+        ta_info['对方_直觉(N)'] = 1 - ta_info['对方_感觉(S)']
+        ta_info['对方_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
+        ta_info['对方_情感(F)'] = 1 - ta_info['对方_思考(T)']
+        ta_info['对方_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
+        ta_info['对方_感知(P)'] = 1 - ta_info['对方_判断(J)']
 
         sample = self.data.loc[[self.sample_index]]
         sample = sample.to_dict()
         sample_dict = {}
         for k, v in sample.items():
             sample_dict[k] = list(v.values())[0]
-        final_dict = dict(person_info, **sample_dict)
+        final_dict = dict(my_info, **ta_info, **sample_dict)
         return final_dict
 
     def get(self):
@@ -214,7 +209,8 @@ class FreshHandler(tornado.web.RequestHandler):
 class TestHandler(tornado.web.RequestHandler):
     # 每个行为刷新历史行为
     def post(self, *args, **kwargs):
-        # self.render('html/test.html')
+        self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
+        print(self.get_param)
         self.redirect('/home')
 
 
@@ -222,6 +218,9 @@ class TestHandler(tornado.web.RequestHandler):
 app = tornado.web.Application(
     [
         (r'/home', MainHandler,
+         {'data': pd.read_csv('static/others/用户关系标签20171221.csv'),
+          'prepare_score_dict': joblib.load('static/others/output_score.pkl'),
+          }
          ),
         (r'/fresh', FreshHandler,
          ),

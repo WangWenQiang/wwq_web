@@ -53,7 +53,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '承诺值', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -62,7 +62,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '沟通力', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -71,7 +71,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '尊重值', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -80,7 +80,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '相似度', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -89,7 +89,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '包容性', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -98,7 +98,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '支配欲', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -107,7 +107,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '情感值', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -116,7 +116,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '回避性', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -125,7 +125,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                     {'name': '忧虑度', 'type': 'number', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -134,7 +134,7 @@ tmp_dict = {
                          {'level': '高', 'point': '71~90'},
                          {'level': '极高', 'point': '91~100'},
                      ],
-                      },
+                     },
                 ]
             }
         ],
@@ -159,7 +159,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '生活习惯相似', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -168,7 +168,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '生活态度一致', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -177,30 +177,30 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                 ]
             },
             {'危机爆发概率':
                 [
                     {'name': '消费观念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
-                      },
+                     },
                     {'name': '性别观念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '政治理念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                 ]
@@ -215,7 +215,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '教育理念冲突', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -233,7 +233,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '政治理念冲突', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -242,7 +242,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                 ]
             },
         ],
@@ -267,7 +267,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                    },
+                     },
                     {'name': '性生活和谐', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -283,16 +283,16 @@ tmp_dict = {
                 [
                     {'name': '暴力行为', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '身体出轨行为', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                 ]
@@ -307,7 +307,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '身体出轨行为', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -316,7 +316,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                 ]
             },
         ],
@@ -332,7 +332,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '互相鼓励肯定', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -341,7 +341,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '倾听和采纳', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -350,7 +350,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '分享情绪感受', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -359,51 +359,51 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                 ]
             },
             {'危机爆发概率':
                 [
                     {'name': '冷战', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '交流不坦诚', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '回避问题', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '态度敷衍', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '激烈争执', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '互相抱怨', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                 ]
@@ -418,7 +418,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '交流不坦诚', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -445,7 +445,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '激烈争执', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -454,7 +454,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '互相抱怨', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -479,7 +479,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '长时间陪伴', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -497,7 +497,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '嘘寒问暖', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -513,30 +513,30 @@ tmp_dict = {
                 [
                     {'name': '忽略情绪感受', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '遗忘纪念日', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '冷漠', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '对伴侣吝啬', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                 ]
@@ -551,7 +551,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '遗忘纪念日', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -560,7 +560,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '冷漠', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -569,7 +569,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '对伴侣吝啬', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -578,7 +578,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                 ]
             },
         ],
@@ -594,7 +594,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '包容对方确定', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -603,7 +603,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '尊重兴趣爱好', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -612,30 +612,30 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                 ]
             },
             {'危机爆发概率':
                 [
                     {'name': '不了解对方喜好', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '固执己见', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '质疑和否定', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                 ]
@@ -659,7 +659,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '质疑和否定', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -668,7 +668,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                 ]
             },
         ],
@@ -684,7 +684,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '兑现承诺', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -702,7 +702,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                     {'name': '给予对方支持', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '10~20'},
@@ -720,30 +720,30 @@ tmp_dict = {
                          {'level': '高', 'point': '61~80'},
                          {'level': '极高', 'point': '81~90'},
                      ],
-                      },
+                     },
                 ]
             },
             {'危机爆发概率':
                 [
                     {'name': '安全感缺失', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '拒绝自我暴露', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                     {'name': '不愿依赖对方', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
                      'evaluate': [
-                         {'level': '低概率', 'point': '30'},
-                         {'level': '中概率', 'point': '50'},
-                         {'level': '高概率', 'point': '70'},
+                         {'level': '低概率', 'point': '1'},
+                         {'level': '中概率', 'point': '2'},
+                         {'level': '高概率', 'point': '3'},
                      ],
                      },
                 ]
@@ -758,7 +758,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '拒绝自我暴露', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -767,7 +767,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                     {'name': '不愿依赖对方', 'type': 'percent', 'param': '', 'remark': '',
                      'evaluate': [
                          {'level': '极低', 'point': '1~20'},
@@ -776,7 +776,7 @@ tmp_dict = {
                          {'level': '高', 'point': '61~70'},
                          {'level': '极高', 'point': '71~80'},
                      ],
-                      },
+                     },
                 ]
             },
         ],
@@ -794,3 +794,7 @@ tmp_dict = {
 # b = joblib.load('static/others/output_score.pkl')
 #
 # print(b, type(b))
+
+# dic = {'a': 31, 'bc': 5, 'c': 3, 'asd': 4, 'aa': 74, 'd': 0}
+# dict_t = sorted(dic.items(), key=lambda d: d[0])
+# print(dict_t)
