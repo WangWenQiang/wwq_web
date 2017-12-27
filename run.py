@@ -214,7 +214,7 @@ class TestHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         print(self.get_param)
-        self.redirect('/home')
+        self.write('123')
 
 
 # 服务启动
