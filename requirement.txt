@@ -1,0 +1,7 @@
+pandas==0.20.3
+numpy==1.13.0
+pymongo==3.3.1
+scikit-learn==0.18.1
+scipy==0.17.1
+tornado==4.5.1
+openpyxl==2.3.5
