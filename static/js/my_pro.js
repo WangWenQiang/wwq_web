@@ -8,13 +8,13 @@ function DoAjax() {
     var sample_id = $('#sampleID').val();
     $.ajax({
         url: "/fresh",
+        async : false,
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         type: "POST",
         data: {operate: tmp, sample_id: sample_id},
         success: function (arg) {
             var obj = jQuery.parseJSON(arg);
             $('#eee').val(obj.operate);
-            return false;
         }
     })
 }
@@ -29,19 +29,18 @@ function reset_radio_style() {
 }
 //保存打分-ajax-from方法
 function saveScore() {
+    alert($("#myForm").elem);
     var options = {
         url: "/test",
         success: function () {
             alert('123');
             reset_radio_style();
             show_commit();
-            return false;
         },
         error: function () {
             alert("error");
             reset_radio_style();
             show_commit();
-            return false;
         },
         clearForm: true,
         timeout: 100000

@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>问卷首页</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/css/pro.css">
@@ -27,7 +28,7 @@
                 <thead>
                 <tr class="table-primary" style="text-align: center;">
                     <th>
-                        用户属性
+                        属性名称
                     </th>
                     <th>
                         属性参数
@@ -124,10 +125,8 @@
                             <td style="background-color: lightgrey;">
                                 {% for e in i['evaluate'] %}
                                 <input type="radio" value="{{ e['point'] }}"
-                                       name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}"
-                                       onchange="radio_select(this.id, this.name)">
-                                <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}"
-                                       id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
+                                       name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)">
+                                <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
                                     {{ e['level'] }}
                                 </label>
                                 {% end %}
