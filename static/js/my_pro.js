@@ -20,25 +20,20 @@ function DoAjax() {
 }
 //重置被选中的style
 function reset_radio_style() {
-    var all_radio = document.getElementsByTagName("label");
-    for (var a = 0; a < all_radio.length; a++) {
-        all_radio[a].style.color = "";
-        all_radio[a].style.fontweight = "";
-        all_radio[a].style.border = "";
+    var all_a = document.getElementsByTagName("a");
+    for (var a_tag = 0; a_tag < all_a.length; a_tag++) {
+        all_a[a_tag].style.backgroundColor = "";
     }
 }
 //保存打分-ajax-from方法
 function saveScore() {
-    alert($("#myForm").elem);
     var options = {
         url: "/test",
         success: function () {
-            alert('123');
             reset_radio_style();
             show_commit();
         },
         error: function () {
-            alert("error");
             reset_radio_style();
             show_commit();
         },
@@ -75,17 +70,13 @@ function change_history_action() {
 //被选中后的style变化
 function radio_select(radio_id, name) {
     var line_radio = document.getElementsByName(name);
-    var label_id = 'label_' + radio_id;
+    var label_id = 'a_' + radio_id;
     for (var k = 0; k < line_radio.length; k++) {
         var tmp_radio = line_radio[k];
         if (tmp_radio.id == label_id) {
-            tmp_radio.style.color = "yellow";
-            tmp_radio.style.fontweight = "bold";
-            tmp_radio.style.border = "0.05px dashed";
+            tmp_radio.style.backgroundColor = "#007bff";
         } else {
-            tmp_radio.style.color = "";
-            tmp_radio.style.fontweight = "";
-            tmp_radio.style.border = "";
+            tmp_radio.style.backgroundColor = "";
         }
     }
 }

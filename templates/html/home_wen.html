@@ -25,32 +25,71 @@
                     1.未提交前刷新页面会造成页面数据丢失<br>
                     2.提交前确认所有选项均已选择
                 </h5>
+
+
                 <thead>
                 <tr class="table-primary" style="text-align: center;">
                     <th>
-                        属性名称
+                        用户属性
                     </th>
                     <th>
                         属性参数
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+
                 {% if basic_data %}
-                {% for b, b_v in basic_data.items() %}
-                {% for k, v in b_v.items() %}
+                <tbody>
+
+                {% for p1_k, p1_v in basic_data['p1'].items() %}
                 <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                     <td>
-                        {{ k }}
+                        {{ p1_k }}
                     </td>
-                    <td style="background-color: lightgrey">
-                        {{ v }}
+                    {% if basic_data['p1']['用户性别'] == '女' %}
+                        <td style="background-color: pink">
+                    {% else %}
+                        <td style="background-color: lightgrey">
+                    {% end %}
+                        {{ p1_v }}
                     </td>
                 </tr>
                 {% end %}
-                {% end %}
-                {% end %}
                 </tbody>
+                {% end %}
+
+                <td></td>
+
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        对方属性
+                    </th>
+                    <th>
+                        属性参数
+                    </th>
+                </tr>
+                </thead>
+
+                {% if basic_data %}
+                <tbody>
+                {% for p2_k, p2_v in basic_data['p2'].items() %}
+                    <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ p2_k }}
+                    </td>
+                    {% if basic_data['p2']['对方性别'] == '女' %}
+                        <td style="background-color: pink">
+                    {% else %}
+                        <td style="background-color: lightgrey">
+                    {% end %}
+                        {{ p2_v }}
+                    </td>
+                </tr>
+                {% end %}
+
+                </tbody>
+                {% end %}
 
                 <td></td>
 
@@ -124,11 +163,13 @@
                             </td>
                             <td style="background-color: lightgrey;">
                                 {% for e in i['evaluate'] %}
-                                <input type="radio" value="{{ e['point'] }}"
-                                       name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)">
-                                <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
-                                    {{ e['level'] }}
-                                </label>
+                                <a style="border: 0.05px dashed;" id="a_{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}">
+                                    <input type="radio" value="{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)">
+                                    <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
+                                        {{ e['level'] }}
+                                    </label>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
                                 {% end %}
                             </td>
                         </tr>
