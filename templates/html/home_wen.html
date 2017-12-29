@@ -42,15 +42,16 @@
                 <tbody>
 
                 {% for p1_k, p1_v in basic_data['p1'].items() %}
+                <input id="user_sex" type="hidden" value="{{ basic_data['p1']['用户性别'] }}" name="user_sex">
                 <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                     <td>
                         {{ p1_k }}
                     </td>
                     {% if basic_data['p1']['用户性别'] == '女' %}
-                        <td style="background-color: pink">
-                    {% else %}
-                        <td style="background-color: lightgrey">
-                    {% end %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
                         {{ p1_v }}
                     </td>
                 </tr>
@@ -74,15 +75,15 @@
                 {% if basic_data %}
                 <tbody>
                 {% for p2_k, p2_v in basic_data['p2'].items() %}
-                    <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                     <td>
                         {{ p2_k }}
                     </td>
                     {% if basic_data['p2']['对方性别'] == '女' %}
-                        <td style="background-color: pink">
-                    {% else %}
-                        <td style="background-color: lightgrey">
-                    {% end %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
                         {{ p2_v }}
                     </td>
                 </tr>
@@ -133,6 +134,32 @@
             <form method="post" name="myForm" enctype="multipart/form-data" id="myForm">
                 <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
                 <div class="form-group">
+    <!--行为-->
+                    {% if actions %}
+                    <!-- 所有行为 -->
+                    {% for stage,stage_v in actions[{{ basic_data['p1']['用户性别'] }}].items() %}
+                    {% for all_act in stage_v %}
+                    <select id="advice_direction" name="建议方向" onChange="acion_select(this.selectedIndex)" required>
+                        <option selected>请选择</option>
+                        {% for acts in all_act['建议方向'] %}
+                        <option value="{{ acts }}">{{ acts }}</option>
+                        {% end %}
+                    </select>
+                    <select id="advice_details" name="具体行为" required>
+                        <option selected>请选择</option>
+                    </select>
+
+                    {% end %}
+                    {% end %}
+
+                    <!-- 阶段选择 -->
+                    <select name="now_stage" id="now_stage">
+                        {% for one_stage in actions[{{ basic_data['p1']['用户性别'] }}] %}
+                        <option value="{{ stage }}">{{ one_stage }}</option>
+                        {% end %}
+                    </select>
+                    {% end %}
+    <!-- 评分 -->
                     {% if prepare_score %}
                     {% for p, p_v in prepare_score.items() %}
                     <h4 style="line-height: 90%">
@@ -179,13 +206,12 @@
                     {% end %}
                     {% end %}
                     {% end %}
-                    <button type="button" class="btn btn-outline-dark btn-dark" id="score_btn" onclick="saveScore()">
+                    <button type="button" class="btn btn-outline-dark btn-dark" id="score_btn" onclick="saveScore()>
                         打分
                     </button>
                     {% end %}
                 </div>
-
-                <button type="button" class="btn btn-outline-dark btn-dark" onclick="" id="commit_btn">
+                <button type="button" class="btn btn-outline-dark btn-dark" onclick="saveActions()" id="commit_btn">
                     提交
                 </button>
 

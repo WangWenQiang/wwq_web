@@ -1,7 +1,6 @@
 tmp_dict = {
     '男': {
         '初识期': [
-
             {'建议方向': '精心的形象打扮', '具体行为':
                 ['理一个精神点的发型',
                  '出门前认真打理一下胡子',
@@ -308,3 +307,9 @@ from sklearn.externals import joblib
     # b = joblib.load('static/others/output_score.pkl')
     #
     # print(b, type(b))
+
+male = []
+for a in (list(tmp_dict['女'].values())):
+    for b in a:
+        male.append(b['具体行为'])
+print(male)

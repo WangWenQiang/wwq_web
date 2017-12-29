@@ -802,9 +802,9 @@ tmp_dict = {
         ],
 }
 #
-import pickle
-with open('static/others/output_score.pkl', 'wb') as handle:
-    pickle.dump(tmp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+# import pickle
+# with open('static/others/output_score.pkl', 'wb') as handle:
+#     pickle.dump(tmp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 # with open('static/others/output_pro.pkl', 'rb') as r_handle:
 #     b = pickle.load(r_handle)
@@ -838,4 +838,7 @@ a = {'sampleID': '914', '定量分析（双方数值）_亲密度': '10~20', '�
      '对关系促进程度_兑现承诺': '10~20', '对关系促进程度_共享社交圈': '10~20', '对关系促进程度_给予对方支持': '10~20', '对关系促进程度_相信对方能力': '10~20',
      '危机爆发概率_安全感缺失': '1', '危机爆发概率_拒绝自我暴露': '1', '危机爆发概率_不愿依赖对方': '1', '危机影响程度_安全感缺失': '1~20', '危机影响程度_拒绝自我暴露': '1~20',
      '危机影响程度_不愿依赖对方': '1~20'}
-print(len(a))
+# print(len(a))
+#
+# for k in a:
+#     print(k)

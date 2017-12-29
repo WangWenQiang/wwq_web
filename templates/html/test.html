@@ -1,69 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../../static/css/bootstrap.css">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>问卷首页</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/pro.css">
     <script src="../../static/js/jquery.min.js"></script>
-    <script>
-        function DoAjax() {
-            var tmp = $('#www').val();
-            var sample_id = $('#sampleID').val();
-            $.ajax({
-                url: "/fresh",
-                type: "POST",
-                data: {operate: tmp, sample_id: sample_id},
-                success: function (arg) {
-                    var obj = jQuery.parseJSON(arg);
-                    $('#eee').val(obj.operate);
-                }
-            })
-        }
-
-        function show_score() {
-            $("#score_btn").show();
-            $("#commit_btn").hide();
-            $("#finish_btn").hide();
-        }
-
-        function show_commit() {
-            $("#score_btn").hide();
-            $("#commit_btn").show();
-            $("#finish_btn").show();
-        }
-
-        function change_history_action() {
-            var list_cell = document.getElementById("history_action").getElementsByTagName("li");
-            var all_value = [];
-            for (var i = 0; i < list_cell.length; i++) {
-                all_value.push(list_cell[i].innerHTML);
-            }
-        }
-
-        function submit_all() {
-            document.myForm.action = "/test";
-            document.myForm.submit();
-        }
-    </script>
-
-
+    <script src="../../static/js/jquery.form.js"></script>
+    <script src="../../static/js/my_pro.js"></script>
 </head>
 <body onload="show_score()">
-<label for="sampleID">
-    <input id="sampleID" type="text" value="{{ sample_id }}" hidden>
-</label>
 <h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
 <hr/>
 <div class="container">
     <div class="row clearfix">
-        <div class="col-md-5 column">
+        <div class="col-md-6 column">
             <table class="table">
                 <h4>
                     样本信息
                 </h4>
                 <h5 class="text-warning">
-                    注意:未提交前刷新页面会造成页面数据丢失
+                    注意:<br>
+                    1.未提交前刷新页面会造成页面数据丢失<br>
+                    2.提交前确认所有选项均已选择
                 </h5>
+
+
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        用户属性
+                    </th>
+                    <th>
+                        属性参数
+                    </th>
+                </tr>
+                </thead>
+
+                {% if basic_data %}
+                <tbody>
+
+                {% for p1_k, p1_v in basic_data['p1'].items() %}
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ p1_k }}
+                    </td>
+                    {% if basic_data['p1']['用户性别'] == '女' %}
+                        <td style="background-color: pink">
+                    {% else %}
+                        <td style="background-color: lightgrey">
+                    {% end %}
+                        {{ p1_v }}
+                    </td>
+                </tr>
+                {% end %}
+                </tbody>
+                {% end %}
+
+                <td></td>
+
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        对方属性
+                    </th>
+                    <th>
+                        属性参数
+                    </th>
+                </tr>
+                </thead>
+
+                {% if basic_data %}
+                <tbody>
+                {% for p2_k, p2_v in basic_data['p2'].items() %}
+                    <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ p2_k }}
+                    </td>
+                    {% if basic_data['p2']['对方性别'] == '女' %}
+                        <td style="background-color: pink">
+                    {% else %}
+                        <td style="background-color: lightgrey">
+                    {% end %}
+                        {{ p2_v }}
+                    </td>
+                </tr>
+                {% end %}
+
+                </tbody>
+                {% end %}
+
+                <td></td>
+
                 <thead>
                 <tr class="table-primary" style="text-align: center;">
                     <th>
@@ -75,9 +104,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if data %}
-                {% for k,v in data.items() %}
-                <tr class="table-info" style="line-height: 80%; font-size: 15px">
+                {% if common_data %}
+                {% for k,v in common_data.items() %}
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                     <td>
                         {{ k }}
                     </td>
@@ -90,9 +119,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-7 column">
+        <div class="col-md-6 column">
             {% if done_actions %}
-            <div class="alert alert-success alert-dismissable">
+            <div class="alert alert-success alert-dismissable" id="done_act" name="done_act">
                 <h4>已提交</h4>
                 <ol id="history_action">
                     <li>
@@ -101,22 +130,23 @@
                 </ol>
             </div>
             {% end %}
-            <form role="form" method="post" name="myForm">
+            <form method="post" name="myForm" enctype="multipart/form-data" id="myForm">
+                <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
                 <div class="form-group">
+                    {% if prepare_score %}
                     {% for p, p_v in prepare_score.items() %}
-                    <h4>
+                    <h4 style="line-height: 90%">
                         {{ p }}
                     </h4>
                     {% for d in p_v %}
                     {% for t, t_v in d.items() %}
-                    <h5>
+                    <h5 style="line-height: 50%">
                         类型: {{ t }}
                     </h5>
 
-
-                    <table class="table" style="text-align: center">
+                    <table class="table" style="text-align: center; font-size: 14px">
                         <thead>
-                        <tr class="table-primary" style="line-height: 80%">
+                        <tr class="table-primary" style="line-height: 50%">
                             <th>
                                 名称
                             </th>
@@ -127,16 +157,20 @@
                         </thead>
                         <tbody>
                         {% for i in t_v %}
-                        <tr class="table-info tr" style="line-height: 10%">
-                            <td style="line-height: 40px">
+                        <tr class="table-info-w">
+                            <td>
                                 {{ i['name'] }}
                             </td>
                             <td style="background-color: lightgrey;">
-                                <select class="form-control">
-                                    {% for e in i['evaluate'] %}
-                                    <option value="{{ e['point'] }}">{{ e['level'] }}</option>
-                                    {% end %}
-                                </select>
+                                {% for e in i['evaluate'] %}
+                                <a style="border: 0.05px dashed;" id="a_{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}">
+                                    <input type="radio" value="{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)">
+                                    <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
+                                        {{ e['level'] }}
+                                    </label>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                {% end %}
                             </td>
                         </tr>
                         </tbody>
@@ -145,11 +179,11 @@
                     {% end %}
                     {% end %}
                     {% end %}
+                    <button type="button" class="btn btn-outline-dark btn-dark" id="score_btn" onclick="saveScore()">
+                        打分
+                    </button>
+                    {% end %}
                 </div>
-                <button type="button" class="btn btn-outline-dark btn-dark" onclick="submit_all()" id="score_btn">
-                    打分
-                </button>
-
                 <button type="button" class="btn btn-outline-dark btn-dark" onclick="" id="commit_btn">
                     提交
                 </button>
@@ -172,11 +206,7 @@
             return false;
         }
     };//禁止F5刷新
-    document.oncontextmenu = function () {
-        return false
-    };//禁止右键刷新
 </script>
-
 
 </body>
 </html>

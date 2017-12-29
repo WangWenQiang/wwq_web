@@ -178,4 +178,5 @@ class MainHandler(tornado.web.RequestHandler):
                     common_data=sample_data,
                     prepare_score=self.prepare_score_dict,
                     done_actions='',
+                    actions='',
                     )
