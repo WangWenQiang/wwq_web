@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>问卷首页</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap-select.css">
     <link rel="stylesheet" href="../../static/css/pro.css">
     <script src="../../static/js/jquery.min.js"></script>
     <script src="../../static/js/jquery.form.js"></script>
     <script src="../../static/js/my_pro.js"></script>
+    <script src="../../static/js/bootstrap-select.js"></script>
+    <script src="../../static/js/jquery.validate.js"></script>
 </head>
 <body>
 <h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
@@ -121,22 +124,20 @@
             <!-- 历史行为 -->
             <div class="alert alert-success alert-dismissable" id="done_act" name="done_act">
                 <h4>过往建议行为(若需选择下一样本数据, 点击"结束"按钮即可)</h4>
-                <ul id="history_actions" name="history_actions">
-                    <!--<li></li>-->
-                </ul>
+                <ol id="history_actions" name="history_actions">
+                </ol>
             </div>
 
-            <form method="post" name="myForm" enctype="multipart/form-data" id="myForm">
+            <form method="post" name="myForm_act" enctype="multipart/form-data" id="myForm_act" role="form">
                 <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
                 <input id="actNo" type="hidden" value="1" name="actNo">
                 <div class="form-group">
                     <!--行为-->
-
                     {% if actions %}
                     <!-- 所有行为 -->
-                    建议方向:
-                    <select id="advice_direction" name="建议方向" onchange="acion_select(this.selectedIndex)" required="required">
-                        <option selected disabled>请选择</option>
+                    <h5><br>建议方向:<br></h5>
+                    <select id="advice_direction" name="建议方向" onchange="acion_select(this.selectedIndex)" class="custom-select form-control" required="required">
+                        <option disabled selected>请选择</option>
                         {% for stage,stage_v in (actions[(basic_data['p1'])['用户性别']]).items() %}
                         {% for all_act in stage_v %}
                         <option value="{{ all_act['建议方向'] }}">{{ all_act['建议方向'] }}</option>
@@ -144,24 +145,24 @@
                         {% end %}
                     </select>
                     <br>
-                    具体行为:
-                    <select id="advice_details" name="具体行为" required="required">
+                    <h5><br>具体行为:<br></h5>
+                    <select id="advice_details" name="具体行为" class="custom-select form-control" required="required">
+                        <option disabled selected>请选择</option>
                     </select>
                     <!-- 阶段选择 -->
                     <br>
-                    阶段选择:
-                    <select name="now_stage" id="now_stage" required="required">
+                    <h5><br>阶段选择:<br></h5>
+                    <select name="now_stage" id="now_stage" class="custom-select form-control" required="required">
+                        <option disabled selected>请选择</option>
                         {% for one_stage in actions[(basic_data['p1'])['用户性别']] %}
-                        <option value="{{ one_stage }}" selected>{{ one_stage }}</option>
+                        <option value="{{ one_stage }}">{{ one_stage }}</option>
                         {% end %}
                     </select>
                     <br>
-                    <button type="button" class="btn btn-outline-dark btn-dark" onclick="saveActions()" id="commit_btn">
-                        提交
-                    </button>
-                    <button type="button" class="btn btn-outline-dark btn-dark" onclick="javascript:window.location.href='/home'" id="finish_btn">
-                        结束
-                    </button>
+                    <br>
+                    <input type="button" class="btn btn-outline-dark btn-dark" onclick="saveActions()" id="commit_btn" value="提交" />
+                    <input type="button" class="btn btn-outline-dark btn-dark" onclick="window.location.href='/home'" id="finish_btn" value="结束" />
+
                     {% end %}
                 </div>
 

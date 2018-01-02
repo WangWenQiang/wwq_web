@@ -18,6 +18,7 @@ function DoAjax() {
         }
     })
 }
+
 //重置被选中的style
 function reset_radio_style() {
     var all_a = document.getElementsByTagName("a");
@@ -25,6 +26,7 @@ function reset_radio_style() {
         all_a[a_tag].style.backgroundColor = "";
     }
 }
+
 //保存行为-ajax-from方法
 function saveActions() {
     var options = {
@@ -43,15 +45,19 @@ function saveActions() {
                 elem_li.innerHTML = h_acts[i];
                 history_acts.appendChild(elem_li);
             }
+            return false;
         },
         error: function (msg) {
             alert(msg["error"]);
+            return false;
         },
         clearForm: true,
+        restForm:true,
         timeout: 100000
     };
-    $("#myForm").ajaxSubmit(options);
+    $("#myForm_act").ajaxSubmit(options);
 }
+
 //保存打分-ajax-from方法
 function saveScore() {
     var options = {
@@ -69,6 +75,7 @@ function saveScore() {
     };
     $("#myForm").ajaxSubmit(options);
 }
+
 //保存打分-一般方法
 function submit_all() {
     document.myForm.action = "/score";
@@ -83,6 +90,7 @@ function change_history_action() {
         all_value.push(list_cell[i].innerHTML);
     }
 }
+
 //被选中后的style变化
 function radio_select(radio_id, name) {
     var line_radio = document.getElementsByName(name);
@@ -96,6 +104,7 @@ function radio_select(radio_id, name) {
         }
     }
 }
+
 //建议方向联动具体行为
 function acion_select(x) {
     //获取一级菜单长度
@@ -129,3 +138,35 @@ function acion_select(x) {
     }
     temp.options[0].selected = true;
 }
+
+
+// //保存行为-ajax-from方法
+// $("#myForm_act").click(function () {
+//     var options = {
+//         url: "/act",
+//         success: function (msg) {
+//             var act_no = msg["act_no"];
+//             var h_acts = msg["history_acts"];
+//             actNo = document.getElementById("actNo");
+//             actNo.value = act_no;
+//
+//             history_acts = document.getElementById("history_actions");
+//             $("#history_actions li").remove();
+//             // history_acts.removeChild();
+//             for (var i = 0; i < h_acts.length; i++) {
+//                 var elem_li = document.createElement("li");
+//                 elem_li.innerHTML = h_acts[i];
+//                 history_acts.appendChild(elem_li);
+//             }
+//             return false;
+//         },
+//         error: function (msg) {
+//             alert(msg["error"]);
+//             return false;
+//         },
+//         clearForm: true,
+//         restForm:true,
+//         timeout: 100000
+//     };
+//     $("#myForm_act").ajaxForm(options);
+// });

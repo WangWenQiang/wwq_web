@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>问卷首页</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
@@ -156,7 +156,7 @@
                             <td style="background-color: lightgrey;">
                                 {% for e in i['evaluate'] %}
                                 <a style="border: 0.05px dashed;" id="a_{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}">
-                                    <input type="radio" value="{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)">
+                                    <input type="radio" value="{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)" required="required" />
                                     <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
                                         {{ e['level'] }}
                                     </label>
@@ -171,9 +171,7 @@
                     {% end %}
                     {% end %}
                     {% end %}
-                    <button type="button" class="btn btn-outline-dark btn-dark" id="score_btn" onclick="submit_all()">
-                        打分
-                    </button>
+                    <input type="button" class="btn btn-outline-dark btn-dark" id="score_btn" onclick="submit_all()" value="打分"/>
                     {% end %}
                 </div>
             </form>
