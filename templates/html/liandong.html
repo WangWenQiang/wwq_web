@@ -1,51 +1,186 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>This is a test!</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>问卷首页</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/pro.css">
+    <script src="../../static/js/jquery.min.js"></script>
+    <script src="../../static/js/jquery.form.js"></script>
+    <script src="../../static/js/my_pro.js"></script>
 </head>
 <body>
-<form name="frm">
-    <select name="s1" onChange="redirec(document.frm.s1.options.selectedIndex)">
-        <option selected>select</option>
-        <option value="1">script</option>
-        <option value="2">high-level</option>
-        <option value="3">others</option>
-    </select>
+<h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
+<hr/>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-6 column">
+            <table class="table">
+                {% if basic_data %}
+                <h4>
+                    样本信息
+                </h4>
+                <h5 class="text-warning">
+                    注意:<br>
+                    1.未提交前刷新页面会造成页面数据丢失<br>
+                    2.提交前确认所有选项均已选择
+                </h5>
 
-    <select name="s2">
-        <option value="select" selected>select</option>
-    </select>
-</form>
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        用户属性
+                    </th>
+                    <th>
+                        属性参数
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for p1_k, p1_v in basic_data['p1'].items() %}
+                <input id="user_sex" type="hidden" value="{{ basic_data['p1']['用户性别'] }}" name="user_sex">
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ p1_k }}
+                    </td>
+                    {% if basic_data['p1']['用户性别'] == '女' %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
+                        {{ p1_v }}
+                    </td>
+                </tr>
+                {% end %}
+                </tbody>
+                {% end %}
+
+                <td></td>
+
+                {% if basic_data %}
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        对方属性
+                    </th>
+                    <th>
+                        属性参数
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for p2_k, p2_v in basic_data['p2'].items() %}
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ p2_k }}
+                    </td>
+                    {% if basic_data['p2']['对方性别'] == '女' %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
+                        {{ p2_v }}
+                    </td>
+                </tr>
+                {% end %}
+
+                </tbody>
+                {% end %}
+
+                <td></td>
+
+                {% if common_data %}
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th>
+                        标签名称
+                    </th>
+                    <th>
+                        标签参数
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for k,v in common_data.items() %}
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ k }}
+                    </td>
+                    <td style="background-color: lightgrey">
+                        {{ v }}
+                    </td>
+                </tr>
+                {% end %}
+                </tbody>
+                {% end %}
+            </table>
+        </div>
+        <div class="col-md-6 column">
+            <!-- 历史行为 -->
+            <div class="alert alert-success alert-dismissable" id="done_act" name="done_act">
+                <h4>过往建议行为(若需选择下一样本数据, 点击"结束"按钮即可)</h4>
+                <ul id="history_actions" name="history_actions">
+                    <!--<li></li>-->
+                </ul>
+            </div>
+
+            <form method="post" name="myForm" enctype="multipart/form-data" id="myForm">
+                <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
+                <input id="actNo" type="hidden" value="1" name="actNo">
+                <div class="form-group">
+                    <!--行为-->
+
+                    {% if actions %}
+                    <!-- 所有行为 -->
+                    建议方向:
+                    <select id="advice_direction" name="建议方向" onchange="acion_select(this.selectedIndex)" required="required">
+                        <option selected disabled>请选择</option>
+                        {% for stage,stage_v in (actions[(basic_data['p1'])['用户性别']]).items() %}
+                        {% for all_act in stage_v %}
+                        <option value="{{ all_act['建议方向'] }}">{{ all_act['建议方向'] }}</option>
+                        {% end %}
+                        {% end %}
+                    </select>
+                    <br>
+                    具体行为:
+                    <select id="advice_details" name="具体行为" required="required">
+                    </select>
+                    <!-- 阶段选择 -->
+                    <br>
+                    阶段选择:
+                    <select name="now_stage" id="now_stage" required="required">
+                        {% for one_stage in actions[(basic_data['p1'])['用户性别']] %}
+                        <option value="{{ one_stage }}" selected>{{ one_stage }}</option>
+                        {% end %}
+                    </select>
+                    <br>
+                    <button type="button" class="btn btn-outline-dark btn-dark" onclick="saveActions()" id="commit_btn">
+                        提交
+                    </button>
+                    <button type="button" class="btn btn-outline-dark btn-dark" onclick="javascript:window.location.href='/home'" id="finish_btn">
+                        结束
+                    </button>
+                    {% end %}
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
 <script language="javascript">
-    //获取一级菜单长度
-    var select1_len = document.frm.s1.options.length;
-    var select2 = new Array(select1_len);
-    //把一级菜单都设为数组
-    for (i = 0; i < select1_len; i++) {
-        select2[i] = new Array();
-    }
-    //定义基本选项
-    select2[0][0] = new Option("select", " ");
-
-    select2[1][0] = new Option("PHP", " ");
-    select2[1][1] = new Option("ASP", " ");
-    select2[1][2] = new Option("JSP", " ");
-
-    select2[2][0] = new Option("C/C++", " ");
-    select2[2][1] = new Option("Java", " ");
-    select2[2][2] = new Option("C#", " ");
-
-    select2[3][0] = new Option("Perl", " ");
-    select2[3][1] = new Option("Ruby", " ");
-    select2[3][2] = new Option("Python", " ");
-    //联动函数
-    function redirec(x) {
-        var temp = document.frm.s2;
-        for (i = 0; i < select2[x].length; i++) {
-            temp.options[i] = new Option(select2[x][i].text, select2[x][i].value);
+    document.onkeydown = function (e) {
+        var ev = window.event || e;
+        var code = ev.keyCode || ev.which;
+        if (code == 116) {
+            ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
+            cancelBubble = true;
+            return false;
         }
-        temp.options[0].selected = true;
-    }
+    };//禁止F5刷新
 </script>
+
 </body>
 </html>

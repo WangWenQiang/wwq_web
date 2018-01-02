@@ -6,9 +6,9 @@ from sklearn.externals import joblib
 from configparser import ExtendedInterpolation
 from handlers.fresh_handler import FreshHandler
 from handlers.main_handler import MainHandler
-from handlers.test_handler import TestHandler
+from handlers.score_handler import ScoreHandler
 from handlers.action_handler import ActionHandler
-from tool.path import one_level
+from tool.common_tool import one_level
 from tornado import httpserver, ioloop, web, netutil
 
 
@@ -35,12 +35,11 @@ def main_run():
             (r'/act', ActionHandler,
              {
                  'action_data': joblib.load(action_file),
-                 'stages': ['初识期', '探索期', '发展期', '稳定期', '恶化期']
              }
              ),
             (r'/fresh', FreshHandler,
              ),
-            (r'/test', TestHandler,
+            (r'/score', ScoreHandler,
              ),
         ],
         template_path=one_level(__file__, "templates"),

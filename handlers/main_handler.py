@@ -139,22 +139,36 @@ class MainHandler(tornado.web.RequestHandler):
             return Decimal('%.2f' % f)
 
         my_info['用户_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
-        my_info['用户_内向(I)'] = 1 - my_info['用户_外向(E)']
+        my_info['用户_内向(I)'] = str(1 - my_info['用户_外向(E)'])
+        my_info['用户_外向(E)'] = str(my_info['用户_外向(E)'])
+
         my_info['用户_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
-        my_info['用户_直觉(N)'] = 1 - my_info['用户_感觉(S)']
+        my_info['用户_直觉(N)'] = str(1 - my_info['用户_感觉(S)'])
+        my_info['用户_感觉(S)'] = str(my_info['用户_感觉(S)'])
+
         my_info['用户_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
-        my_info['用户_情感(F)'] = 1 - my_info['用户_思考(T)']
+        my_info['用户_情感(F)'] = str(1 - my_info['用户_思考(T)'])
+        my_info['用户_思考(T)'] = str(my_info['用户_思考(T)'])
+
         my_info['用户_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
-        my_info['用户_感知(P)'] = 1 - my_info['用户_判断(J)']
+        my_info['用户_感知(P)'] = str(1 - my_info['用户_判断(J)'])
+        my_info['用户_判断(J)'] = str(my_info['用户_判断(J)'])
 
         ta_info['对方_外向(E)'] = float2decimal(random.uniform(0.20, 0.90))
-        ta_info['对方_内向(I)'] = 1 - ta_info['对方_外向(E)']
+        ta_info['对方_内向(I)'] = str(1 - ta_info['对方_外向(E)'])
+        ta_info['对方_外向(E)'] = str(ta_info['对方_外向(E)'])
+
         ta_info['对方_感觉(S)'] = float2decimal(random.uniform(0.15, 0.90))
-        ta_info['对方_直觉(N)'] = 1 - ta_info['对方_感觉(S)']
+        ta_info['对方_直觉(N)'] = str(1 - ta_info['对方_感觉(S)'])
+        ta_info['对方_感觉(S)'] = str(ta_info['对方_感觉(S)'])
+
         ta_info['对方_思考(T)'] = float2decimal(random.uniform(0.15, 0.90))
-        ta_info['对方_情感(F)'] = 1 - ta_info['对方_思考(T)']
+        ta_info['对方_情感(F)'] = str(1 - ta_info['对方_思考(T)'])
+        ta_info['对方_思考(T)'] = str(ta_info['对方_思考(T)'])
+
         ta_info['对方_判断(J)'] = float2decimal(random.uniform(0.15, 0.90))
-        ta_info['对方_感知(P)'] = 1 - ta_info['对方_判断(J)']
+        ta_info['对方_感知(P)'] = str(1 - ta_info['对方_判断(J)'])
+        ta_info['对方_判断(J)'] = str(ta_info['对方_判断(J)'])
 
         sample = self.data.loc[[self.sample_index]]
         sample = sample.to_dict()
@@ -166,11 +180,11 @@ class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
         person_dict, sample_dict = self.random_sample()
+        common_dict = {'others': sample_dict}
         sample_data = copy.deepcopy(sample_dict)
-
-        # sample_dict['sample_index'] = self.sample_index
-        # final_dict = dict(person_dict, **sample_dict)
-        # db['zz_wenjuan'].insert(final_dict)
+        final_dict = dict(person_dict, **common_dict)
+        final_dict['sample_index'] = self.sample_index
+        db['zz_wenjuan'].insert(final_dict)
 
         self.render('html/home_wen.html',
                     sample_id=self.sample_index,
