@@ -1,17 +1,12 @@
-import json
 import traceback
 import copy
-import pymongo
+
 import tornado
 
-from urllib.parse import quote_plus
 from tornado import web
 
+from handlers import db_link
 from tool.common_tool import get_now_datetime
-
-connection = pymongo.MongoClient("mongodb://%s:%s@%s/%s?authMechanism=SCRAM-SHA-1" % (
-    quote_plus('tomorrow'), quote_plus('123456'), '127.0.0.1', 'tomorrow'))
-db = connection['tomorrow']
 
 
 class ActionHandler(tornado.web.RequestHandler):
@@ -22,7 +17,7 @@ class ActionHandler(tornado.web.RequestHandler):
     def get(self):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         sample_id = self.get_param['sampleID']
-        all_info = db['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
+        all_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
         common_data = all_info['others']
         self.render('html/liandong.html',
                     sample_id=sample_id,
@@ -37,7 +32,7 @@ class ActionHandler(tornado.web.RequestHandler):
         print(self.get_param)
         sample_id = self.get_param['sampleID']
         act_no = int(self.get_param['actNo'])
-        all_info = db['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
+        all_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
         # 上次
         h_acts = all_info.get('advice_actions', [])
         try:
@@ -59,7 +54,7 @@ class ActionHandler(tornado.web.RequestHandler):
                 this_act['select_time'] = get_now_datetime()
 
                 h_acts.append(this_act)
-                db['zz_wenjuan'].update({'sample_index': int(sample_id)}, {'$set': {'advice_actions': h_acts}})
+                db_link['zz_wenjuan'].update({'sample_index': int(sample_id)}, {'$set': {'advice_actions': h_acts}})
 
             h_acts = [d['具体行为'] for d in h_acts if d.get('具体行为', '')]
             self.finish({'act_no': act_no, 'history_acts': h_acts})
@@ -67,4 +62,3 @@ class ActionHandler(tornado.web.RequestHandler):
             print(e, '####')
             traceback.print_exc()
             self.finish({'act_no': act_no, 'history_acts': ''})
-

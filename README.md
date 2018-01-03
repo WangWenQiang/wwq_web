@@ -1,10 +1,4 @@
-# wwq_web
+## 启动
 ```
-test
-```
-#
-```
-同一性output_pro缺少一项
-
-
+python3 run.py
 ```

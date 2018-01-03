@@ -1,16 +1,12 @@
 import copy
-import pymongo
 import tornado
 import random
 import pandas as pd
 
 from decimal import Decimal
-from urllib.parse import quote_plus
 from tornado import web
 
-connection = pymongo.MongoClient("mongodb://%s:%s@%s/%s?authMechanism=SCRAM-SHA-1" % (
-    quote_plus('tomorrow'), quote_plus('123456'), '127.0.0.1', 'tomorrow'))
-db = connection['tomorrow']
+from handlers import db_link
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -30,7 +26,7 @@ class MainHandler(tornado.web.RequestHandler):
             self.finish(200)
 
         self.sample_index = random.randint(1, self.row_num)
-        is_done = db['wenjuan'].find_one({'sample_index': self.sample_index})
+        is_done = db_link['wenjuan'].find_one({'sample_index': self.sample_index})
         if is_done:
             repeat -= 1
             self.random_sample(repeat=repeat)
@@ -184,7 +180,7 @@ class MainHandler(tornado.web.RequestHandler):
         sample_data = copy.deepcopy(sample_dict)
         final_dict = dict(person_dict, **common_dict)
         final_dict['sample_index'] = self.sample_index
-        db['zz_wenjuan'].insert(final_dict)
+        db_link['zz_wenjuan'].insert(final_dict)
 
         self.render('html/home_wen.html',
                     sample_id=self.sample_index,

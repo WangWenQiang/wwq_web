@@ -4,7 +4,6 @@ import configparser
 
 from sklearn.externals import joblib
 from configparser import ExtendedInterpolation
-from handlers.fresh_handler import FreshHandler
 from handlers.main_handler import MainHandler
 from handlers.score_handler import ScoreHandler
 from handlers.action_handler import ActionHandler
@@ -24,20 +23,22 @@ def main_run():
     except Exception as e:
         raise e
 
+    sample_data = pd.read_csv(data_file)
+    scoore_dictt = joblib.load(score_file)
+    action_data = joblib.load(action_file)
+
     app = tornado.web.Application(
         [
             (r'/home', MainHandler,
              {
-                 'data': pd.read_csv(data_file),
-                 'prepare_score_dict': joblib.load(score_file),
+                 'data': sample_data,
+                 'prepare_score_dict': scoore_dictt,
              }
              ),
             (r'/act', ActionHandler,
              {
-                 'action_data': joblib.load(action_file),
+                 'action_data': action_data,
              }
-             ),
-            (r'/fresh', FreshHandler,
              ),
             (r'/score', ScoreHandler,
              ),
@@ -45,7 +46,7 @@ def main_run():
         template_path=one_level(__file__, "templates"),
         static_path=one_level(__file__, 'static'),
         xsrf_cookies=False,
-        debug=True
+        debug=False
     )
     http_server = tornado.httpserver.HTTPServer(app)
     sockets = tornado.netutil.bind_sockets(6689)
