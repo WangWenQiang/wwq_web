@@ -23,21 +23,17 @@ def main_run():
     except Exception as e:
         raise e
 
-    sample_data = pd.read_csv(data_file)
-    scoore_dictt = joblib.load(score_file)
-    action_data = joblib.load(action_file)
-
     app = tornado.web.Application(
         [
             (r'/home', MainHandler,
              {
-                 'data': sample_data,
-                 'prepare_score_dict': scoore_dictt,
+                 'data': pd.read_csv(data_file),
+                 'prepare_score_dict': joblib.load(score_file),
              }
              ),
             (r'/act', ActionHandler,
              {
-                 'action_data': action_data,
+                 'action_data': joblib.load(action_file),
              }
              ),
             (r'/score', ScoreHandler,

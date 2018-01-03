@@ -1,10 +1,8 @@
 import traceback
 import copy
-
 import tornado
 
 from tornado import web
-
 from handlers import db_link
 from tool.common_tool import get_now_datetime
 
@@ -29,7 +27,6 @@ class ActionHandler(tornado.web.RequestHandler):
 
     def post(self, *args, **kwargs):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
-        print(self.get_param)
         sample_id = self.get_param['sampleID']
         act_no = int(self.get_param['actNo'])
         all_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
@@ -59,6 +56,5 @@ class ActionHandler(tornado.web.RequestHandler):
             h_acts = [d['具体行为'] for d in h_acts if d.get('具体行为', '')]
             self.finish({'act_no': act_no, 'history_acts': h_acts})
         except Exception as e:
-            print(e, '####')
             traceback.print_exc()
             self.finish({'act_no': act_no, 'history_acts': ''})
