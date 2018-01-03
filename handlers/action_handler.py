@@ -1,3 +1,4 @@
+import collections
 import traceback
 import copy
 import tornado
@@ -16,10 +17,13 @@ class ActionHandler(tornado.web.RequestHandler):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         sample_id = self.get_param['sampleID']
         all_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
+        basic_data = collections.OrderedDict()
+        basic_data['p1'] = all_info['p1']
+        basic_data['p2'] = all_info['p2']
         common_data = all_info['others']
         self.render('html/liandong.html',
                     sample_id=sample_id,
-                    basic_data=all_info,
+                    basic_data=basic_data,
                     common_data=common_data,
                     done_actions='',
                     actions=self.actions,
