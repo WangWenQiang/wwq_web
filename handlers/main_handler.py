@@ -1,3 +1,4 @@
+import collections
 import copy
 import tornado
 import random
@@ -33,8 +34,9 @@ class MainHandler(tornado.web.RequestHandler):
 
         # 性别
         # mm, mf, fm, ff
-        my_info = {}
-        ta_info = {}
+
+        my_info = collections.OrderedDict()
+        ta_info = collections.OrderedDict()
         some_list = [1, 2, 3, 4]
         odds = [5, 30, 60, 5]
         sexes = self.random_pick_odd(some_list, odds)

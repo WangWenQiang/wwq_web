@@ -30,23 +30,19 @@ import pandas as pd
 # juzhudi = random.choice(list(city.keys()))
 # a = [k for k, v in city.items() if v == city[juzhudi]]
 # print(a)
-
 #
 # 性别
 # 男-男:男-女(35:65):女-女=5:90:5
 #
 # 年龄
 # 15-18:19-22:23-27:28-32:33-37:38-45=22:42:23:8:3:2
-#
-# 星座
-# 1:1:1
-#
 # 文化程度
 # 小学:初中:高中:大学:硕士:博士=2:3:22:56:12:5
 
-tmp_dict = {
-    '定量分析（双方数值）':
-        [
+import collections
+tmp_dict = collections.OrderedDict()
+
+tmp_dict['定量分析（双方数值）'] = [
             {'定量分析（双方数值）':
                 [
                     {'name': '亲密度', 'type': 'number', 'param': '', 'remark': '',
@@ -150,9 +146,8 @@ tmp_dict = {
                      },
                 ]
             }
-        ],
-    '一、共享的同一性':
-        [
+        ]
+tmp_dict['一、共享的同一性'] = [
             {'对关系促进程度':
                 [
                     {'name': '拥有共同话题', 'type': 'percent', 'param': '', 'remark': '',
@@ -265,9 +260,8 @@ tmp_dict = {
                      },
                 ]
             },
-        ],
-    '二、非言语信息系统':
-        [
+        ]
+tmp_dict['二、非言语信息系统'] = [
             {'对关系促进程度':
                 [
                     {'name': '外貌', 'type': 'percent', 'param': '', 'remark': '',
@@ -339,9 +333,8 @@ tmp_dict = {
                      },
                 ]
             },
-        ],
-    '三、信息对称协调能力':
-        [
+        ]
+tmp_dict['三、信息对称协调能力'] = [
             {'对关系促进程度':
                 [
                     {'name': '主动沟通交流', 'type': 'percent', 'param': '', 'remark': '',
@@ -486,9 +479,8 @@ tmp_dict = {
                      },
                 ]
             },
-        ],
-    '四、合理利他信念':
-        [
+        ]
+tmp_dict['四、合理利他信念'] = [
             {'对关系促进程度':
                 [
                     {'name': '分担日常琐事', 'type': 'percent', 'param': '', 'remark': '',
@@ -601,9 +593,8 @@ tmp_dict = {
                      },
                 ]
             },
-        ],
-    '五、内在价值随迁性':
-        [
+        ]
+tmp_dict['五、内在价值随迁性'] = [
             {'对关系促进程度':
                 [
                     {'name': '换位思考', 'type': 'percent', 'param': '', 'remark': '',
@@ -691,9 +682,8 @@ tmp_dict = {
                      },
                 ]
             },
-        ],
-    '六、泛依恋关系投射':
-        [
+        ]
+tmp_dict['六、泛依恋关系投射'] = [
             {'对关系促进程度':
                 [
                     {'name': '分享秘密', 'type': 'percent', 'param': '', 'remark': '',
@@ -799,12 +789,768 @@ tmp_dict = {
                      },
                 ]
             },
-        ],
-}
-#
-# import pickle
-# with open('static/others/output_score.pkl', 'wb') as handle:
-#     pickle.dump(tmp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        ]
+# tmp_dict = {
+#     '定量分析（双方数值）':
+#         [
+#             {'定量分析（双方数值）':
+#                 [
+#                     {'name': '亲密度', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '激情值', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '承诺值', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '沟通力', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '尊重值', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '相似度', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '包容性', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '支配欲', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '情感值', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '回避性', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                     {'name': '忧虑度', 'type': 'number', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~70'},
+#                          {'level': '高', 'point': '71~90'},
+#                          {'level': '极高', 'point': '91~100'},
+#                      ],
+#                      },
+#                 ]
+#             }
+#         ],
+#     '一、共享的同一性':
+#         [
+#             {'对关系促进程度':
+#                 [
+#                     {'name': '拥有共同话题', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '拥有共同爱好', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '生活习惯相似', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '生活态度一致', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机爆发概率':
+#                 [
+#                     {'name': '消费观念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '教育理念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '性别观念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '政治理念冲突', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'对关系影响程度':
+#                 [
+#                     {'name': '消费观冲突', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '教育理念冲突', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '性别观念冲突', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '政治理念冲突', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#         ],
+#     '二、非言语信息系统':
+#         [
+#             {'对关系促进程度':
+#                 [
+#                     {'name': '外貌', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '亲昵举动', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '性生活和谐', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机爆发概率':
+#                 [
+#                     {'name': '暴力行为', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '身体出轨行为', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机影响程度':
+#                 [
+#                     {'name': '暴力行为', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '身体出轨行为', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#         ],
+#     '三、信息对称协调能力':
+#         [
+#             {'对关系促进程度':
+#                 [
+#                     {'name': '主动沟通交流', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '互相鼓励肯定', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '倾听和采纳', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '分享情绪感受', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机爆发概率':
+#                 [
+#                     {'name': '冷战', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '交流不坦诚', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '回避问题', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '态度敷衍', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '激烈争执', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '互相抱怨', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机影响程度':
+#                 [
+#                     {'name': '冷战', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '交流不坦诚', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '回避问题', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '态度敷衍', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '激烈争执', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '互相抱怨', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#         ],
+#     '四、合理利他信念':
+#         [
+#             {'对关系促进程度':
+#                 [
+#                     {'name': '分担日常琐事', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '长时间陪伴', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '赠送礼物', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '嘘寒问暖', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机爆发概率':
+#                 [
+#                     {'name': '忽略情绪感受', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '遗忘纪念日', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '冷漠', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '对伴侣吝啬', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机影响程度':
+#                 [
+#                     {'name': '忽略情绪感受', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '遗忘纪念日', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '冷漠', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '对伴侣吝啬', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#         ],
+#     '五、内在价值随迁性':
+#         [
+#             {'对关系促进程度':
+#                 [
+#                     {'name': '换位思考', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '包容对方确定', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '尊重兴趣爱好', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机爆发概率':
+#                 [
+#                     {'name': '不了解对方喜好', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '固执己见', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '质疑和否定', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机影响程度':
+#                 [
+#                     {'name': '不了解对方喜好', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '固执己见', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '质疑和否定', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#         ],
+#     '六、泛依恋关系投射':
+#         [
+#             {'对关系促进程度':
+#                 [
+#                     {'name': '分享秘密', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '兑现承诺', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '共享社交圈', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '给予对方支持', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                     {'name': '相信对方能力', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '10~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~80'},
+#                          {'level': '极高', 'point': '81~90'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机爆发概率':
+#                 [
+#                     {'name': '安全感缺失', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '拒绝自我暴露', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                     {'name': '不愿依赖对方', 'type': 'text', 'param': ['低概率', '中概率', '高概率'], 'remark': '',
+#                      'evaluate': [
+#                          {'level': '低概率', 'point': '1'},
+#                          {'level': '中概率', 'point': '2'},
+#                          {'level': '高概率', 'point': '3'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#             {'危机影响程度':
+#                 [
+#                     {'name': '安全感缺失', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '拒绝自我暴露', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                     {'name': '不愿依赖对方', 'type': 'percent', 'param': '', 'remark': '',
+#                      'evaluate': [
+#                          {'level': '极低', 'point': '1~20'},
+#                          {'level': '低', 'point': '21~40'},
+#                          {'level': '中', 'point': '41~60'},
+#                          {'level': '高', 'point': '61~70'},
+#                          {'level': '极高', 'point': '71~80'},
+#                      ],
+#                      },
+#                 ]
+#             },
+#         ],
+# }
+
+import pickle
+with open('static/others/output_score.pkl', 'wb') as handle:
+    pickle.dump(tmp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 # with open('static/others/output_pro.pkl', 'rb') as r_handle:
 #     b = pickle.load(r_handle)
@@ -819,26 +1565,3 @@ tmp_dict = {
 # dict_t = sorted(dic.items(), key=lambda d: d[0])
 # print(dict_t)
 
-a = {'sampleID': '914', '定量分析（双方数值）_亲密度': '10~20', '定量分析（双方数值）_激情值': '10~20', '定量分析（双方数值）_承诺值': '10~20',
-     '定量分析（双方数值）_沟通力': '10~20', '定量分析（双方数值）_尊重值': '10~20', '定量分析（双方数值）_相似度': '10~20', '定量分析（双方数值）_包容性': '10~20',
-     '定量分析（双方数值）_支配欲': '10~20', '定量分析（双方数值）_情感值': '10~20', '定量分析（双方数值）_回避性': '10~20', '定量分析（双方数值）_忧虑度': '10~20',
-     '对关系促进程度_拥有共同话题': '10~20', '对关系促进程度_拥有共同爱好': '10~20', '对关系促进程度_生活习惯相似': '10~20', '对关系促进程度_生活态度一致': '10~20',
-     '危机爆发概率_消费观念冲突': '1', '危机爆发概率_性别观念冲突': '1', '危机爆发概率_政治理念冲突': '1', '对关系影响程度_消费观冲突': '1~20',
-     '对关系影响程度_教育理念冲突': '1~20', '对关系影响程度_性别观念冲突': '1~20', '对关系影响程度_政治理念冲突': '1~20', '对关系促进程度_外貌': '10~20',
-     '对关系促进程度_亲昵举动': '10~20', '对关系促进程度_性生活和谐': '10~20', '危机爆发概率_暴力行为': '1', '危机爆发概率_身体出轨行为': '1', '危机影响程度_暴力行为': '1~20',
-     '危机影响程度_身体出轨行为': '1~20', '对关系促进程度_主动沟通交流': '10~20', '对关系促进程度_互相鼓励肯定': '10~20', '对关系促进程度_倾听和采纳': '10~20',
-     '对关系促进程度_分享情绪感受': '10~20', '危机爆发概率_冷战': '1', '危机爆发概率_交流不坦诚': '1', '危机爆发概率_回避问题': '1', '危机爆发概率_态度敷衍': '1',
-     '危机爆发概率_激烈争执': '1', '危机爆发概率_互相抱怨': '1', '危机影响程度_冷战': '1~20', '危机影响程度_交流不坦诚': '1~20', '危机影响程度_回避问题': '1~20',
-     '危机影响程度_态度敷衍': '1~20', '危机影响程度_激烈争执': '1~20', '危机影响程度_互相抱怨': '1~20', '对关系促进程度_分担日常琐事': '10~20',
-     '对关系促进程度_长时间陪伴': '10~20', '对关系促进程度_赠送礼物': '10~20', '对关系促进程度_嘘寒问暖': '10~20', '危机爆发概率_忽略情绪感受': '1',
-     '危机爆发概率_遗忘纪念日': '1', '危机爆发概率_冷漠': '1', '危机爆发概率_对伴侣吝啬': '1', '危机影响程度_忽略情绪感受': '1~20', '危机影响程度_遗忘纪念日': '1~20',
-     '危机影响程度_冷漠': '1~20', '危机影响程度_对伴侣吝啬': '1~20', '对关系促进程度_换位思考': '10~20', '对关系促进程度_包容对方确定': '10~20',
-     '对关系促进程度_尊重兴趣爱好': '10~20', '危机爆发概率_不了解对方喜好': '1', '危机爆发概率_固执己见': '1', '危机爆发概率_质疑和否定': '1',
-     '危机影响程度_不了解对方喜好': '1~20', '危机影响程度_固执己见': '1~20', '危机影响程度_质疑和否定': '1~20', '对关系促进程度_分享秘密': '10~20',
-     '对关系促进程度_兑现承诺': '10~20', '对关系促进程度_共享社交圈': '10~20', '对关系促进程度_给予对方支持': '10~20', '对关系促进程度_相信对方能力': '10~20',
-     '危机爆发概率_安全感缺失': '1', '危机爆发概率_拒绝自我暴露': '1', '危机爆发概率_不愿依赖对方': '1', '危机影响程度_安全感缺失': '1~20', '危机影响程度_拒绝自我暴露': '1~20',
-     '危机影响程度_不愿依赖对方': '1~20'}
-# print(len(a))
-#
-# for k in a:
-#     print(k)
