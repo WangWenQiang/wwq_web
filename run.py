@@ -48,7 +48,7 @@ def main_run():
         debug=True
     )
     http_server = tornado.httpserver.HTTPServer(app)
-    sockets = tornado.netutil.bind_sockets(9999)
+    sockets = tornado.netutil.bind_sockets(6689)
     http_server.add_sockets(sockets)
     tornado.ioloop.IOLoop.instance().start()
 

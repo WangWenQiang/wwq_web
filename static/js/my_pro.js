@@ -144,35 +144,3 @@ jQuery.validator.addMethod("isNotDefaultNone", function (value, element) {
     alert(value);
     return value != tel;
 }, "");
-
-
-// //保存行为-ajax-from方法
-// $("#myForm_act").click(function () {
-//     var options = {
-//         url: "/act",
-//         success: function (msg) {
-//             var act_no = msg["act_no"];
-//             var h_acts = msg["history_acts"];
-//             actNo = document.getElementById("actNo");
-//             actNo.value = act_no;
-//
-//             history_acts = document.getElementById("history_actions");
-//             $("#history_actions li").remove();
-//             // history_acts.removeChild();
-//             for (var i = 0; i < h_acts.length; i++) {
-//                 var elem_li = document.createElement("li");
-//                 elem_li.innerHTML = h_acts[i];
-//                 history_acts.appendChild(elem_li);
-//             }
-//             return false;
-//         },
-//         error: function (msg) {
-//             alert(msg["error"]);
-//             return false;
-//         },
-//         clearForm: true,
-//         restForm:true,
-//         timeout: 100000
-//     };
-//     $("#myForm_act").ajaxForm(options);
-// });
