@@ -52,7 +52,7 @@ function saveActions() {
             return false;
         },
         clearForm: true,
-        restForm:true,
+        restForm: true,
         timeout: 100000
     };
     $("#myForm_act").ajaxSubmit(options);
@@ -138,6 +138,12 @@ function acion_select(x) {
     }
     temp.options[0].selected = true;
 }
+
+jQuery.validator.addMethod("isNotDefaultNone", function (value, element) {
+    var tel = "请选择";
+    alert(value);
+    return value != tel;
+}, "");
 
 
 // //保存行为-ajax-from方法

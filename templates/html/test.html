@@ -47,10 +47,10 @@
                         {{ p1_k }}
                     </td>
                     {% if basic_data['p1']['用户性别'] == '女' %}
-                        <td style="background-color: pink">
-                    {% else %}
-                        <td style="background-color: lightgrey">
-                    {% end %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
                         {{ p1_v }}
                     </td>
                 </tr>
@@ -74,15 +74,15 @@
                 {% if basic_data %}
                 <tbody>
                 {% for p2_k, p2_v in basic_data['p2'].items() %}
-                    <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                     <td>
                         {{ p2_k }}
                     </td>
                     {% if basic_data['p2']['对方性别'] == '女' %}
-                        <td style="background-color: pink">
-                    {% else %}
-                        <td style="background-color: lightgrey">
-                    {% end %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
                         {{ p2_v }}
                     </td>
                 </tr>
@@ -163,9 +163,13 @@
                             </td>
                             <td style="background-color: lightgrey;">
                                 {% for e in i['evaluate'] %}
-                                <a style="border: 0.05px dashed;" id="a_{{ t }}_{{ i['name'] }}_{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}">
-                                    <input type="radio" value="{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}" id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" onchange="radio_select(this.id, this.name)">
-                                    <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}" id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
+                                <a style="border: 0.05px dashed;" id="a_{{ t }}_{{ i['name'] }}_{{ e['point'] }}"
+                                   name="{{ t }}_{{ i['name'] }}">
+                                    <input type="radio" value="{{ e['point'] }}" name="{{ t }}_{{ i['name'] }}"
+                                           id="{{ t }}_{{ i['name'] }}_{{ e['point'] }}"
+                                           onchange="radio_select(this.id, this.name)">
+                                    <label for="{{ t }}_{{ i['name'] }}_{{ e['point'] }}"
+                                           id="label_{{ t }}_{{ i['name'] }}_{{ e['point'] }}">
                                         {{ e['level'] }}
                                     </label>
                                 </a>

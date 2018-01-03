@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <title>问卷首页</title>
+    <title>推荐行为</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../static/css/bootstrap-select.css">
     <link rel="stylesheet" href="../../static/css/pro.css">
@@ -128,7 +128,8 @@
                 </ol>
             </div>
 
-            <form method="post" name="myForm_act" enctype="multipart/form-data" id="myForm_act" role="form">
+            <form method="post" name="myForm_act" enctype="multipart/form-data" id="myForm_act" role="form"
+                  action="/act">
                 <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
                 <input id="actNo" type="hidden" value="1" name="actNo">
                 <div class="form-group">
@@ -136,7 +137,8 @@
                     {% if actions %}
                     <!-- 所有行为 -->
                     <h5><br>建议方向:<br></h5>
-                    <select id="advice_direction" name="建议方向" onchange="acion_select(this.selectedIndex)" class="custom-select form-control" required="required">
+                    <select id="advice_direction" name="建议方向" onchange="acion_select(this.selectedIndex)"
+                            class="custom-select form-control" required="required">
                         <option disabled selected>请选择</option>
                         {% for stage,stage_v in (actions[(basic_data['p1'])['用户性别']]).items() %}
                         {% for all_act in stage_v %}
@@ -160,8 +162,9 @@
                     </select>
                     <br>
                     <br>
-                    <input type="button" class="btn btn-outline-dark btn-dark" onclick="saveActions()" id="commit_btn" value="提交" />
-                    <input type="button" class="btn btn-outline-dark btn-dark" onclick="window.location.href='/home'" id="finish_btn" value="结束" />
+                    <input type="submit" class="btn btn-outline-dark btn-dark" id="commit_btn" value="提交"/>
+                    <input type="button" class="btn btn-outline-dark btn-dark" onclick="window.location.href='/home'"
+                           id="finish_btn" value="结束"/>
 
                     {% end %}
                 </div>
@@ -181,6 +184,60 @@
             return false;
         }
     };//禁止F5刷新
+</script>
+
+<script>
+    $().ready(function () {
+        $("#myForm_act").validate({
+            onsubmit: true,// 是否在提交是验证
+            onfocusout: false,// 是否在获取焦点时验证
+            onkeyup: false,// 是否在敲击键盘时验证
+
+            rules: {
+                建议方向: {required: true, isNotDefaultNone: false},
+                具体行为: {required: true, isNotDefaultNone: false},
+                now_stage: {required: true, isNotDefaultNone: false}
+            },
+            messages: {
+                建议方向: {required: "请选择建议方向",},
+                具体行为: {required: "请选择具体行为"},
+                now_stage: {required: "请选择所属阶段"}
+            },
+            submitHandler: function () {
+                var options = {
+                    url: "/act",
+                    success: function (msg) {
+                        var act_no = msg["act_no"];
+                        var h_acts = msg["history_acts"];
+                        actNo = document.getElementById("actNo");
+                        actNo.value = act_no;
+
+                        history_acts = document.getElementById("history_actions");
+                        $("#history_actions li").remove();
+                        // history_acts.removeChild();
+                        for (var i = 0; i < h_acts.length; i++) {
+                            var elem_li = document.createElement("li");
+                            elem_li.innerHTML = h_acts[i];
+                            history_acts.appendChild(elem_li);
+                        }
+                        return false;
+                    },
+                    error: function (msg) {
+                        alert(msg["error"]);
+                        return false;
+                    },
+                    clearForm: true,
+                    restForm: true,
+                    timeout: 100000
+                };
+                $("#myForm_act").ajaxSubmit(options);
+            },
+            invalidHandler: function () {
+                return false;
+            }
+        });
+    });
+
 </script>
 
 </body>

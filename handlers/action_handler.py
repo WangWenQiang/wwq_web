@@ -38,18 +38,28 @@ class ActionHandler(tornado.web.RequestHandler):
         sample_id = self.get_param['sampleID']
         act_no = int(self.get_param['actNo'])
         all_info = db['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
+        # 上次
         h_acts = all_info.get('advice_actions', [])
         try:
             if self.get_param.get('具体行为', '') and self.get_param.get('now_stage', ''):
                 self.get_param.pop('sampleID')
                 self.get_param.pop('actNo')
                 this_act = copy.deepcopy(self.get_param)
-                this_act['select_no'] = act_no
+                if (len(h_acts) + 1) == act_no:
+                    # 本次
+                    this_act['select_no'] = act_no
+                    # 下次
+                    act_no += 1
+                else:
+                    # 本次
+                    this_act['select_no'] = len(h_acts) + 1
+                    # 下次
+                    act_no = len(h_acts) + 2
+
                 this_act['select_time'] = get_now_datetime()
 
                 h_acts.append(this_act)
                 db['zz_wenjuan'].update({'sample_index': int(sample_id)}, {'$set': {'advice_actions': h_acts}})
-                act_no += 1
 
             h_acts = [d['具体行为'] for d in h_acts if d.get('具体行为', '')]
             self.finish({'act_no': act_no, 'history_acts': h_acts})
