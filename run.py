@@ -42,7 +42,7 @@ def main_run():
         template_path=one_level(__file__, "templates"),
         static_path=one_level(__file__, 'static'),
         xsrf_cookies=False,
-        debug=False
+        debug=False,
     )
     http_server = tornado.httpserver.HTTPServer(app)
     sockets = tornado.netutil.bind_sockets(6689)
