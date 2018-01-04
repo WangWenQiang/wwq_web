@@ -59,6 +59,6 @@ class ActionHandler(tornado.web.RequestHandler):
 
             h_acts = [d['具体行为'] for d in h_acts if d.get('具体行为', '')]
             self.finish({'act_no': act_no, 'history_acts': h_acts})
-        except Exception as e:
+        except:
             traceback.print_exc()
             self.finish({'act_no': act_no, 'history_acts': ''})

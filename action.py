@@ -691,5 +691,38 @@ female_advice = [["化一个简单精致的妆容，体现自己的风格", "做
                  ["试着在公共场合或社交媒体上秀恩爱", "经常性地直接表达“我爱你”之类的甜言蜜语", "认真对待TA喜欢的事物，尝试理解他的需求",
                   "肯定TA的负面情绪，在TA难过、愤怒、挫败时感受到你的支持和依靠"], ["试着共享彼此的社交，邀请彼此的朋友、亲人，并介绍互相认识", "试着去共同承担一些责任"]]
 
+import collections
+import pandas as pd
 
-print(len(male_advice), len(male_direction), len(female_advice), len(female_direction))
+from itertools import groupby
+from operator import itemgetter
+
+from sklearn.externals import joblib
+
+
+
+df = pd.read_excel("static/others/actions_advice.xlsx").fillna(method='pad')
+data = []
+for i in range(len(df)):
+    data.append(df.iloc[i].to_dict())
+
+final_dict = {}
+level_one = groupby(data, itemgetter('用户性别', ))
+for x, y in level_one:
+    level_two = groupby(y, itemgetter('用户性别', '关系阶段'))
+    final_dict[x] = {}
+    for k, v in level_two:
+        final_dict[x][k[1]] = []
+        l_two = {k[1]: []}
+        level_three = groupby(v, itemgetter('用户性别', '关系阶段', '建议方向'))
+        for t_k, t_v in level_three:
+            l_three = {'建议方向': t_k[2], '具体行为': []}
+            for m in t_v:
+                m.pop('用户性别')
+                m.pop('关系阶段')
+                m.pop('建议方向')
+                l_three['具体行为'].append(m['具体行为'])
+            final_dict[x][k[1]].append(l_three)
+        # final_dict[x].append(l_two)
+print(final_dict)
+# joblib.dump(final_dict, 'static/others/output_actions_V1.0.pkl')
