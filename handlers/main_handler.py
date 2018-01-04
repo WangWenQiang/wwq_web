@@ -27,14 +27,12 @@ class MainHandler(tornado.web.RequestHandler):
             self.finish(200)
 
         self.sample_index = random.randint(1, self.row_num)
-        is_done = db_link['wenjuan'].find_one({'sample_index': self.sample_index})
-        if is_done:
+        is_done = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
+        if is_done and is_done.get('score', None):
             repeat -= 1
             self.random_sample(repeat=repeat)
 
-        # 性别
-        # mm, mf, fm, ff
-
+        # 性别 mm, mf, fm, ff
         my_info = collections.OrderedDict()
         ta_info = collections.OrderedDict()
         some_list = [1, 2, 3, 4]
