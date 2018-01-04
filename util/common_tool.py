@@ -14,3 +14,14 @@ def two_level(source, offset):
 
 def get_now_datetime():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def avearge_score(score_range):
+    range_list = str(score_range).split("~")
+    if len(range_list) > 1:
+        if int(range_list[0]) % 2 == 1:
+            return int((int(range_list[0]) - 1 + int(range_list[1])) / 2)
+        else:
+            return int((int(range_list[0]) + int(range_list[1])) / 2)
+    else:
+        return int(range_list[0])

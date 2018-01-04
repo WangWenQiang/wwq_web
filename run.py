@@ -7,7 +7,7 @@ from configparser import ExtendedInterpolation
 from handlers.main_handler import MainHandler
 from handlers.score_handler import ScoreHandler
 from handlers.action_handler import ActionHandler
-from tool.common_tool import one_level
+from util.common_tool import one_level
 from tornado import httpserver, ioloop, web, netutil
 
 

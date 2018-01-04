@@ -5,7 +5,7 @@ import tornado
 
 from tornado import web
 from handlers import db_link
-from tool.common_tool import get_now_datetime
+from util.common_tool import get_now_datetime
 
 
 class ActionHandler(tornado.web.RequestHandler):

@@ -4,7 +4,7 @@ import pymongo
 from urllib.parse import quote_plus
 from configparser import ExtendedInterpolation
 
-from tool.common_tool import two_level
+from util.common_tool import two_level
 
 cf = configparser.ConfigParser(interpolation=ExtendedInterpolation())
 conf_file = two_level(__file__, 'config/conf.ini')
