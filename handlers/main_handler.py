@@ -28,9 +28,15 @@ class MainHandler(tornado.web.RequestHandler):
 
         self.sample_index = random.randint(1, self.row_num)
         is_done = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
-        if is_done and is_done.get('score', None):
-            repeat -= 1
-            self.random_sample(repeat=repeat)
+        if is_done:
+            # 有打分,重新生成
+            if is_done.get('score', None):
+                repeat -= 1
+                self.random_sample(repeat=repeat)
+            else:
+                # 无打分
+                old_info = {'p1': is_done['p1'], 'p2': is_done['p2']}
+                return old_info, is_done['others']
 
         # 性别 mm, mf, fm, ff
         my_info = collections.OrderedDict()
@@ -176,11 +182,14 @@ class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
         person_dict, sample_dict = self.random_sample()
-        common_dict = {'others': sample_dict}
         sample_data = copy.deepcopy(sample_dict)
-        final_dict = dict(person_dict, **common_dict)
-        final_dict['sample_index'] = self.sample_index
-        db_link['zz_wenjuan'].insert(final_dict)
+        # 确认没有对应样本
+        is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
+        if not is_had:
+            common_dict = {'others': sample_dict}
+            final_dict = dict(person_dict, **common_dict)
+            final_dict['sample_index'] = self.sample_index
+            db_link['zz_wenjuan'].insert(final_dict)
 
         self.render('html/home_wen.html',
                     sample_id=self.sample_index,
