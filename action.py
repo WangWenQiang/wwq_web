@@ -706,7 +706,7 @@ data = []
 for i in range(len(df)):
     data.append(df.iloc[i].to_dict())
 
-final_dict = {}
+final_dict = collections.OrderedDict()
 level_one = groupby(data, itemgetter('用户性别', ))
 for x, y in level_one:
     level_two = groupby(y, itemgetter('用户性别', '关系阶段'))
