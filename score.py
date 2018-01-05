@@ -1597,6 +1597,6 @@ for x, y in level_one:
             m.pop('区间划分')
             l_two[k[1]].append(m)
         final_dict[x].append(l_two)
-print(final_dict)
+# print(final_dict)
 
 # joblib.dump(final_dict, 'static/others/output_score_V1.0.pkl')
