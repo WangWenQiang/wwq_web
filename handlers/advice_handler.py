@@ -15,6 +15,7 @@ class AdviceHandler(tornado.web.RequestHandler):
         deal_mode = self.get_param['相处模式']
 
         self.get_param.pop('sampleID')
+        self.get_param.pop('当前阶段')
         self.get_param.pop('接触程度')
         self.get_param.pop('相处模式')
 

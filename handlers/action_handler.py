@@ -19,6 +19,7 @@ class ActionHandler(tornado.web.RequestHandler):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         sample_id = self.get_param['sampleID']
         all_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
+        had_advices = len(all_info.get('actions', []))
         basic_data = collections.OrderedDict()
         basic_data['p1'] = all_info['p1']
         basic_data['p2'] = all_info['p2']
@@ -38,4 +39,5 @@ class ActionHandler(tornado.web.RequestHandler):
                     quantities=self.quantities,
                     last_stage=last_stage,
                     advice=advice,
+                    had_advices=had_advices,
                     )

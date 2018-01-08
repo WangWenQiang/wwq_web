@@ -130,9 +130,11 @@
         <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
         <div class="form-group" style="width: 968px">
             <strong style="font-size: large">
-                建议方向:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['建议方向'] }}" name="建议方向" disabled="disabled" required="required">
+                过往建议条数: <input style="font-size: larger;border: none; height: auto; width: 900px;" type="text" value="{{ had_advices }}条" disabled="disabled">
                 <br>
-                具体行为:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['具体行为'] }}" name="具体行为" disabled="disabled" required="required">
+                本次建议方向:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['建议方向'] }}" name="建议方向" disabled="disabled" required="required">
+                <br>
+                建议具体行为:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['具体行为'] }}" name="具体行为" disabled="disabled" required="required">
             </strong>
             <br><br>
 
@@ -332,6 +334,11 @@
             </select>
             {% end %}
         </div>
+        <h6>
+            注意: 点击“提交”按钮, 将提交本页面数据, 并重新生成新建议供您填写其反馈影响;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            若已完成该条样本数据的所有反馈, 可点击“结束”按钮,系统将再抽取新样本数据;
+        </h6>
         <input type="submit" class="btn btn-outline-dark btn-dark" id="commit_btn" value="提交"/>
         <input type="button" class="btn btn-outline-dark btn-dark" onclick="window.location.href='/home'" id="finish_btn" value="结束"/>
     </form>
