@@ -10,12 +10,12 @@
     <script src="../../static/js/jquery.form.js"></script>
     <script src="../../static/js/my_pro.js"></script>
 </head>
-<body onload="show_score()">
+<body onload="show_score()" style="overflow-y: hidden; overflow-x: hidden;">
 <h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
 <hr/>
 <div class="container">
     <div class="row clearfix">
-        <div class="col-md-6 column" style="overflow-y: auto; height: 2000px">
+        <div class="col-md-6 column" style="overflow-y: auto; height: 800px">
             <table class="table">
                 <h4>
                     样本信息
@@ -119,7 +119,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6 column" style="overflow-y: auto; height: 2000px">
+        <div class="col-md-6 column" style="overflow-y: auto;">
             <form method="post" name="myForm" enctype="multipart/form-data" id="myForm" action="/score">
                 <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
                 <div class="form-group">

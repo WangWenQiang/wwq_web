@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>问卷首页</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/pro.css">
+    <script src="../../static/js/jquery.min.js"></script>
+    <script src="../../static/js/jquery.form.js"></script>
+    <script src="../../static/js/my_pro.js"></script>
+</head>
+<body onload="show_score()">
+<h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
+<h6 style="text-align: right; margin-right: 8% ">样本ID: {{ sample_id  }}</h6>
+<hr/>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h5 style="font-weight: bolder">一、以下内容是关于用户的基本信息和MBTI分数</h5>
+            <table class="table" style="width: 968px">
+                {% if basic_data %}
+                <thead>
+                <tr class="table-primary" style="text-align: center;">
+                    <th style="width: 30%;">
+                        用户属性
+                    </th>
+                    <th style="width: 35%">
+                        用户1
+                    </th>
+                    <th style="width: 35%">
+                        用户2
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for p1_k, p1_v in basic_data['p1'].items() %}
+                <input id="user_sex" type="hidden" value="{{ basic_data['p1']['用户性别'] }}" name="user_sex">
+                <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                    <td>
+                        {{ p1_k }}
+                    </td>
+                    {% if basic_data['p1']['用户性别'] == '女' %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
+                        {{ p1_v }}
+                    </td>
+
+                    {% if basic_data['p2']['用户性别'] == '女' %}
+                    <td style="background-color: pink">
+                        {% else %}
+                    <td style="background-color: lightgrey">
+                        {% end %}
+                        {{ basic_data['p2'][p1_k] }}
+                    </td>
+                </tr>
+                {% end %}
+                </tbody>
+                {% end %}
+            </table>
+            <!-- others -->
+            <h5 style="font-weight: bolder">二、以下内容是用户1对该段关系(用户1与用户2的关系)的状态描述</h5>
+            <table style="display: inline-table;width: 968px;">
+                <tr>
+                    <td style="width: 50%">
+                        <table class="table">
+                            <thead>
+                            <tr class="table-primary" style="text-align: center;">
+                                <th width="24%">
+                                    亲密关系相关行为和心态
+                                </th>
+                                <th width="26%">
+                                    用户1的回答
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for common1 in common_data[:20]%}
+                            {% for k_1, v_1 in common1.items() %}
+                            <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                                <td>
+                                    {{ k_1 }}
+                                </td>
+                                <td style="background-color: lightgrey;">
+                                    {{ v_1 }}
+                                </td>
+                            </tr>
+                            {% end %}
+                            {% end %}
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="width: 50%">
+                        <table class="table">
+                            <thead>
+                            <tr class="table-primary" style="text-align: center;">
+                                <th width="24%">
+                                    亲密关系相关行为和心态
+                                </th>
+                                <th width="26%">
+                                    用户1的回答
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for common2 in common_data[20:]%}
+                            {% for k_2, v_2 in common2.items() %}
+                            <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                                <td>
+                                    {{ k_2 }}
+                                </td>
+                                <td style="background-color: lightgrey;">
+                                    {{ v_2 }}
+                                </td>
+                            </tr>
+                            {% end %}
+                            {% end %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <form method="post" name="myForm" enctype="multipart/form-data" id="myForm" action="/score" style="width: 968px">
+        <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
+        <div class="form-group" style="width: 968px">
+            <h5>三、根据上面的两张表格信息,请在以下几个心理学维度上,对该用户和其目标对象间的关系数值进行评分</h5>
+            {% for liang in prepare_score['定量分析（双方数值）'] %}
+            {% for liang_t, liang_t_v in liang.items() %}
+            <h6>{{ liang_t }}</h6>
+            <table class="table" style="text-align: center; font-size: 14px">
+                <thead>
+                <tr class="table-primary" style="line-height: 50%">
+                    <th style="width: 30%"> 名称</th>
+                    <th style="width: 70%"> 评价</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for liang_i in liang_t_v %}
+                <tr class="table-info-w">
+                    <td>
+                        {{ liang_i['name'] }}
+                    </td>
+                    <td style="background-color: lightgrey;">
+                        {% for liang_e in liang_i['evaluate'] %}
+                        <a style="border: 0.05px dashed;" id="a_{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}" name="{{ liang_t }}_{{ liang_i['name'] }}">
+                            <input type="radio" value="{{ liang_e['point'] }}" name="{{ liang_t }}_{{ liang_i['name'] }}" id="{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}" onchange="radio_select(this.id, this.name)"  required="required"/>
+                            <label for="{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}" id="label_{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}">
+                                {{ liang_e['level'] }}
+                            </label>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% end %}
+                    </td>
+                </tr>
+                </tbody>
+                {% end %}
+            </table>
+            {% end %}
+            {% end %}
+
+            <h5>四、请根据上面两张用户表格信息,判断以下行为对于该段关系的促进或者破坏程度,以及破坏行为发生的概率</h5>
+            1.请判断下列行为对该段关系的促进程度
+            <table class="table" style="text-align: center; font-size: 14px">
+                <thead>
+                <tr class="table-primary" style="line-height: 50%">
+                    <th style="width: 30%"> 名称</th>
+                    <th style="width: 70%"> 评价</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for score_k1, score_v1 in prepare_score.items()%}
+
+                {% for qita1 in score_v1 %}
+                {% for t1, t_v1 in qita1.items() %}
+                {% if t1 == '对关系促进程度' %}
+                {% for i1 in t_v1 %}
+                <tr class="table-info-w">
+                    <td>
+                        {{ i1['name'] }}
+                    </td>
+                    <td style="background-color: lightgrey;">
+                        {% for e1 in i1['evaluate'] %}
+                        <a style="border: 0.05px dashed;" id="a_{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}" name="{{ t1 }}_{{ i1['name'] }}">
+                            <input type="radio" value="{{ e1['point'] }}" name="{{ t1 }}_{{ i1['name'] }}" id="{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}" onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}" id="label_{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}">
+                                {{ e1['level'] }}
+                            </label>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% end %}
+                    </td>
+                </tr>
+                {% end %}
+                {% end %}
+                {% end %}
+                {% end %}
+
+                {% end %}
+                </tbody>
+            </table>
+
+            2.请判断下列行为对该段关系的破坏程度
+            <table class="table" style="text-align: center; font-size: 14px">
+                <thead>
+                <tr class="table-primary" style="line-height: 50%">
+                    <th style="width: 30%"> 名称</th>
+                    <th style="width: 70%"> 评价</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for score_k2, score_v2 in prepare_score.items()%}
+
+                {% for qita2 in score_v2 %}
+                {% for t2, t_v2 in qita2.items() %}
+                {% if t2 == '危机影响程度' %}
+                {% for i2 in t_v2 %}
+                <tr class="table-info-w">
+                    <td>
+                        {{ i2['name'] }}
+                    </td>
+                    <td style="background-color: lightgrey;">
+                        {% for e2 in i2['evaluate'] %}
+                        <a style="border: 0.05px dashed;" id="a_{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}" name="{{ t2 }}_{{ i2['name'] }}">
+                            <input type="radio" value="{{ e2['point'] }}" name="{{ t2 }}_{{ i2['name'] }}" id="{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}" onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}" id="label_{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}">
+                                {{ e2['level'] }}
+                            </label>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% end %}
+                    </td>
+                </tr>
+                {% end %}
+                {% end %}
+                {% end %}
+                {% end %}
+
+                {% end %}
+                </tbody>
+            </table>
+            3.请判断下列行为在该段关系的发生概率
+            <table class="table" style="text-align: center; font-size: 14px">
+                <thead>
+                <tr class="table-primary" style="line-height: 50%">
+                    <th style="width: 30%"> 名称</th>
+                    <th style="width: 70%"> 评价</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for score_k3, score_v3 in prepare_score.items()%}
+
+                {% for qita3 in score_v3 %}
+                {% for t3, t_v3 in qita3.items() %}
+                {% if t3 == '危机爆发概率' %}
+                {% for i3 in t_v3 %}
+                <tr class="table-info-w">
+                    <td>
+                        {{ i3['name'] }}
+                    </td>
+                    <td style="background-color: lightgrey;">
+                        {% for e3 in i3['evaluate'] %}
+                        <a style="border: 0.05px dashed;" id="a_{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}" name="{{ t3 }}_{{ i3['name'] }}">
+                            <input type="radio" value="{{ e3['point'] }}" name="{{ t3 }}_{{ i3['name'] }}" id="{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}" onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}" id="label_{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}">
+                                {{ e3['level'] }}
+                            </label>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% end %}
+                    </td>
+                </tr>
+                {% end %}
+                {% end %}
+                {% end %}
+                {% end %}
+
+                {% end %}
+                </tbody>
+            </table>
+
+
+            <h5 style="font-weight: bold"><br>阶段判断:<br></h5>
+            <select id="now_stage" name="当前阶段" class="custom-select form-control" required="required">
+                {% for stage in stages %}
+                <option value="{{ stage }}">{{ stage }}</option>
+                {% end %}
+            </select>
+
+            <h5 style="font-weight: bold"><br>定性分析:<br></h5>
+            {% for quantity in quantities %}
+            {{ quantity['name'] }}:
+            <select name="{{ quantity['name'] }}" class="custom-select form-control" required="required">
+                {% for q in quantity['evaluate'] %}
+                <option value="{{ q['point'] }}">{{ q['level'] }}</option>
+                {% end %}
+            </select>
+            {% end %}
+
+        </div>
+        <input type="submit" class="btn btn-outline-dark btn-dark" id="score_btn" value="打分"/>
+    </form>
+
+</div>
+
+<script language="javascript">
+    document.onkeydown = function (e) {
+        var ev = window.event || e;
+        var code = ev.keyCode || ev.which;
+        if (code == 116) {
+            ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
+            cancelBubble = true;
+            return false;
+        }
+    };//禁止F5刷新
+</script>
+
+</body>
+</html>

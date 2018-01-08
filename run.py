@@ -20,6 +20,7 @@ def main_run():
         data_file = cf.get('sample', 'file_dir')
         score_file = cf.get('sample', 'score_tag_file')
         action_file = cf.get('sample', 'action_file')
+        feedback_file = cf.get('sample', 'feedback_file')
     except Exception as e:
         raise e
 
@@ -60,6 +61,9 @@ def main_run():
             (r'/act', ActionHandler,
              {
                  'action_data': joblib.load(action_file),
+                 'stages': stages,
+                 'quantities': quantities,
+                 'prepare_feedback': joblib.load(feedback_file),
              }
              ),
             (r'/score', ScoreHandler,

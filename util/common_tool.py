@@ -30,7 +30,7 @@ def avearge_score(score_range):
 
     if len(range_list) > 1:
         if int(range_list[0]) % 2 == 1:
-            return int((int(range_list[0]) - 1 + int(range_list[1])) / 2)
+            return int((int(range_list[0]) + 1 + int(range_list[1])) / 2)
         else:
             return int((int(range_list[0]) + int(range_list[1])) / 2)
     else:

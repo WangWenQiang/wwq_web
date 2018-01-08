@@ -10,8 +10,11 @@ from util.common_tool import get_now_datetime
 
 class ActionHandler(tornado.web.RequestHandler):
     # 每个行为刷新历史行为
-    def initialize(self, action_data):
+    def initialize(self, action_data, stages, quantities, prepare_feedback):
         self.actions = action_data
+        self.stages = stages
+        self.quantities = quantities
+        self.prepare_feedback = prepare_feedback
 
     def get(self):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
@@ -20,13 +23,19 @@ class ActionHandler(tornado.web.RequestHandler):
         basic_data = collections.OrderedDict()
         basic_data['p1'] = all_info['p1']
         basic_data['p2'] = all_info['p2']
-        common_data = all_info['others']
-        self.render('html/liandong.html',
+        common_data = [{k: v} for k, v in all_info['others'].items()]
+        last_stage = all_info['now_stage']
+        # 出建议
+
+        self.render('html/score.html',
                     sample_id=sample_id,
                     basic_data=basic_data,
                     common_data=common_data,
-                    done_actions='',
-                    actions=self.actions,
+                    prepare_score=self.prepare_feedback,
+                    stages=self.stages,
+                    quantities=self.quantities,
+                    last_stage=last_stage,
+                    advice='',
                     )
 
     def post(self, *args, **kwargs):
