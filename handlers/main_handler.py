@@ -11,7 +11,9 @@ from handlers import db_link
 
 
 class MainHandler(tornado.web.RequestHandler):
-    def initialize(self, data, prepare_score_dict):
+    def initialize(self, data, prepare_score_dict, stages, quantities):
+        self.stages = stages
+        self.quantities = quantities
         self.data = data
         self.row_num = self.data.shape[0]
         self.prepare_score_dict = prepare_score_dict
@@ -196,6 +198,8 @@ class MainHandler(tornado.web.RequestHandler):
                     basic_data=person_dict,
                     common_data=sample_data,
                     prepare_score=self.prepare_score_dict,
+                    stages=self.stages,
+                    quantities=self.quantities,
                     done_actions='',
                     actions='',
                     )

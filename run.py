@@ -23,32 +23,38 @@ def main_run():
     except Exception as e:
         raise e
 
+    stages = ["初识期", "探索期", "发展期", "稳定期", "恶化期"]
+    quantities = [
+        {"name": "接触程度", "type": "text", 'evaluate':
+            [
+                {'level': '零接触', 'point': '1'},
+                {'level': '浅层接触', 'point': '2'},
+                {'level': '中度接触', 'point': '3'},
+                {'level': '深层接触', 'point': '4'},
+                {'level': '完全融合', 'point': '5'},
+            ],
+         },
+        {"name": "相处模式", "type": "text", 'evaluate':
+            [
+                {'level': '主从型', 'point': '1'},
+                {'level': '合作型', 'point': '2'},
+                {'level': '竞争型', 'point': '3'},
+                {'level': '主从合作型', 'point': '4'},
+                {'level': '主从竞争型', 'point': '5'},
+                {'level': '竞争合作型', 'point': '6'},
+                {'level': '主从合作竞争型', 'point': '7'},
+            ],
+         },
+    ]
+
     app = tornado.web.Application(
         [
             (r'/home', MainHandler,
              {
                  'data': pd.read_csv(data_file),
                  'prepare_score_dict': joblib.load(score_file),
-                 'before_stage': ["初识期", "探索期", "发展期", "稳定期", "恶化期"],
-                 'before_type': {"定性分析":
-                     [
-                         {"name": "接触程度", "type": "text", 'evaluate': [
-                             {'level': '零接触', 'point': '1'},
-                             {'level': '浅层接触', 'point': '2'},
-                             {'level': '中度接触', 'point': '3'},
-                             {'level': '深层接触', 'point': '4'},
-                             {'level': '完全融合', 'point': '5'}, ], },
-                         {"name": "相处模式", "type": "text", 'evaluate': [
-                             {'level': '主从型', 'point': '1'},
-                             {'level': '合作型', 'point': '2'},
-                             {'level': '竞争型', 'point': '3'},
-                             {'level': '主从合作型', 'point': '4'},
-                             {'level': '主从竞争型', 'point': '5'},
-                             {'level': '竞争合作型', 'point': '6'},
-                             {'level': '主从合作竞争型', 'point': '7'},
-                         ], },
-                     ]
-                 },
+                 'stages': stages,
+                 'quantities': quantities,
              }
              ),
             (r'/act', ActionHandler,
@@ -62,7 +68,7 @@ def main_run():
         template_path=one_level(__file__, "templates"),
         static_path=one_level(__file__, 'static'),
         xsrf_cookies=False,
-        debug=False,
+        debug=True,
     )
     http_server = tornado.httpserver.HTTPServer(app)
     sockets = tornado.netutil.bind_sockets(6689)
