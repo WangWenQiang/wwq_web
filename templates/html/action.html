@@ -126,10 +126,16 @@
         </div>
     </div>
 
-    <form method="post" name="myForm" enctype="multipart/form-data" id="myForm" action="/act" style="width: 968px">
+    <form method="post" name="myForm" enctype="multipart/form-data" id="myForm" action="/advice" style="width: 968px">
         <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
         <div class="form-group" style="width: 968px">
-            建议: <input id="advice" type="text" value="{{ advice }}" name="sampleID" disabled="disabled">
+            <strong style="font-size: large">
+                建议方向:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['建议方向'] }}" name="建议方向" disabled="disabled" required="required">
+                <br>
+                具体行为:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['具体行为'] }}" name="具体行为" disabled="disabled" required="required">
+            </strong>
+            <br><br>
+
             <h5>三、根据上面的两张表格信息,请在以下几个心理学维度上,针对所给建议,在该用户和其目标对象间的关系数值的反馈影响进行评分</h5>
             {% for liang in prepare_score['定量分析（双方数值）'] %}
             {% for liang_t, liang_t_v in liang.items() %}
@@ -308,7 +314,11 @@
             <h5 style="font-weight: bold"><br>阶段判断:<br></h5>
             <select id="now_stage" name="当前阶段" class="custom-select form-control" required="required">
                 {% for stage in stages %}
+                {% if stage== last_stage %}
+                <option value="{{ stage }}" selected>{{ stage }}</option>
+                {% else %}
                 <option value="{{ stage }}">{{ stage }}</option>
+                {% end %}
                 {% end %}
             </select>
 

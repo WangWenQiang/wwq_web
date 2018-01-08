@@ -4,6 +4,8 @@ import configparser
 
 from sklearn.externals import joblib
 from configparser import ExtendedInterpolation
+
+from handlers.advice_handler import AdviceHandler
 from handlers.main_handler import MainHandler
 from handlers.score_handler import ScoreHandler
 from handlers.action_handler import ActionHandler
@@ -67,6 +69,8 @@ def main_run():
              }
              ),
             (r'/score', ScoreHandler,
+             ),
+            (r'/advice', AdviceHandler,
              ),
         ],
         template_path=one_level(__file__, "templates"),
