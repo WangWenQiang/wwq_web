@@ -201,7 +201,6 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         person_dict, sample_dict = self.random_sample()
         sample_list = [{k: v} for k, v in sample_dict.items()]
-        print(self.prepare_score_dict)
         # 确认没有对应样本
         is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if not is_had:
@@ -209,10 +208,21 @@ class MainHandler(tornado.web.RequestHandler):
             final_dict = dict(person_dict, **common_dict)
             final_dict['sample_index'] = self.sample_index
             db_link['zz_wenjuan'].insert(final_dict)
+        stages = self.judge_s(sample_dict['彼此相识时长'])
         self.render('html/score.html',
                     sample_id=self.sample_index,
                     basic_data=person_dict,
                     common_data=sample_list,
                     prepare_score=self.prepare_score_dict,
-                    stages=['初识期'],
+                    stages=stages,
                     )
+
+    def judge_s(self, knew_time):
+        if knew_time == '一周内':
+            return ['初识期']
+        elif knew_time == '一个月内':
+            return ['初识期', '探索期']
+        elif knew_time == '一年内':
+            return ['探索期', '发展期', '稳定期']
+        else:
+            return ['发展期', '稳定期']

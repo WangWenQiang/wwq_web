@@ -96,3 +96,19 @@ def act_excel2dict(file_name):
 
 def create_actions_pkl(final_dict):
     joblib.dump(final_dict, two_level(__file__, 'static/others/output_actions_V1.0.pkl'))
+
+
+# 根据主从/合作/竞争三项的分数进行判断用户的相处模式
+def deal_mode(info_dict):
+    # {'主从': 50, '合作': 10, '竞争': 20}
+    sort_list = [{i[0]: i[1]} for i in sorted(info_dict.items(), key=lambda d: d[1], reverse=True)]
+    no_first = list(sort_list[0].values())[0]
+    no_second = list(sort_list[1].values())[0]
+    no_third = list(sort_list[2].values())[0]
+    if no_first - no_second < 20:
+        return (list(sort_list[0].keys())[0]) + (list(sort_list[1].keys())[0]) + '型'
+    elif no_first - no_third < 20:
+        return (list(sort_list[0].keys())[0]) + (list(sort_list[1].keys())[0]) + (list(sort_list[2].keys())[0]) + '型'
+    else:
+        return (list(sort_list[0].keys())[0]) + '型'
+

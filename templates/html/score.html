@@ -12,7 +12,7 @@
 </head>
 <body onload="show_score()">
 <h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
-<h6 style="text-align: right; margin-right: 8% ">样本ID: {{ sample_id  }}</h6>
+<h6 style="text-align: right; margin-right: 8% ">样本ID: {{ sample_id }}</h6>
 <hr/>
 <div class="container">
     <div class="row clearfix">
@@ -148,9 +148,15 @@
                     </td>
                     <td style="background-color: lightgrey;">
                         {% for liang_e in liang_i['evaluate'] %}
-                        <a style="border: 0.05px dashed;" id="a_{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}" name="{{ liang_t }}_{{ liang_i['name'] }}">
-                            <input type="radio" value="{{ liang_e['point'] }}" name="{{ liang_t }}_{{ liang_i['name'] }}" id="{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}" onchange="radio_select(this.id, this.name)"  required="required"/>
-                            <label for="{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}" id="label_{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}">
+                        <a style="border: 0.05px dashed;"
+                           id="a_{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}"
+                           name="{{ liang_t }}_{{ liang_i['name'] }}">
+                            <input type="radio" value="{{ liang_e['point'] }}"
+                                   name="{{ liang_t }}_{{ liang_i['name'] }}"
+                                   id="{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}"
+                                   onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}"
+                                   id="label_{{ liang_t }}_{{ liang_i['name'] }}_{{ liang_e['point'] }}">
                                 {{ liang_e['level'] }}
                             </label>
                         </a>
@@ -186,9 +192,13 @@
                     </td>
                     <td style="background-color: lightgrey;">
                         {% for e1 in i1['evaluate'] %}
-                        <a style="border: 0.05px dashed;" id="a_{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}" name="{{ t1 }}_{{ i1['name'] }}">
-                            <input type="radio" value="{{ e1['point'] }}" name="{{ t1 }}_{{ i1['name'] }}" id="{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}" onchange="radio_select(this.id, this.name)" required="required"/>
-                            <label for="{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}" id="label_{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}">
+                        <a style="border: 0.05px dashed;" id="a_{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}"
+                           name="{{ t1 }}_{{ i1['name'] }}">
+                            <input type="radio" value="{{ e1['point'] }}" name="{{ t1 }}_{{ i1['name'] }}"
+                                   id="{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}"
+                                   onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}"
+                                   id="label_{{ t1 }}_{{ i1['name'] }}_{{ e1['point'] }}">
                                 {{ e1['level'] }}
                             </label>
                         </a>
@@ -226,9 +236,13 @@
                     </td>
                     <td style="background-color: lightgrey;">
                         {% for e2 in i2['evaluate'] %}
-                        <a style="border: 0.05px dashed;" id="a_{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}" name="{{ t2 }}_{{ i2['name'] }}">
-                            <input type="radio" value="{{ e2['point'] }}" name="{{ t2 }}_{{ i2['name'] }}" id="{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}" onchange="radio_select(this.id, this.name)" required="required"/>
-                            <label for="{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}" id="label_{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}">
+                        <a style="border: 0.05px dashed;" id="a_{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}"
+                           name="{{ t2 }}_{{ i2['name'] }}">
+                            <input type="radio" value="{{ e2['point'] }}" name="{{ t2 }}_{{ i2['name'] }}"
+                                   id="{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}"
+                                   onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}"
+                                   id="label_{{ t2 }}_{{ i2['name'] }}_{{ e2['point'] }}">
                                 {{ e2['level'] }}
                             </label>
                         </a>
@@ -265,9 +279,13 @@
                     </td>
                     <td style="background-color: lightgrey;">
                         {% for e3 in i3['evaluate'] %}
-                        <a style="border: 0.05px dashed;" id="a_{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}" name="{{ t3 }}_{{ i3['name'] }}">
-                            <input type="radio" value="{{ e3['point'] }}" name="{{ t3 }}_{{ i3['name'] }}" id="{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}" onchange="radio_select(this.id, this.name)" required="required"/>
-                            <label for="{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}" id="label_{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}">
+                        <a style="border: 0.05px dashed;" id="a_{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}"
+                           name="{{ t3 }}_{{ i3['name'] }}">
+                            <input type="radio" value="{{ e3['point'] }}" name="{{ t3 }}_{{ i3['name'] }}"
+                                   id="{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}"
+                                   onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}"
+                                   id="label_{{ t3 }}_{{ i3['name'] }}_{{ e3['point'] }}">
                                 {{ e3['level'] }}
                             </label>
                         </a>
@@ -292,7 +310,7 @@
                 <thead>
                 <tr class="table-primary" style="line-height: 50%">
                     <th style="width: 30%">标签</th>
-                    <th style="width: 70%"> 判断</th>
+                    <th style="width: 70%">判断</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -303,9 +321,15 @@
                     </td>
                     <td style="background-color: lightgrey;">
                         {% for liang_e4 in liang_i4['evaluate'] %}
-                        <a style="border: 0.05px dashed;" id="a_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" name="{{ liang_t4 }}_{{ liang_i4['name'] }}">
-                            <input type="radio" value="{{ liang_e4['point'] }}" name="{{ liang_t4 }}_{{ liang_i4['name'] }}" id="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" onchange="radio_select(this.id, this.name)"  required="required"/>
-                            <label for="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" id="label_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}">
+                        <a style="border: 0.05px dashed;"
+                           id="a_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}"
+                           name="{{ liang_t4 }}_{{ liang_i4['name'] }}">
+                            <input type="radio" value="{{ liang_e4['point'] }}"
+                                   name="{{ liang_t4 }}_{{ liang_i4['name'] }}"
+                                   id="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}"
+                                   onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}"
+                                   id="label_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}">
                                 {{ liang_e4['level'] }}
                             </label>
                         </a>
@@ -318,6 +342,15 @@
             </table>
             {% end %}
             {% end %}
+
+            <h5><br>阶段选择:<br></h5>
+            <select name="当前阶段" id="now_stage" class="custom-select form-control" required="required">
+                <option disabled selected>请选择</option>
+                {% for one_stage in stages %}
+                <option value="{{ one_stage }}">{{ one_stage }}</option>
+                {% end %}
+            </select>
+            <br>
 
         </div>
         <input type="submit" class="btn btn-outline-dark btn-dark" id="score_btn" value="打分"/>
