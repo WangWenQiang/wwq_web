@@ -11,8 +11,7 @@ from handlers import db_link
 
 
 class MainHandler(tornado.web.RequestHandler):
-    def initialize(self, data, prepare_score_dict, quantities):
-        self.quantities = quantities
+    def initialize(self, data, prepare_score_dict):
         self.data = data
         self.row_num = self.data.shape[0]
         self.prepare_score_dict = prepare_score_dict
@@ -202,6 +201,7 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         person_dict, sample_dict = self.random_sample()
         sample_list = [{k: v} for k, v in sample_dict.items()]
+        print(self.prepare_score_dict)
         # 确认没有对应样本
         is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if not is_had:
@@ -214,5 +214,4 @@ class MainHandler(tornado.web.RequestHandler):
                     basic_data=person_dict,
                     common_data=sample_list,
                     prepare_score=self.prepare_score_dict,
-                    quantities=self.quantities,
                     )

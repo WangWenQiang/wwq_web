@@ -284,15 +284,47 @@
                 </tbody>
             </table>
 
-            <h5 style="font-weight: bold"><br>定性分析:<br></h5>
-            {% for quantity in quantities %}
-            {{ quantity['name'] }}:
-            <select name="{{ quantity['name'] }}" class="custom-select form-control" required="required">
-                {% for q in quantity['evaluate'] %}
-                <option value="{{ q['point'] }}">{{ q['level'] }}</option>
+            <h5>五、请根据上面两张用户表格信息,对该用户与其目标对象的接触程度和相处模式进行判断</h5>
+            {% for quantity in prepare_score['定性分析'] %}
+            {% for liang_t4, liang_t_v4 in quantity.items() %}
+            <h6>{{ liang_t4 }}</h6>
+            <table class="table" style="text-align: center; font-size: 14px">
+                <thead>
+                <tr class="table-primary" style="line-height: 50%">
+                    <th style="width: 30%">标签</th>
+                    <th style="width: 70%"> 判断</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for liang_i4 in liang_t_v4 %}
+                <tr class="table-info-w">
+                    <td>
+                        {{ liang_i4['name'] }}
+                    </td>
+                    <td style="background-color: lightgrey;">
+                        {% for liang_e4 in liang_i4['evaluate'] %}
+                        <a style="border: 0.05px dashed;" id="a_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" name="{{ liang_t4 }}_{{ liang_i4['name'] }}">
+                            <input type="radio" value="{{ liang_e4['point'] }}" name="{{ liang_t4 }}_{{ liang_i4['name'] }}" id="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" onchange="radio_select(this.id, this.name)"  required="required"/>
+                            <label for="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" id="label_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}">
+                                {{ liang_e4['level'] }}
+                            </label>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% end %}
+                    </td>
+                </tr>
+                </tbody>
+                {% end %}
+            </table>
+            {% end %}
+            {% end %}
+
+            <h5 style="font-weight: bold"><br>阶段判断:<br></h5>
+            <select id="now_stage" name="当前阶段" class="custom-select form-control" required="required">
+                {% for stage in stages %}
+                <option value="{{ stage }}">{{ stage }}</option>
                 {% end %}
             </select>
-            {% end %}
 
         </div>
         <input type="submit" class="btn btn-outline-dark btn-dark" id="score_btn" value="打分"/>

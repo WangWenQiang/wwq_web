@@ -1557,10 +1557,6 @@ tmp_dict['六、泛依恋关系投射'] = [
 # with open('static/others/output_score.pkl', 'wb') as handle:
 #     pickle.dump(tmp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-# with open('static/others/output_pro.pkl', 'rb') as r_handle:
-#     b = pickle.load(r_handle)
-
-
 # from sklearn.externals import joblib
 #
 # b = joblib.load('static/others/output_score.pkl')
@@ -1572,7 +1568,7 @@ tmp_dict['六、泛依恋关系投射'] = [
 # print(dict_t)
 
 
-df = pd.read_excel("static/others/score_tag.xlsx").fillna(method='pad')
+df = pd.read_excel("static/others/score_feedback.xlsx").fillna(method='pad')
 data = []
 for i in range(len(df)):
     data.append(df.iloc[i].to_dict())
@@ -1599,4 +1595,4 @@ for x, y in level_one:
         final_dict[x].append(l_two)
 # print(final_dict)
 
-# joblib.dump(final_dict, 'static/others/output_score_V1.0.pkl')
+# joblib.dump(final_dict, 'static/others/output_feedback_V1.0.pkl')

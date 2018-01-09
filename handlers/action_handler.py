@@ -9,10 +9,8 @@ from handlers import db_link
 
 class ActionHandler(tornado.web.RequestHandler):
     # 每个行为刷新历史行为
-    def initialize(self, action_data, stages, quantities, prepare_feedback):
+    def initialize(self, action_data, prepare_feedback):
         self.actions = action_data
-        self.stages = stages
-        self.quantities = quantities
         self.prepare_feedback = prepare_feedback
 
     def get(self):
@@ -35,8 +33,7 @@ class ActionHandler(tornado.web.RequestHandler):
                     basic_data=basic_data,
                     common_data=common_data,
                     prepare_score=self.prepare_feedback,
-                    stages=self.stages,
-                    quantities=self.quantities,
+                    stages=['初识期'],
                     last_stage=last_stage,
                     advice=advice,
                     had_advices=had_advices,

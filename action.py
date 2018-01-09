@@ -595,8 +595,6 @@ tmp_dict['女'] = {
 # with open('static/others/output_actions.pkl', 'wb') as handle:
 #     pickle.dump(tmp_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    # with open('static/others/output_pro.pkl', 'rb') as r_handle:
-    #     b = pickle.load(r_handle)
     #
     # from sklearn.externals import joblib
     #
@@ -725,4 +723,4 @@ for x, y in level_one:
             final_dict[x][k[1]].append(l_three)
         # final_dict[x].append(l_two)
 print(final_dict)
-# joblib.dump(final_dict, 'static/others/output_actions_V1.0.pkl')
+joblib.dump(final_dict, 'static/others/output_actions_V1.0.pkl')
