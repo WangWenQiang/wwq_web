@@ -56,7 +56,6 @@ def main_run():
              {
                  'data': pd.read_csv(data_file),
                  'prepare_score_dict': joblib.load(score_file),
-                 'stages': stages,
                  'quantities': quantities,
              }
              ),

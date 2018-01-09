@@ -284,14 +284,6 @@
                 </tbody>
             </table>
 
-
-            <h5 style="font-weight: bold"><br>阶段判断:<br></h5>
-            <select id="now_stage" name="当前阶段" class="custom-select form-control" required="required">
-                {% for stage in stages %}
-                <option value="{{ stage }}">{{ stage }}</option>
-                {% end %}
-            </select>
-
             <h5 style="font-weight: bold"><br>定性分析:<br></h5>
             {% for quantity in quantities %}
             {{ quantity['name'] }}:
