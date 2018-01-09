@@ -22,7 +22,8 @@ class ActionHandler(tornado.web.RequestHandler):
         basic_data['p1'] = all_info['p1']
         basic_data['p2'] = all_info['p2']
         common_data = [{k: v} for k, v in all_info['others'].items()]
-        last_stage = all_info.get('now_stage', '初识期')
+        # TODO:判断阶段stages
+        last_stage = all_info.get('now_stage', '')
         # 按照不同阶段随机出建议
         advice_list = self.actions[all_info['p1']['用户性别']][last_stage]
         advice_info = random.choice(advice_list)

@@ -22,6 +22,7 @@ def get_now_datetime():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+# 取选项范围内的平均分(# TODO:可能以后需要增加随机或者其他出分的方法)
 def avearge_score(score_range):
     try:
         range_list = str(score_range).split("～")

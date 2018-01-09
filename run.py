@@ -26,7 +26,6 @@ def main_run():
     except Exception as e:
         raise e
 
-
     app = tornado.web.Application(
         [
             (r'/home', MainHandler,

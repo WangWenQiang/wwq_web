@@ -214,4 +214,5 @@ class MainHandler(tornado.web.RequestHandler):
                     basic_data=person_dict,
                     common_data=sample_list,
                     prepare_score=self.prepare_score_dict,
+                    stages=['初识期'],
                     )

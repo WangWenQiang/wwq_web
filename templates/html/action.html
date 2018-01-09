@@ -346,7 +346,11 @@
             {% end %}
             {% end %}
 
-            上个阶段:{{ last_stage }}
+
+            {% if last_stage %}
+            上次阶段判断结果:{{ last_stage }}
+            {% end %}
+
             <h5 style="font-weight: bold"><br>阶段判断:<br></h5>
             <select id="now_stage" name="当前阶段" class="custom-select form-control" required="required">
                 {% for stage in stages %}
