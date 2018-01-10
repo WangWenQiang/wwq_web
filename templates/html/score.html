@@ -173,7 +173,6 @@
 
             <h6>阶段选择:<br></h6>
             <select name="now_stage" id="now_stage" class="custom-select form-control" required="required">
-                <option disabled selected>请选择</option>
                 {% for one_stage in stages %}
                 <option value="{{ one_stage }}">{{ one_stage }}</option>
                 {% end %}
