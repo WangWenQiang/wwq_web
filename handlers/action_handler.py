@@ -30,22 +30,22 @@ class ActionHandler(tornado.web.RequestHandler):
         advice_action = random.choice(advice_info['具体行为'])
         advice = {'建议方向': advice_info['建议方向'], '具体行为': advice_action}
         # 判断阶段stages
-        qinmidu = all_info['score']['定量分析（用户）_亲密度']
-        jiqingzhi = all_info['score']['定量分析（用户）_激情值']
-        chengnuozhi = all_info['score']['定量分析（用户）_承诺值']
-        goutongli = all_info['score']['定量分析（用户）_沟通力']
-        zunzhongzhi = all_info['score']['定量分析（用户）_尊重值']
-        xiangsidu = all_info['score']['定量分析（用户）_相似度']
+        qinmidu = all_info['score']['定量分析（用户1）_亲密度']
+        jiqingzhi = all_info['score']['定量分析（用户1）_激情值']
+        chengnuozhi = all_info['score']['定量分析（用户1）_承诺值']
+        goutongli = all_info['score']['定量分析（用户1）_沟通力']
+        zunzhongzhi = all_info['score']['定量分析（用户1）_尊重值']
+        xiangsidu = all_info['score']['定量分析（用户1）_相似度']
 
         feedback = all_info.get('actions', '')
         if feedback:
             for fb in feedback:
-                qinmidu += fb['定量分析（用户）_亲密度']
-                jiqingzhi += fb['定量分析（用户）_亲密度']
-                chengnuozhi += fb['定量分析（用户）_亲密度']
-                goutongli += fb['定量分析（用户）_亲密度']
-                zunzhongzhi += fb['定量分析（用户）_亲密度']
-                xiangsidu += fb['定量分析（用户）_亲密度']
+                qinmidu += fb['定量分析（用户1）_亲密度']
+                jiqingzhi += fb['定量分析（用户1）_亲密度']
+                chengnuozhi += fb['定量分析（用户1）_亲密度']
+                goutongli += fb['定量分析（用户1）_亲密度']
+                zunzhongzhi += fb['定量分析（用户1）_亲密度']
+                xiangsidu += fb['定量分析（用户1）_亲密度']
 
         knew_time = [i for i in common_data if '彼此相识时长' in i.keys()][0]
         data_dict = {'time': knew_time['彼此相识时长'], '亲密度': qinmidu, '激情值': jiqingzhi,
