@@ -138,7 +138,7 @@
             </strong>
             <br><br>
 
-            <h5>三、请根据上面两张用户表格信息,针对所给建议, 在该用户与其目标对象的接触程度和相处模式的反馈影响进行判断</h5>
+            <h5>三、请判断所给建议是否影响了用户1和用户2接触程度及相处模式</h5>
             {% for quantity in prepare_score['定性分析'] %}
             {% for liang_t4, liang_t_v4 in quantity.items() %}
             <h6>{{ liang_t4 }}</h6>
@@ -178,7 +178,7 @@
             {% end %}
 
             <h6 style="font-weight: bold">阶段判断:<br></h6>
-            <select id="now_stage" name="当前阶段" class="custom-select form-control" required="required">
+            <select id="now_stage" name="now_stage" class="custom-select form-control" required="required">
                 {% for stage in stages %}
                 {% if stage== last_stage %}
                 <option value="{{ stage }}" selected>{{ stage }}</option>
@@ -190,7 +190,7 @@
             <br>
             <br>
 
-            <h5>四、根据上面的两张表格信息,请在以下几个心理学维度上,针对所给建议,在该用户和其目标对象间的关系数值的反馈影响进行评分</h5>
+            <h5>四、请判断所给建议是否影响了用户1和用户2在下列几个心理学维度上的关系数值</h5>
             {% for liang in prepare_score['定量分析（双方数值）'] %}
             {% for liang_t, liang_t_v in liang.items() %}
             <h6>{{ liang_t }}</h6>
@@ -231,7 +231,7 @@
             {% end %}
             {% end %}
 
-            <h5>五、请根据上面两张用户表格信息,针对所给建议,在以下行为对于该段关系的促进或者破坏程度,以及破坏行为发生概率的反馈影响进行评分</h5>
+            <h5>五、请判断所给建议是否影响了以下行为对该段关系的促进程度、破坏程度及发生概率</h5>
             1.请判断下列行为对该段关系的促进程度
             <table class="table" style="text-align: center; font-size: 14px">
                 <thead>
