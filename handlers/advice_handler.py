@@ -49,5 +49,8 @@ class AdviceHandler(tornado.web.RequestHandler):
                                                'now_stage': now_stage,
                                                'events': events_list,
                                                }})
-
-        self.redirect('/act?sampleID={}'.format(sample_id))
+        # 三轮建议后跳转新样本
+        if self.get_param['adviceNo'] < 3:
+            self.redirect('/act?sampleID={}'.format(sample_id))
+        else:
+            self.redirect('/home')
