@@ -51,6 +51,7 @@ class ActionHandler(tornado.web.RequestHandler):
         data_dict = {'time': knew_time['彼此相识时长'], '亲密度': qinmidu, '激情值': jiqingzhi,
                                '承诺值': chengnuozhi, '沟通力': goutongli, '尊重值': zunzhongzhi, '相似度': xiangsidu}
         stages = judge_period(data_dict)
+        print(stages)
         self.render('html/action.html',
                     sample_id=sample_id,
                     basic_data=basic_data,

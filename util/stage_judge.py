@@ -139,7 +139,7 @@ def order_info_dict(info):
 
 
 def average_info(info):
-    ave = info.keys()
+    ave = info.values()
     init = 0
     for v in ave:
         init += v
@@ -200,9 +200,9 @@ def judge_period(info):
                 return ['稳定期']
         # 部分符合
         if stage1:
-            final_stages.append(['发展期'])
+            final_stages.append('发展期')
         if stage2:
-            final_stages.append(['稳定期'])
+            final_stages.append('稳定期')
         return final_stages
 
 if __name__ == '__main__':
