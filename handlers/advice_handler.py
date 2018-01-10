@@ -14,7 +14,6 @@ def get_last_day():
 class AdviceHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
-        print(self.get_param)
         sample_id = self.get_param['sampleID']
         now_stage = self.get_param['now_stage']
         if self.get_param['like_level']:

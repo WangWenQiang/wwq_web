@@ -65,7 +65,7 @@ class ActionHandler(tornado.web.RequestHandler):
         #     feel = random.choice(self.things_feels)
         happen_thing = {'最近发生的事件': thing, '发生该事件时的心情': feel}
 
-        if had_advices < 3:
+        if had_advices < 2:
             commit_value = '提交'
         else:
             commit_value = '提交，进入下一份样本'
