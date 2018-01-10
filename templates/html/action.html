@@ -9,6 +9,25 @@
     <script src="../../static/js/jquery.min.js"></script>
     <script src="../../static/js/jquery.form.js"></script>
     <script src="../../static/js/my_pro.js"></script>
+    <script>
+        function like_advice() {
+            var like = document.getElementById("like_advice");
+            var dislike = document.getElementById("dislike_advice");
+            var like_level = document.getElementById("like_level");
+            dislike.style.backgroundColor = "#ccc";
+            like.style.backgroundColor = "red";
+            like_level.value = 1;
+        }
+
+        function dislike_advice() {
+            var like = document.getElementById("like_advice");
+            var dislike = document.getElementById("dislike_advice");
+            var like_level = document.getElementById("like_level");
+            dislike.style.backgroundColor = "red";
+            like.style.backgroundColor = "#ccc";
+            like_level.value = 0;
+        }
+    </script>
 </head>
 <body onload="show_score()">
 <h1 align="center">问&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷</h1>
@@ -130,13 +149,40 @@
         <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
         <div class="form-group" style="width: 968px">
             <strong style="font-size: large">
-                过往建议条数: <input style="font-size: larger;border: none; height: auto; width: 900px;" type="text" value="{{ had_advices }}条" disabled="disabled">
+                最近发生的事件:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;"
+                               type="text" value="{{ happen_thing['最近发生的事件'] }}" name="最近发生的事件" readonly required="required">
                 <br>
-                本次建议方向:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['建议方向'] }}" name="建议方向" disabled="disabled" required="required">
+                发生该事件时的心情: <input style="font-size: larger;border: none; height: auto; width: 900px; color: red;" type="text" value="{{ happen_thing['发生该事件时的心情'] }}" name="发生该事件时的心情" readonly required="required">
                 <br>
-                建议具体行为:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;" type="text" value="{{ advice['具体行为'] }}" name="具体行为" disabled="disabled" required="required">
+                过往建议条数: <input style="font-size: larger;border: none; height: auto; width: 900px; color: red;" type="text"
+                               value="{{ had_advices }}条" disabled="disabled">
+                <br>
+                本次建议方向:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;"
+                              type="text" value="{{ advice['建议方向'] }}" name="建议方向" disabled="disabled"
+                              required="required">
+                <br>
+                建议具体行为:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;"
+                              type="text" value="{{ advice['具体行为'] }}" name="具体行为" disabled="disabled"
+                              required="required">
+
+                <br>
+                觉得本次建议如何(<nobr style="color: red;">务必点选</nobr>):
+                <input type="hidden" name="like_level" id="like_level" required="required" oninvalid="setCustomValidity('请选择对该建议的观点')">
+
+                <div style="width: 500px">
+                    <div style="width:30px; height:30px; background-color:#ccc; border-radius:15px; float: left;"
+                         onclick="like_advice()" id="like_advice" name="like_advice">
+                        <span style="height:30px; line-height:30px; display:block; color:#FFF; text-align:center">赞</span>
+                    </div>
+                    <div style="float: left;">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    <div style="width:30px; height:30px; background-color:#ccc; border-radius:15px; float: left;"
+                         onclick="dislike_advice()" id="dislike_advice" name="dislike_advice">
+                        <span style="height:30px; line-height:30px; display:block; color:#FFF; text-align:center">踩</span>
+                    </div>
+                </div>
+                <br>
             </strong>
-            <br><br>
+            <br>
 
             <h5>三、请判断所给建议是否影响了用户1和用户2接触程度及相处模式</h5>
             {% for quantity in prepare_score['定性分析'] %}
@@ -157,9 +203,15 @@
                     </td>
                     <td style="background-color: lightgrey;">
                         {% for liang_e4 in liang_i4['evaluate'] %}
-                        <a style="border: 0.05px dashed;" id="a_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" name="{{ liang_t4 }}_{{ liang_i4['name'] }}">
-                            <input type="radio" value="{{ liang_e4['point'] }}" name="{{ liang_t4 }}_{{ liang_i4['name'] }}" id="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" onchange="radio_select(this.id, this.name)"  required="required"/>
-                            <label for="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}" id="label_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}">
+                        <a style="border: 0.05px dashed;"
+                           id="a_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}"
+                           name="{{ liang_t4 }}_{{ liang_i4['name'] }}">
+                            <input type="radio" value="{{ liang_e4['point'] }}"
+                                   name="{{ liang_t4 }}_{{ liang_i4['name'] }}"
+                                   id="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}"
+                                   onchange="radio_select(this.id, this.name)" required="required"/>
+                            <label for="{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}"
+                                   id="label_{{ liang_t4 }}_{{ liang_i4['name'] }}_{{ liang_e4['point'] }}">
                                 {{ liang_e4['level'] }}
                             </label>
                         </a>
@@ -177,7 +229,7 @@
             上次阶段判断结果:{{ last_stage }}
             {% end %}
 
-            <h6 style="font-weight: bold">阶段判断:<br></h6>
+            <h6 style="font-weight: bold">本次阶段判断:<br></h6>
             <select id="now_stage" name="now_stage" class="custom-select form-control" required="required">
                 {% for stage in stages %}
                 {% if stage== last_stage %}
@@ -370,7 +422,8 @@
             若已完成该条样本数据的所有反馈, 可点击“结束”按钮,系统将再抽取新样本数据;
         </h6>
         <input type="submit" class="btn btn-outline-dark btn-dark" id="commit_btn" value="提交"/>
-        <input type="button" class="btn btn-outline-dark btn-dark" onclick="window.location.href='/home'" id="finish_btn" value="结束"/>
+        <input type="button" class="btn btn-outline-dark btn-dark" onclick="window.location.href='/home'"
+               id="finish_btn" value="结束"/>
     </form>
 
 </div>

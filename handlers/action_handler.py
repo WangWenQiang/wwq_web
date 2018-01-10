@@ -14,6 +14,10 @@ class ActionHandler(tornado.web.RequestHandler):
         self.actions = action_data
         self.prepare_feedback = prepare_feedback
 
+        # 事件记录(随机)
+        self.things = "旅游/逛街/看电影/吃饭/锻炼/吵架/学习/打游戏/K歌".split('/')
+        self.things_feels = "很开心/开心/一般/不开心".split('/')
+
     def get(self):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         sample_id = self.get_param['sampleID']
@@ -49,9 +53,19 @@ class ActionHandler(tornado.web.RequestHandler):
 
         knew_time = [i for i in common_data if '彼此相识时长' in i.keys()][0]
         data_dict = {'time': knew_time['彼此相识时长'], '亲密度': qinmidu, '激情值': jiqingzhi,
-                               '承诺值': chengnuozhi, '沟通力': goutongli, '尊重值': zunzhongzhi, '相似度': xiangsidu}
+                     '承诺值': chengnuozhi, '沟通力': goutongli, '尊重值': zunzhongzhi, '相似度': xiangsidu}
         stages = judge_period(data_dict)
-        print(stages)
+
+        # 发生的事件
+        thing = random.choice(self.things)
+        feel = random.choice(self.things_feels)
+        # if thing == '吵架':
+        #     feel = '不开心'
+        # else:
+        #     feel = random.choice(self.things_feels)
+        happen_thing = {'最近发生的事件': thing, '发生该事件时的心情': feel}
+
+        stages = check_back_stage(stages, last_stage)
         self.render('html/action.html',
                     sample_id=sample_id,
                     basic_data=basic_data,
@@ -61,4 +75,16 @@ class ActionHandler(tornado.web.RequestHandler):
                     last_stage=last_stage,
                     advice=advice,
                     had_advices=had_advices,
+                    happen_thing=happen_thing,
                     )
+
+
+def check_back_stage(stages, last_stage):
+    order_stages = {'初识期': 1, '探索期': 2, '发展期': 3, '稳定期': 4}
+    last_number = order_stages[last_stage]
+    for i in stages:
+        if order_stages[i] < last_number:
+            stages.remove(i)
+    if len(stages) == 0:
+        stages.append(last_stage)
+    return stages
