@@ -70,7 +70,7 @@ def judge_stage(last_stage_number):
 
     init_stage = '初识期'
     order_stages = {'初识期': '0～25', '探索期': '26～50', '发展期': '51～75', '稳定期': '76～100'}
-    for k, v in order_stages:
+    for k, v in order_stages.items():
         stage_list = str(v).split('～')
         if int(stage_list[0]) <= last_stage_number <= int(stage_list[1]):
             init_stage = k

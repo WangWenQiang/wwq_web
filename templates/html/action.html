@@ -149,12 +149,20 @@
         <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
         <div class="form-group" style="width: 968px">
             <strong style="font-size: large">
+                上次阶段判断结果:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;"
+                                type="text" value="{{ last_stage }}" name="last_stage" readonly required="required">
+                <br>
+
                 最近发生的事件:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;"
-                               type="text" value="{{ happen_thing['最近发生的事件'] }}" name="最近发生的事件" readonly required="required">
+                               type="text" value="{{ happen_thing['最近发生的事件'] }}" name="最近发生的事件" readonly
+                               required="required">
                 <br>
-                发生该事件时的心情: <input style="font-size: larger;border: none; height: auto; width: 900px; color: red;" type="text" value="{{ happen_thing['发生该事件时的心情'] }}" name="发生该事件时的心情" readonly required="required">
+                发生该事件时的心情: <input style="font-size: larger;border: none; height: auto; width: 900px; color: red;"
+                                  type="text" value="{{ happen_thing['发生该事件时的心情'] }}" name="发生该事件时的心情" readonly
+                                  required="required">
                 <br>
-                过往建议条数: <input style="font-size: larger;border: none; height: auto; width: 900px; color: red;" type="text"
+                过往建议条数: <input style="font-size: larger;border: none; height: auto; width: 900px; color: red;"
+                               type="text"
                                value="{{ had_advices }}条" disabled="disabled">
                 <br>
                 本次建议方向:<input style="font-size: larger;border: none; color: red; height: auto; width: 900px;"
@@ -166,8 +174,11 @@
                               required="required">
 
                 <br>
-                觉得本次建议如何(<nobr style="color: red;">务必点选</nobr>):
-                <input type="hidden" name="like_level" id="like_level" required="required" oninvalid="setCustomValidity('请选择对该建议的观点')">
+                觉得本次建议如何(
+                <nobr style="color: red;">务必点选</nobr>
+                ):
+                <input type="hidden" name="like_level" id="like_level" required="required"
+                       oninvalid="setCustomValidity('请选择对该建议的观点')">
 
                 <div style="width: 500px">
                     <div style="width:30px; height:30px; background-color:#ccc; border-radius:15px; float: left;"
@@ -223,10 +234,6 @@
                 {% end %}
             </table>
             {% end %}
-            {% end %}
-
-            {% if last_stage %}
-            上次阶段判断结果:{{ last_stage }}
             {% end %}
 
             <h5>四、请判断所给建议是否影响了用户1和用户2在下列几个心理学维度上的关系数值</h5>
@@ -404,7 +411,7 @@
 
         </div>
         <h6>
-            注意: 点击“提交”按钮, 将提交本页面数据, 并重新生成新建议供您填写其反馈影响;<br>            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            注意: 点击“提交”按钮, 将提交本页面数据, 并重新生成新建议供您填写其反馈影响;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </h6>
         <input type="submit" class="btn btn-outline-dark btn-dark" id="commit_btn" value="{{ commit_value }}"/>
     </form>

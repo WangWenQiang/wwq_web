@@ -23,6 +23,7 @@ class AdviceHandler(tornado.web.RequestHandler):
         last_feel = self.get_param['发生该事件时的心情']
         advice_direct = self.get_param['建议方向']
         advice_action = self.get_param['具体行为']
+        last_stage = self.get_param['last_stage']
 
         self.get_param.pop('like_level')
         self.get_param.pop('sampleID')
@@ -30,6 +31,7 @@ class AdviceHandler(tornado.web.RequestHandler):
         self.get_param.pop('发生该事件时的心情')
         self.get_param.pop('建议方向')
         self.get_param.pop('具体行为')
+        self.get_param.pop('last_stage')
 
         for k, v in (self.get_param).items():
             self.get_param[k] = avearge_score(v)
@@ -37,14 +39,15 @@ class AdviceHandler(tornado.web.RequestHandler):
         self.get_param['like'] = like_level
         self.get_param['建议方向'] = advice_direct
         self.get_param['具体行为'] = advice_action
-        actions_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
+        self.get_param['上个阶段'] = last_stage
 
+        actions_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
         actions_list = actions_info.get('actions', [])
         self.get_param['adviceNo'] = len(actions_list) + 1
         actions_list.append(self.get_param)
 
         events_list = actions_info.get('events', [])
-        eventNo = len(actions_list) + 1
+        eventNo = len(events_list) + 1
         events_list.append({'event': last_thing, 'mood': last_feel, 'inputtime': get_last_day(), 'eventNo': eventNo})
 
         db_link['zz_wenjuan'].update({'sample_index': int(sample_id)},
