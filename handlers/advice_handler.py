@@ -22,18 +22,24 @@ class AdviceHandler(tornado.web.RequestHandler):
             like_level = 1
         last_thing = self.get_param['最近发生的事件']
         last_feel = self.get_param['发生该事件时的心情']
+        advice_direct = self.get_param['建议方向']
+        advice_action = self.get_param['具体行为']
 
         self.get_param.pop('sampleID')
         self.get_param.pop('now_stage')
         self.get_param.pop('like_level')
         self.get_param.pop('最近发生的事件')
         self.get_param.pop('发生该事件时的心情')
+        self.get_param.pop('建议方向')
+        self.get_param.pop('具体行为')
 
         for k, v in (self.get_param).items():
             self.get_param[k] = avearge_score(v)
         self.get_param['created'] = get_now_datetime()
         self.get_param['所选阶段'] = now_stage
         self.get_param['like'] = like_level
+        self.get_param['建议方向'] = advice_direct
+        self.get_param['具体行为'] = advice_action
         actions_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
 
         actions_list = actions_info.get('actions', [])
