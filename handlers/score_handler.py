@@ -11,12 +11,9 @@ class ScoreHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         sample_id = self.get_param['sampleID']
-        now_stage = self.get_param['now_stage']
         self.get_param.pop('sampleID')
-        self.get_param.pop('now_stage')
         for k, v in (self.get_param).items():
             self.get_param[k] = avearge_score(v)
         self.get_param['score_time'] = get_now_datetime()
-        self.get_param['所选阶段'] = now_stage
-        db_link['zz_wenjuan'].update({'sample_index': int(sample_id)}, {'$set': {'score': self.get_param, 'now_stage': now_stage}})
+        db_link['zz_wenjuan'].update({'sample_index': int(sample_id)}, {'$set': {'score': self.get_param, 'now_stage': self.get_param['感情阶段_阶段']}})
         self.redirect('/act?sampleID={}'.format(sample_id))

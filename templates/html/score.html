@@ -130,7 +130,7 @@
         <input id="sampleID" type="hidden" value="{{ sample_id }}" name="sampleID">
         <div class="form-group" style="width: 968px">
 
-            <h5>三、请根据上面两张用户表格信息,对该用户与其目标对象的接触程度和相处模式进行判断</h5>
+            <h5>三、请根据上面两张用户表格信息,对用户1与用户2的感情阶段、接触程度和相处模式进行判断</h5>
             {% for quantity in prepare_score['定性分析'] %}
             {% for liang_t4, liang_t_v4 in quantity.items() %}
             <h6>{{ liang_t4 }}</h6>
@@ -170,15 +170,6 @@
             </table>
             {% end %}
             {% end %}
-
-            <h6>阶段选择:<br></h6>
-            <select name="now_stage" id="now_stage" class="custom-select form-control" required="required">
-                {% for one_stage in stages %}
-                <option value="{{ one_stage }}">{{ one_stage }}</option>
-                {% end %}
-            </select>
-            <br>
-            <br>
 
             <h5>四、请根据上面的两张表格信息，分别判断用户1和用户2在这段关系中不同维度上的数值</h5>
             {% for liang in prepare_score['定量分析（双方数值）'] %}

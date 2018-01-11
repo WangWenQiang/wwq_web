@@ -111,4 +111,3 @@ def deal_mode(info_dict):
         return (list(sort_list[0].keys())[0]) + (list(sort_list[1].keys())[0]) + (list(sort_list[2].keys())[0]) + '型'
     else:
         return (list(sort_list[0].keys())[0]) + '型'
-

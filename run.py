@@ -38,6 +38,8 @@ def main_run():
              {
                  'action_data': joblib.load(action_file),
                  'prepare_feedback': joblib.load(feedback_file),
+                 'things': '旅游/逛街/看电影/吃饭/锻炼/吵架/学习/打游戏/K歌',
+                 'things_feels': '很开心/开心/一般/不开心',
              }
              ),
             (r'/score', ScoreHandler,

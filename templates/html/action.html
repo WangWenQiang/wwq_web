@@ -184,7 +184,7 @@
             </strong>
             <br>
 
-            <h5>三、请判断所给建议是否影响了用户1和用户2接触程度及相处模式</h5>
+            <h5>三、请判断所给建议是否影响了用户1和用户2的感情阶段、接触程度及相处模式</h5>
             {% for quantity in prepare_score['定性分析'] %}
             {% for liang_t4, liang_t_v4 in quantity.items() %}
             <h6>{{ liang_t4 }}</h6>
@@ -228,19 +228,6 @@
             {% if last_stage %}
             上次阶段判断结果:{{ last_stage }}
             {% end %}
-
-            <h6 style="font-weight: bold">本次阶段判断:<br></h6>
-            <select id="now_stage" name="now_stage" class="custom-select form-control" required="required">
-                {% for stage in stages %}
-                {% if stage== last_stage %}
-                <option value="{{ stage }}" selected>{{ stage }}</option>
-                {% else %}
-                <option value="{{ stage }}">{{ stage }}</option>
-                {% end %}
-                {% end %}
-            </select>
-            <br>
-            <br>
 
             <h5>四、请判断所给建议是否影响了用户1和用户2在下列几个心理学维度上的关系数值</h5>
             {% for liang in prepare_score['定量分析（双方数值）'] %}

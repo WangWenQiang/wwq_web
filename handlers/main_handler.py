@@ -199,6 +199,7 @@ class MainHandler(tornado.web.RequestHandler):
         return info, sample_dict
 
     def get(self):
+        prepare_score = copy.deepcopy(self.prepare_score_dict)
         person_dict, sample_dict = self.random_sample()
         sample_list = [{k: v} for k, v in sample_dict.items()]
         # 确认没有对应样本
@@ -208,13 +209,31 @@ class MainHandler(tornado.web.RequestHandler):
             final_dict = dict(person_dict, **common_dict)
             final_dict['sample_index'] = self.sample_index
             db_link['zz_wenjuan'].insert(final_dict)
+
+        # 根据相识时间处理感情阶段参数, 动态传入
+
         stages = self.judge_s(sample_dict['彼此相识时长'])
+
+        stage_no = 0
+        for i in range(len(prepare_score['定性分析'])):
+            if '感情阶段' in prepare_score['定性分析'][i].keys():
+                stage_no = i
+                break
+        stage_info = prepare_score['定性分析'][stage_no]['感情阶段'][0]
+
+        tmp_info = []
+        for st in stages:
+            for stage_dk in stage_info['evaluate']:
+                if stage_dk['level'] == st:
+                    tmp_info.append(stage_dk)
+
+        stage_info['evaluate'] = tmp_info
+
         self.render('html/score.html',
                     sample_id=self.sample_index,
                     basic_data=person_dict,
                     common_data=sample_list,
-                    prepare_score=self.prepare_score_dict,
-                    stages=stages,
+                    prepare_score=prepare_score,
                     )
 
     def judge_s(self, knew_time):

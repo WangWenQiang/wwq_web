@@ -14,20 +14,18 @@ def get_last_day():
 class AdviceHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
-        sample_id = self.get_param['sampleID']
-        now_stage = self.get_param['now_stage']
         if self.get_param['like_level']:
             like_level = int(self.get_param['like_level'])
         else:
             like_level = 1
+        sample_id = self.get_param['sampleID']
         last_thing = self.get_param['最近发生的事件']
         last_feel = self.get_param['发生该事件时的心情']
         advice_direct = self.get_param['建议方向']
         advice_action = self.get_param['具体行为']
 
-        self.get_param.pop('sampleID')
-        self.get_param.pop('now_stage')
         self.get_param.pop('like_level')
+        self.get_param.pop('sampleID')
         self.get_param.pop('最近发生的事件')
         self.get_param.pop('发生该事件时的心情')
         self.get_param.pop('建议方向')
@@ -36,7 +34,6 @@ class AdviceHandler(tornado.web.RequestHandler):
         for k, v in (self.get_param).items():
             self.get_param[k] = avearge_score(v)
         self.get_param['created'] = get_now_datetime()
-        self.get_param['所选阶段'] = now_stage
         self.get_param['like'] = like_level
         self.get_param['建议方向'] = advice_direct
         self.get_param['具体行为'] = advice_action
@@ -47,11 +44,11 @@ class AdviceHandler(tornado.web.RequestHandler):
         actions_list.append(self.get_param)
 
         events_list = actions_info.get('events', [])
-        events_list.append({'event': last_thing, 'mood': last_feel, 'inputtime': get_last_day()})
+        eventNo = len(actions_list) + 1
+        events_list.append({'event': last_thing, 'mood': last_feel, 'inputtime': get_last_day(), 'eventNo': eventNo})
 
         db_link['zz_wenjuan'].update({'sample_index': int(sample_id)},
                                      {'$set': {'actions': actions_list,
-                                               'now_stage': now_stage,
                                                'events': events_list,
                                                }})
         # 三轮建议后跳转新样本
