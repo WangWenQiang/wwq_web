@@ -128,11 +128,18 @@ class MainHandler(tornado.web.RequestHandler):
 
         # 居住地
         # 不同, 同省, 同地
+        def query_province(city, city_dict):
+            if city in ['北京', '天津', '上海']:
+                return city
+            province = city_dict[city]
+            return province + '-' + city
+
         some_list = [1, 2, 3]
         odds = [1, 3, 6]
         is_same = self.random_pick_odd(some_list, odds)
         city_data = pd.read_pickle('static/others/city_prov.pkl')
         city_dict = city_data.to_dict()
+
         # 由于重庆有重庆和两江新区的
         direct_citys = ['北京', '天津', '上海']
         city_list = list(city_dict.keys())
@@ -140,19 +147,19 @@ class MainHandler(tornado.web.RequestHandler):
         pure_citys = [c for c in city_list if c not in direct_citys]
         # 同一个城市
         if is_same == 3:
-            my_info['用户居住地'] = random.choice(city_list)
+            my_info['用户居住地'] = query_province(random.choice(city_list), city_dict)
             ta_info['用户居住地'] = my_info['用户居住地']
         # 同一个省份
         elif is_same == 2:
-            my_info['用户居住地'] = random.choice(pure_citys)
-            ta_info['用户居住地'] = random.choice([k for k, v in city_dict.items()
-                                              if v == city_dict[my_info['用户居住地']] and
-                                              k != my_info['用户居住地']])
+            my_city = random.choice(pure_citys)
+            my_info['用户居住地'] = query_province(my_city, city_dict)
+            ta_info['用户居住地'] = query_province(random.choice([k for k, v in city_dict.items() if v == city_dict[my_city] and k != my_city]), city_dict)
         # 完全不同
         else:
-            my_info['用户居住地'] = random.choice(city_list)
-            city_list.remove(my_info['用户居住地'])
-            ta_info['用户居住地'] = random.choice(city_list)
+            my_city = random.choice(city_list)
+            my_info['用户居住地'] = query_province(my_city, city_dict)
+            city_list.remove(my_city)
+            ta_info['用户居住地'] = query_province(random.choice(city_list), city_dict)
 
         # 转小数点后两位
         def float2decimal(f):
@@ -241,7 +248,6 @@ class MainHandler(tornado.web.RequestHandler):
             return ['初识期']
         elif knew_time == '一个月内':
             return ['初识期', '探索期']
-        elif knew_time == '一年内':
-            return ['探索期', '发展期', '稳定期']
         else:
-            return ['发展期', '稳定期']
+            return ['探索期', '发展期', '稳定期']
+
