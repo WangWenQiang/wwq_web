@@ -2,12 +2,14 @@ import collections
 import copy
 import tornado
 import random
+import datetime
 import pandas as pd
 
 from decimal import Decimal
 from tornado import web
 
 from handlers import db_link
+from util.common_tool import get_now_datetime
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -22,21 +24,31 @@ class MainHandler(tornado.web.RequestHandler):
         return random.choice(table)
 
     def random_sample(self, repeat=3000):
-        if repeat == 0:
-            self.write('所有样本数据处理完毕!')
-            self.finish(200)
+        if repeat < 2000:
+            now_samples = [i['sample_index'] for i in db_link['zz_wenjuan'].find()]
+            total_samples = [i for i in range(1, 3000)]
+            not_done = list(set(total_samples).difference(set(now_samples)))
+            if not_done:
+                self.sample_index = random.choice(not_done)
+            else:
+                self.write('所有样本数据处理完毕!')
+                self.finish(200)
+        else:
+            self.sample_index = random.randint(1, self.row_num)
 
-        self.sample_index = random.randint(1, self.row_num)
         is_done = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if is_done:
-            # 有打分,重新生成
-            if is_done.get('score', None):
-                repeat -= 1
-                self.random_sample(repeat=repeat)
-            else:
-                # 无打分
+            created_time = datetime.datetime.strptime(str(is_done['created_time']), "%Y-%m-%d %H:%M:%S")
+            now_time = datetime.datetime.now()
+            not_write = int((now_time - created_time).seconds)
+            # 若无打分,并且创建时间超过两小时, 可重用
+            if not is_done.get('score', None) and not_write > 60 * 60 * 2:
                 old_info = {'p1': is_done['p1'], 'p2': is_done['p2']}
                 return old_info, is_done['others']
+            else:
+                # 有效样本, 不能覆盖
+                repeat -= 1
+                self.random_sample(repeat=repeat)
 
         # 性别 mm, mf, fm, ff
         my_info = collections.OrderedDict()
@@ -153,7 +165,8 @@ class MainHandler(tornado.web.RequestHandler):
         elif is_same == 2:
             my_city = random.choice(pure_citys)
             my_info['用户居住地'] = query_province(my_city, city_dict)
-            ta_info['用户居住地'] = query_province(random.choice([k for k, v in city_dict.items() if v == city_dict[my_city] and k != my_city]), city_dict)
+            ta_info['用户居住地'] = query_province(
+                random.choice([k for k, v in city_dict.items() if v == city_dict[my_city] and k != my_city]), city_dict)
         # 完全不同
         else:
             my_city = random.choice(city_list)
@@ -215,6 +228,7 @@ class MainHandler(tornado.web.RequestHandler):
             common_dict = {'others': sample_dict}
             final_dict = dict(person_dict, **common_dict)
             final_dict['sample_index'] = self.sample_index
+            final_dict['created_time'] = get_now_datetime()
             db_link['zz_wenjuan'].insert(final_dict)
 
         # 根据相识时间处理感情阶段参数, 动态传入
@@ -250,4 +264,3 @@ class MainHandler(tornado.web.RequestHandler):
             return ['初识期', '探索期']
         else:
             return ['探索期', '发展期', '稳定期']
-
