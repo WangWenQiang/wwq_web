@@ -210,6 +210,15 @@ class MainHandler(tornado.web.RequestHandler):
         ta_info['用户_感知(P)'] = str(1 - ta_info['用户_判断(J)'])
         ta_info['用户_判断(J)'] = str(ta_info['用户_判断(J)'])
 
+        # 过往经历
+        past_things = ['非常少', '较少', '一般', '较多', '非常多']
+
+        my_info['过往的恋爱或暧昧经历让你感到美好的事件数量'] = random.choice(past_things)
+        ta_info['过往的恋爱或暧昧经历让你感到美好的事件数量'] = random.choice(past_things)
+
+        my_info['过往的恋爱或暧昧经历让你感到痛苦的事件数量'] = random.choice(past_things)
+        ta_info['过往的恋爱或暧昧经历让你感到痛苦的事件数量'] = random.choice(past_things)
+
         sample = self.data.loc[[self.sample_index]]
         sample = sample.to_dict()
         sample_dict = {}
@@ -221,7 +230,12 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         prepare_score = copy.deepcopy(self.prepare_score_dict)
         person_dict, sample_dict = self.random_sample()
+        # 2018年01月15日新增的输入标签,纯随机
+        sample_dict['对方对你的外貌满意度'] = random.choice(['非常不满意', '比较不满意', '一般情况', '比较满意', '非常满意'])
+        sample_dict['双方家庭收入对比'] = random.choice(['对方远高于我方', '对方略高于我方', '两方家庭收入相似', '我方略高于对方', '我方远高于对方'])
+
         sample_list = [{k: v} for k, v in sample_dict.items()]
+
         # 确认没有对应样本
         is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if not is_had:
@@ -232,9 +246,7 @@ class MainHandler(tornado.web.RequestHandler):
             db_link['zz_wenjuan'].insert(final_dict)
 
         # 根据相识时间处理感情阶段参数, 动态传入
-
         stages = self.judge_s(sample_dict['彼此相识时长'])
-
         stage_no = 0
         for i in range(len(prepare_score['定性分析'])):
             if '感情阶段' in prepare_score['定性分析'][i].keys():
@@ -247,7 +259,6 @@ class MainHandler(tornado.web.RequestHandler):
             for stage_dk in stage_info['evaluate']:
                 if stage_dk['level'] == st:
                     tmp_info.append(stage_dk)
-
         stage_info['evaluate'] = tmp_info
 
         self.render('html/score.html',

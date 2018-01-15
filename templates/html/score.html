@@ -35,13 +35,13 @@
                             {% if basic_data %}
                             <thead>
                             <tr class="table-primary" style="text-align: center;">
-                                <th style="width: 30%;">
+                                <th style="width: 36%;">
                                     用户属性
                                 </th>
-                                <th style="width: 35%">
+                                <th style="width: 32%">
                                     用户1
                                 </th>
-                                <th style="width: 35%">
+                                <th style="width: 32%">
                                     用户2
                                 </th>
                             </tr>
@@ -51,21 +51,27 @@
                             {% for p1_k, p1_v in basic_data['p1'].items() %}
                             <input id="user_sex" type="hidden" value="{{ basic_data['p1']['用户性别'] }}" name="user_sex">
                             <tr class="table-info" style="line-height: 80%; font-size: 15px;">
+                                {% if len(p1_k) > 12 %}
+                                <td style="line-height: 100%">
+                                    {{ p1_k }}
+                                    {% else %}
                                 <td>
                                     {{ p1_k }}
+                                    {% end %}
                                 </td>
+
                                 {% if basic_data['p1']['用户性别'] == '女' %}
-                                <td style="background-color: pink">
+                                <td style="background-color: pink;">
                                     {% else %}
-                                <td style="background-color: lightgrey">
+                                <td style="background-color: lightgrey;">
                                     {% end %}
                                     {{ p1_v }}
                                 </td>
 
                                 {% if basic_data['p2']['用户性别'] == '女' %}
-                                <td style="background-color: pink">
+                                <td style="background-color: pink;">
                                     {% else %}
-                                <td style="background-color: lightgrey">
+                                <td style="background-color: lightgrey;">
                                     {% end %}
                                     {{ basic_data['p2'][p1_k] }}
                                 </td>
@@ -77,7 +83,7 @@
                     </td>
                     <td>
                         <table class="table">
-                            <tr class="table-secondary" style="line-height: 80%; font-size: 15px; height: 532px;">
+                            <tr class="table-secondary" style="line-height: 80%; font-size: 15px; height: 641px;">
                                 <td style="vertical-align: middle;">
                                     <h5>简要说明</h5>
                                     <p>E：外向，从与别人的互动中和行动中取得动力</p>
@@ -111,7 +117,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for common1 in common_data[:20]%}
+                            {% set len_common = int(len(common_data) / 2) %}
+                            {% for common1 in common_data[:len_common]%}
                             {% for k_1, v_1 in common1.items() %}
                             <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                                 <td>
@@ -139,7 +146,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for common2 in common_data[20:]%}
+                            {% for common2 in common_data[len_common:]%}
                             {% for k_2, v_2 in common2.items() %}
                             <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                                 <td>
