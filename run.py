@@ -5,6 +5,7 @@ import configparser
 from sklearn.externals import joblib
 from configparser import ExtendedInterpolation
 
+from handlers import db_link
 from handlers.advice_handler import AdviceHandler
 from handlers.main_handler import MainHandler
 from handlers.score_handler import ScoreHandler
@@ -26,11 +27,20 @@ def main_run():
     except Exception as e:
         raise e
 
+    all_data = pd.read_csv(data_file)
+    all_nums = all_data.shape[0]
+    try:
+        db_link['zz_qa'].drop()
+    except:
+        pass
+
+    for i in range(1, all_nums + 1):
+        db_link['zz_qa'].insert({'sample_index': i, 'used': False})
     app = tornado.web.Application(
         [
             (r'/home', MainHandler,
              {
-                 'data': pd.read_csv(data_file),
+                 'data': all_data,
                  'prepare_score_dict': joblib.load(score_file),
              }
              ),

@@ -15,7 +15,6 @@ from util.common_tool import get_now_datetime
 class MainHandler(tornado.web.RequestHandler):
     def initialize(self, data, prepare_score_dict):
         self.data = data
-        self.row_num = self.data.shape[0]
         self.prepare_score_dict = prepare_score_dict
 
     def random_pick_odd(self, some_list, odds):
@@ -23,32 +22,32 @@ class MainHandler(tornado.web.RequestHandler):
         table = [z for x, y in zip(some_list, odds) for z in [x] * y]
         return random.choice(table)
 
-    def random_sample(self, repeat=3000):
-        if repeat < 2000:
-            now_samples = [i['sample_index'] for i in db_link['zz_wenjuan'].find()]
-            total_samples = [i for i in range(1, 3000)]
-            not_done = list(set(total_samples).difference(set(now_samples)))
-            if not_done:
-                self.sample_index = random.choice(not_done)
-            else:
+    def random_sample(self):
+        all_can_use = db_link['zz_qa'].find({'used': False})
+        can_list = [x['sample_index'] for x in all_can_use]
+        if len(can_list) == 0:
+            # 如果所有样本均标志使用过, 则查看是否有未打分的样本
+            can_again = db_link['zz_wenjuan'].find({'score': {'$exists': False}})
+            can_again_list = []
+            for can_a in can_again:
+                created_time = datetime.datetime.strptime(str(can_a['created_time']), "%Y-%m-%d %H:%M:%S")
+                now_time = datetime.datetime.now()
+                not_write = int((now_time - created_time).seconds)
+                # 若无打分,并且创建时间超过1小时, 可重用
+                if not_write > 60 * 60:
+                    can_again_list.append(can_a['sample_index'])
+
+            if len(can_again_list) == 0:
                 self.write('所有样本数据处理完毕!')
                 self.finish(200)
+            else:
+                self.sample_index = random.choice(can_again_list)
         else:
-            self.sample_index = random.randint(1, self.row_num)
+            self.sample_index = random.choice(can_list)
 
         is_done = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if is_done:
-            created_time = datetime.datetime.strptime(str(is_done['created_time']), "%Y-%m-%d %H:%M:%S")
-            now_time = datetime.datetime.now()
-            not_write = int((now_time - created_time).seconds)
-            # 若无打分,并且创建时间超过两小时, 可重用
-            if not is_done.get('score', None) and not_write > 60 * 60 * 2:
-                old_info = {'p1': is_done['p1'], 'p2': is_done['p2']}
-                return old_info, is_done['others']
-            else:
-                # 有效样本, 不能覆盖
-                repeat -= 1
-                self.random_sample(repeat=repeat)
+            return {'p1': is_done['p1'], 'p2': is_done['p2']}, is_done['others']
 
         # 性别 mm, mf, fm, ff
         my_info = collections.OrderedDict()
@@ -258,6 +257,7 @@ class MainHandler(tornado.web.RequestHandler):
             final_dict = {'p1': person_dict['p1'], 'p2': person_dict['p2'], 'others': sample_list,
                           'sample_index': self.sample_index, 'created_time': get_now_datetime()}
             db_link['zz_wenjuan'].insert(final_dict)
+            db_link['zz_qa'].update({'sample_index': self.sample_index}, {'$set': {'used': True}})
 
         self.render('html/score.html',
                     sample_id=self.sample_index,
