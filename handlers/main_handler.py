@@ -234,17 +234,6 @@ class MainHandler(tornado.web.RequestHandler):
         sample_dict['对方对你的外貌满意度'] = random.choice(['非常不满意', '比较不满意', '一般情况', '比较满意', '非常满意'])
         sample_dict['双方家庭收入对比'] = random.choice(['对方远高于我方', '对方略高于我方', '两方家庭收入相似', '我方略高于对方', '我方远高于对方'])
 
-        sample_list = [{k: v} for k, v in sample_dict.items()]
-
-        # 确认没有对应样本
-        is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
-        if not is_had:
-            common_dict = {'others': sample_dict}
-            final_dict = dict(person_dict, **common_dict)
-            final_dict['sample_index'] = self.sample_index
-            final_dict['created_time'] = get_now_datetime()
-            db_link['zz_wenjuan'].insert(final_dict)
-
         # 根据相识时间处理感情阶段参数, 动态传入
         stages = self.judge_s(sample_dict['彼此相识时长'])
         stage_no = 0
@@ -260,6 +249,17 @@ class MainHandler(tornado.web.RequestHandler):
                 if stage_dk['level'] == st:
                     tmp_info.append(stage_dk)
         stage_info['evaluate'] = tmp_info
+
+        sample_list = [{k: v} for k, v in sample_dict.items()]
+        my_info_list = [{k: v} for k, v in person_dict['p1'].items()]
+        ta_info_list = [{k: v} for k, v in person_dict['p2'].items()]
+
+        # 确认没有对应样本
+        is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
+        if not is_had:
+            final_dict = {'p1': my_info_list, 'p2': ta_info_list, 'others': sample_list,
+                          'sample_index': self.sample_index, 'created_time': get_now_datetime()}
+            db_link['zz_wenjuan'].insert(final_dict)
 
         self.render('html/score.html',
                     sample_id=self.sample_index,

@@ -23,16 +23,25 @@ class ActionHandler(tornado.web.RequestHandler):
         all_info = db_link['zz_wenjuan'].find_one({'sample_index': int(sample_id)})
         had_advices = len(all_info.get('actions', []))
         basic_data = collections.OrderedDict()
-        basic_data['p1'] = all_info['p1']
-        basic_data['p2'] = all_info['p2']
-        common_data = [{k: v} for k, v in all_info['others'].items()]
 
         last_stage_number = all_info.get('now_stage', '')
         # 判断阶段stages
         last_stage = judge_stage(last_stage_number)
 
+        basic_data['p1'] = all_info['p1']
+        basic_data['p2'] = all_info['p2']
+
+        p1_dict = {}
+        for i in all_info['p1']:
+            for k, v in i.items():
+                p1_dict[k] = v
+        p2_dict = {}
+        for i in all_info['p2']:
+            for k, v in i.items():
+                p2_dict[k] = v
+
         # 按照不同阶段随机出建议
-        advice_list = self.actions[all_info['p1']['用户性别']][last_stage]
+        advice_list = self.actions[p1_dict['用户性别']][last_stage]
         advice_info = random.choice(advice_list)
         advice_action = random.choice(advice_info['具体行为'])
         advice = {'建议方向': advice_info['建议方向'], '具体行为': advice_action}
@@ -49,8 +58,8 @@ class ActionHandler(tornado.web.RequestHandler):
 
         self.render('html/action.html',
                     sample_id=sample_id,
-                    basic_data=basic_data,
-                    common_data=common_data,
+                    basic_data={'p1': p1_dict, 'p2': p2_dict},
+                    common_data=all_info['others'],
                     prepare_score=self.prepare_feedback,
                     last_stage=last_stage,
                     advice=advice,
