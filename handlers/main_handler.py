@@ -251,13 +251,11 @@ class MainHandler(tornado.web.RequestHandler):
         stage_info['evaluate'] = tmp_info
 
         sample_list = [{k: v} for k, v in sample_dict.items()]
-        my_info_list = [{k: v} for k, v in person_dict['p1'].items()]
-        ta_info_list = [{k: v} for k, v in person_dict['p2'].items()]
 
         # 确认没有对应样本
         is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if not is_had:
-            final_dict = {'p1': my_info_list, 'p2': ta_info_list, 'others': sample_list,
+            final_dict = {'p1': person_dict['p1'], 'p2': person_dict['p2'], 'others': sample_list,
                           'sample_index': self.sample_index, 'created_time': get_now_datetime()}
             db_link['zz_wenjuan'].insert(final_dict)
 
