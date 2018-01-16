@@ -118,9 +118,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% set len_common = int(len(common_data) / 2) %}
-                            {% for common1 in common_data[:len_common]%}
-                            {% for k_1, v_1 in common1.items() %}
+                            {% for k_1, v_1 in common_data['t1'].items() %}
                             <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                                 <td>
                                     {{ k_1 }}
@@ -129,7 +127,6 @@
                                     {{ v_1 }}
                                 </td>
                             </tr>
-                            {% end %}
                             {% end %}
                             </tbody>
                         </table>
@@ -147,8 +144,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for common2 in common_data[len_common:]%}
-                            {% for k_2, v_2 in common2.items() %}
+                            {% for k_2, v_2 in common_data['t2'].items() %}
                             <tr class="table-info" style="line-height: 80%; font-size: 15px;">
                                 <td>
                                     {{ k_2 }}
@@ -157,7 +153,6 @@
                                     {{ v_2 }}
                                 </td>
                             </tr>
-                            {% end %}
                             {% end %}
                             </tbody>
                         </table>

@@ -10,6 +10,7 @@ from tornado import web
 
 from handlers import db_link
 from util.common_tool import get_now_datetime
+from util.order_tag import basic_info, common_info
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -249,20 +250,22 @@ class MainHandler(tornado.web.RequestHandler):
                     tmp_info.append(stage_dk)
         stage_info['evaluate'] = tmp_info
 
-        sample_list = [{k: v} for k, v in sample_dict.items()]
-
         # 确认没有对应样本
         is_had = db_link['zz_wenjuan'].find_one({'sample_index': self.sample_index})
         if not is_had:
-            final_dict = {'p1': person_dict['p1'], 'p2': person_dict['p2'], 'others': sample_list,
+            final_dict = {'p1': person_dict['p1'], 'p2': person_dict['p2'], 'others': sample_dict,
                           'sample_index': self.sample_index, 'created_time': get_now_datetime()}
             db_link['zz_wenjuan'].insert(final_dict)
             db_link['zz_qa'].update({'sample_index': self.sample_index}, {'$set': {'used': True}})
 
+        # 用户需求按顺序展示
+        basic_data = basic_info(person_dict)
+        common_data = common_info(sample_dict)
+
         self.render('html/score.html',
                     sample_id=self.sample_index,
-                    basic_data=person_dict,
-                    common_data=sample_list,
+                    basic_data=basic_data,
+                    common_data=common_data,
                     prepare_score=prepare_score,
                     )
 
