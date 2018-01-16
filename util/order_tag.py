@@ -78,7 +78,13 @@ def common_info(all_dict):
     t2_dict['你提要求的频率'] = all_dict["你提要求的频率"]
     t2_dict['对方提要求的频率'] = all_dict["对方提要求的频率"]
     t2_dict['决定权归属'] = all_dict["决定权归属"]
-    t2_dict['相处时压力值'] = all_dict["相处时压力值"]
+
+    # 由于原样本数据有错字, 当前只是显示的时候转换一下
+    if all_dict["相处时压力值"] == "完美没压力":
+        t2_dict['相处时压力值'] = "完全没压力"
+    else:
+        t2_dict['相处时压力值'] = all_dict["相处时压力值"]
+
     t2_dict['自尊评分'] = all_dict["自尊评分"]
     t2_dict['你对对方依赖程度'] = all_dict["你对对方依赖程度"]
     t2_dict['对方对你依赖程度'] = all_dict["对方对你依赖程度"]
