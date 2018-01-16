@@ -33,9 +33,16 @@ def main_run():
         db_link['zz_qa'].drop()
     except:
         pass
+    finally:
+        use_info = db_link['zz_wenjuan'].find()
+        use_list = [x['sample_index'] for x in use_info]
 
     for i in range(1, all_nums + 1):
-        db_link['zz_qa'].insert({'sample_index': i, 'used': False})
+        if i in use_list:
+            db_link['zz_qa'].insert({'sample_index': i, 'used': True})
+        else:
+            db_link['zz_qa'].insert({'sample_index': i, 'used': False})
+
     app = tornado.web.Application(
         [
             (r'/home', MainHandler,
