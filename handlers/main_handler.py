@@ -6,7 +6,7 @@ import datetime
 import pandas as pd
 
 from decimal import Decimal
-from tornado import web
+from tornado import web, gen
 
 from handlers import db_link
 from util.common_tool import get_now_datetime
@@ -227,6 +227,7 @@ class MainHandler(tornado.web.RequestHandler):
         info = {'p1': my_info, 'p2': ta_info}
         return info, sample_dict
 
+    @gen.coroutine
     def get(self):
         prepare_score = copy.deepcopy(self.prepare_score_dict)
         person_dict, sample_dict = self.random_sample()

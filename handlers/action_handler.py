@@ -1,7 +1,7 @@
 import random
 import tornado
 
-from tornado import web
+from tornado import web, gen
 from handlers import db_link
 from util.order_tag import basic_info, common_info
 
@@ -16,6 +16,7 @@ class ActionHandler(tornado.web.RequestHandler):
         self.things = things.split('/')
         self.things_feels = things_feels.split('/')
 
+    @gen.coroutine
     def get(self):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         sample_id = self.get_param['sampleID']

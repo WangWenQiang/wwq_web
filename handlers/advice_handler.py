@@ -1,7 +1,7 @@
 import datetime
 import tornado
 
-from tornado import web
+from tornado import web, gen
 
 from handlers import db_link
 from util.common_tool import avearge_score, get_now_datetime
@@ -12,6 +12,7 @@ def get_last_day():
 
 
 class AdviceHandler(tornado.web.RequestHandler):
+    @gen.coroutine
     def post(self, *args, **kwargs):
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
         if self.get_param['like_level']:
