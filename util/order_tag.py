@@ -28,7 +28,7 @@ def basic_info(all_info):
     p2_dict['用户居住地'] = all_info['p2']["用户居住地"]
     p2_dict['用户_外向(E)'] = all_info['p2']["用户_外向(E)"]
     p2_dict['用户_内向(I)'] = all_info['p2']["用户_内向(I)"]
-    p2_dict['用户_感觉(S)'] = all_info['p1']["用户_感觉(S)"]
+    p2_dict['用户_感觉(S)'] = all_info['p2']["用户_感觉(S)"]
     p2_dict['用户_直觉(N)'] = all_info['p2']["用户_直觉(N)"]
     p2_dict['用户_思考(T)'] = all_info['p2']["用户_思考(T)"]
     p2_dict['用户_情感(F)'] = all_info['p2']["用户_情感(F)"]
