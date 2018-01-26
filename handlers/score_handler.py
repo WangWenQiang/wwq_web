@@ -18,4 +18,5 @@ class ScoreHandler(tornado.web.RequestHandler):
         self.get_param['score_time'] = get_now_datetime()
         db_link['zz_wenjuan'].update({'sample_index': int(sample_id)},
                                      {'$set': {'score': self.get_param, 'now_stage': self.get_param['感情阶段_阶段']}})
+        db_link['zz_qa'].update({'sample_index': int(sample_id)}, {'$set': {'used': True}})
         self.redirect('/act?sampleID={}'.format(sample_id))

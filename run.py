@@ -35,7 +35,7 @@ def main_run():
         pass
     finally:
         use_info = db_link['zz_wenjuan'].find()
-        use_list = [x['sample_index'] for x in use_info]
+        use_list = [x['sample_index'] for x in use_info if x.get('score', None)]
 
     for i in range(1, all_nums + 1):
         if i in use_list:

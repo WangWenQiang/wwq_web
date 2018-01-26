@@ -257,7 +257,6 @@ class MainHandler(tornado.web.RequestHandler):
             final_dict = {'p1': person_dict['p1'], 'p2': person_dict['p2'], 'others': sample_dict,
                           'sample_index': self.sample_index, 'created_time': get_now_datetime()}
             db_link['zz_wenjuan'].insert(final_dict)
-            db_link['zz_qa'].update({'sample_index': self.sample_index}, {'$set': {'used': True}})
 
         # 用户需求按顺序展示
         basic_data = basic_info(person_dict)
