@@ -1,4 +1,6 @@
 import datetime
+
+import logging
 import tornado
 
 from tornado import web, gen
@@ -14,7 +16,10 @@ def get_last_day():
 class AdviceHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
+        logger = logging.getLogger('log')
+
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
+        logger.error(self.get_param)
         if self.get_param['like_level']:
             like_level = int(self.get_param['like_level'])
         else:

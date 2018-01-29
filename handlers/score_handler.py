@@ -1,3 +1,4 @@
+import logging
 import tornado
 
 from tornado import web, gen
@@ -10,7 +11,9 @@ class ScoreHandler(tornado.web.RequestHandler):
     # 每个样本的打分
     @gen.coroutine
     def post(self, *args, **kwargs):
+        logger = logging.getLogger('tornado.access')
         self.get_param = {k: str(v[0], encoding="utf-8") for k, v in self.request.arguments.items()}
+        logger.error(self.get_param)
         sample_id = self.get_param['sampleID']
         self.get_param.pop('sampleID')
         for k, v in (self.get_param).items():

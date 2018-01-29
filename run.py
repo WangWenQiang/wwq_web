@@ -1,7 +1,12 @@
+import os
+import logging
+
 import tornado
 import pandas as pd
 import configparser
 
+import yaml
+from logging import config
 from sklearn.externals import joblib
 from configparser import ExtendedInterpolation
 
@@ -26,6 +31,11 @@ def main_run():
         feedback_file = cf.get('sample', 'feedback_file')
     except Exception as e:
         raise e
+
+    # log
+    log_config = yaml.load(
+        open(one_level(os.path.abspath(__file__), 'config/log.yaml'), 'r'))
+    logging.config.dictConfig(log_config)
 
     all_data = pd.read_csv(data_file)
     all_nums = all_data.shape[0]
@@ -67,7 +77,7 @@ def main_run():
         template_path=one_level(__file__, "templates"),
         static_path=one_level(__file__, 'static'),
         xsrf_cookies=False,
-        debug=True,
+        debug=False,
     )
     http_server = tornado.httpserver.HTTPServer(app)
     sockets = tornado.netutil.bind_sockets(6689)
