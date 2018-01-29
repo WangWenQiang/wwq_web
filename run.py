@@ -12,6 +12,7 @@ from configparser import ExtendedInterpolation
 
 from handlers import db_link
 from handlers.advice_handler import AdviceHandler
+from handlers.finish_handler import FinishHandler
 from handlers.main_handler import MainHandler
 from handlers.score_handler import ScoreHandler
 from handlers.action_handler import ActionHandler
@@ -72,6 +73,8 @@ def main_run():
             (r'/score', ScoreHandler,
              ),
             (r'/advice', AdviceHandler,
+             ),
+            (r'/finish', FinishHandler,
              ),
         ],
         template_path=one_level(__file__, "templates"),

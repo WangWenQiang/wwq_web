@@ -9,8 +9,8 @@ from handlers import db_link
 from util.common_tool import avearge_score, get_now_datetime
 
 
-def get_last_day():
-    return (datetime.datetime.now() + datetime.timedelta(days=-1)).strftime("%Y-%m-%d")
+def get_last_day(day=1):
+    return (datetime.datetime.now() + datetime.timedelta(days=-1 * int(day))).strftime("%Y-%m-%d")
 
 
 class AdviceHandler(tornado.web.RequestHandler):

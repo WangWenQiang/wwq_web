@@ -39,8 +39,7 @@ class MainHandler(tornado.web.RequestHandler):
                     can_again_list.append(can_a['sample_index'])
 
             if len(can_again_list) == 0:
-                self.write('所有样本数据处理完毕!')
-                self.finish(200)
+                self.redirect('/finish')
             else:
                 self.sample_index = random.choice(can_again_list)
         else:
